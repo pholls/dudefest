@@ -1,0 +1,16 @@
+%h2 Just the Tips
+
+%table
+  %thead
+    %th Date
+    %th Tip
+    %th
+
+  %tbody
+    - @tips.each do |tip|
+      %tr
+        %td= tip.date
+        %td= tip.tip
+        %td= link_to 'Adjust the tip', edit_tip_path(tip)
+
+= link_to 'Put your tip in', new_tip_path

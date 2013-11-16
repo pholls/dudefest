@@ -1,0 +1,11 @@
+= simple_form_for(@historical_event) do |historical_event|
+  = historical_event.error_notification
+
+  .form-inputs
+    = historical_event.input :event
+    = historical_event.input :link
+    = historical_event.input :date
+
+  .form-actions
+    = historical_event.button :submit
+

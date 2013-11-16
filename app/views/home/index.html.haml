@@ -1,0 +1,33 @@
+#main_column.home_column
+
+#right_column.home_column
+  #right_content
+    #daily_dose Daily Dose of Dudefest
+    #video_otd.daily_dose_item
+      .right_label VIDEO OF THE DAY
+      .daily_dose_image
+        = image_tag 'http://img.youtube.com/vi/3rYq4xeM5_8/0.jpg'
+        -# <iframe frameborder="0" src="http://www.youtube.com/embed/3rYq4xeM5_8?rel=0&&&vq=large"
+                allowfullscreen
+                type="application/x-shockwave-flash"></iframe>
+      .right_title Ultimate Dudefest
+    #thing_otd.daily_dose_item
+      .right_label THING OF THE DAY
+      .daily_dose_image
+        = image_tag 'http://www.nvtc.ee/e-oppe/Marina/joogid/Beer.jpg'
+      .right_title Beer
+    #tip_otd.daily_dose_item
+      .right_label TIP OF THE DAY
+      .right_description= @tip.tip
+    #position_otd.daily_dose_item
+      .right_label POSITION OF THE DAY
+      .right_description
+        Rope Swing: So you're doin' a girl, preferably in the ace, when you
+        get up on two chairs above her, and have her give you a
+        wristie (and swing from your weiner if you'd like)
+    #history_otd.daily_dose_item
+      .right_label TODAY IN DUDEFEST HISTORY
+      - @historical_events.each do |historical_event|
+        .right_description
+          = historical_event.year_str
+          = link_to historical_event.event, historical_event.link

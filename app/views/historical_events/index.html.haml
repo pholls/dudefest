@@ -1,0 +1,17 @@
+%h2 History Events in Dudefest History
+
+%table
+  %thead
+    %th Date
+    %th Event
+    %th
+
+  %tbody
+    - @historical_events.each do |historical_event|
+      %tr
+        %td= historical_event.date
+        %td= link_to historical_event.event, historical_event.link
+        %td= link_to 'Edit', edit_historical_event_path(historical_event)
+
+= link_to 'Add a Historical Event', new_historical_event_path
+
