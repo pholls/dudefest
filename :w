@@ -1,5 +1,0 @@
-%h2 Add a Historical Event
-
-= render 'form'
-
-= link_to 'All the tips', tips_path

@@ -5,19 +5,28 @@
   <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
   <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
   <%= csrf_meta_tags %>
-  <link rel="shortcut icon" href="/DudefestStuff.ico" />
+  <link rel="shortcut icon" href="/Dudefest.ico" />
 </head>
 <body>
   <div id="header"><div id="top">
-    <div id="logo"><a href="/"><img src="/DudefestStuff.png"></a></div>
-    <ul id="nav">
-      <li class="menu_item"><a href="dailydose.html">THINGS OTD</a></li><!--
-      --><li class="menu_item"><a href="movies.html">VIDEOS OTD</a></li><!--
-      --><li class="menu_item"><a href="movies.html">CINEMA</a></li><!--
-      --><li class="menu_item"><a href="beers.html">BOOZE</a></li><!--
-      --><li class="menu_item"><a href="beers.html">COMING SOON</a></li><!--
-      --><li class="menu_item"><a href="about.html">ABOUT</a></li>
-    </ul>
+    <div id="logo"><a href="/"><img src="/Dudefest.png"></a></div><!--
+    --><div id="nav">
+      <div id="user_panel">
+        <% if user_signed_in? %>
+          Yo, <%= link_to current_user.username, edit_user_registration_path %> |
+          <%= link_to 'Sign Out', destroy_user_session_path, method: :delete %>
+        <% else %>
+          <%= link_to 'Sign up', new_user_registration_path %> |
+          <%= link_to 'Sign In', new_user_session_path %>
+        <% end %>
+      </div>
+      <ul id="menu_items">
+        <li class="menu_item"><a href="movies.html">REVIEWS</a></li><!--
+        --><li class="menu_item"><a href="beers.html">ARTICLES</a></li><!--
+        --><li class="menu_item"><a href="beers.html">COMING SOON</a></li><!--
+        --><li class="menu_item"><a href="about.html">ABOUT</a></li>
+      </ul>
+    </div>
   </div></div>
   <div id="content">
     <%= yield %>

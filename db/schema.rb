@@ -11,30 +11,161 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131116190854) do
+ActiveRecord::Schema.define(version: 20131208143305) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "daily_videos", force: true do |t|
+  create_table "articles", force: true do |t|
     t.string   "title"
-    t.string   "link"
+    t.integer  "author_id"
+    t.text     "body"
+    t.integer  "editor_id"
+    t.datetime "edited_at"
     t.date     "date"
+    t.datetime "responded_at"
+    t.datetime "finalized_at"
+    t.integer  "column_id"
+    t.string   "status"
+    t.boolean  "finalized"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "historical_events", force: true do |t|
-    t.text     "event"
-    t.date     "date"
-    t.string   "link"
+  create_table "ckeditor_assets", force: true do |t|
+    t.string   "data_file_name",               null: false
+    t.string   "data_content_type"
+    t.integer  "data_file_size"
+    t.integer  "assetable_id"
+    t.string   "assetable_type",    limit: 30
+    t.string   "type",              limit: 30
+    t.integer  "width"
+    t.integer  "height"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "ckeditor_assets", ["assetable_type", "assetable_id"], name: "idx_ckeditor_assetable", using: :btree
+  add_index "ckeditor_assets", ["assetable_type", "type", "assetable_id"], name: "idx_ckeditor_assetable_type", using: :btree
+
+  create_table "columns", force: true do |t|
+    t.string   "column"
+    t.string   "short_name"
+    t.integer  "columnist_id"
+    t.integer  "articles_count"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "events", force: true do |t|
+    t.text     "event"
+    t.string   "link"
+    t.date     "date"
+    t.integer  "reviewer_id"
+    t.datetime "reviewed_at"
+    t.boolean  "reviewed"
+    t.integer  "creator_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "positions", force: true do |t|
+    t.string   "position"
+    t.string   "image"
+    t.text     "description"
+    t.date     "date"
+    t.integer  "reviewer_id"
+    t.datetime "reviewed_at"
+    t.boolean  "reviewed"
+    t.integer  "creator_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "rails_admin_histories", force: true do |t|
+    t.text     "message"
+    t.string   "username"
+    t.integer  "item"
+    t.string   "table"
+    t.integer  "month",      limit: 2
+    t.integer  "year",       limit: 8
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "rails_admin_histories", ["item", "table", "month", "year"], name: "index_rails_admin_histories", using: :btree
+
+  create_table "thing_categories", force: true do |t|
+    t.string   "category"
+    t.integer  "reviewer_id"
+    t.datetime "reviewed_at"
+    t.boolean  "reviewed"
+    t.integer  "creator_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "things", force: true do |t|
+    t.string   "thing"
+    t.string   "image"
+    t.text     "description"
+    t.date     "date"
+    t.integer  "thing_category_id"
+    t.integer  "reviewer_id"
+    t.datetime "reviewed_at"
+    t.boolean  "reviewed"
+    t.integer  "creator_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "things", ["thing_category_id"], name: "index_things_on_thing_category_id", using: :btree
 
   create_table "tips", force: true do |t|
     t.text     "tip"
     t.date     "date"
+    t.integer  "reviewer_id"
+    t.datetime "reviewed_at"
+    t.boolean  "reviewed"
+    t.integer  "creator_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "users", force: true do |t|
+    t.string   "email",                  default: "", null: false
+    t.string   "username",               default: "", null: false
+    t.string   "encrypted_password",     default: "", null: false
+    t.string   "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.integer  "sign_in_count",          default: 0,  null: false
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.string   "current_sign_in_ip"
+    t.string   "last_sign_in_ip"
+    t.string   "name"
+    t.string   "role"
+    t.integer  "tips_count"
+    t.integer  "events_count"
+    t.integer  "things_count"
+    t.integer  "positions_count"
+    t.integer  "videos_count"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
+  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+
+  create_table "videos", force: true do |t|
+    t.string   "title"
+    t.string   "source"
+    t.date     "date"
+    t.integer  "reviewer_id"
+    t.datetime "reviewed_at"
+    t.boolean  "reviewed"
+    t.integer  "creator_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

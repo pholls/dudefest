@@ -1,0 +1,12 @@
+= simple_form_for(@thing) do |thing|
+  = thing.error_notification
+
+  .form-inputs
+    = thing.input :thing
+    = thing.input :image
+    = thing.association :thing_category, label_method: :category, 
+                                         value_method: :id
+    = thing.input :description
+
+  .form-actions
+    = thing.button :submit

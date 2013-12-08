@@ -1,0 +1,17 @@
+%h2 Just the positions
+
+%table
+  %thead
+    %th Date
+    %th Position 
+    %th Description
+    %th
+
+  %tbody
+    - @positions.each do |position|
+      %tr
+        %td= position.date
+        %td= link_to position.position, position.image
+        %td= link_to 'Adjust the position', edit_position_path(position)
+
+= link_to 'Put your position in', new_position_path

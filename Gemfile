@@ -11,6 +11,10 @@ gem 'simple_form'
 gem 'validates_formatting_of'
 gem 'validates_timeliness'
 gem 'auto_html'
+gem 'devise'
+gem 'rails_admin'
+gem 'cancan'
+gem 'ckeditor'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0'

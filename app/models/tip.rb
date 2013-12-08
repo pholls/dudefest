@@ -1,21 +1,29 @@
 class Tip < ActiveRecord::Base
-  after_create :set_date
+  include ItemReview, DailyItem
 
-  validates :tip, presence: true, length: { in: 30..200 }, uniqueness: true
-  validates :date, presence: true, uniqueness: true, on: :save
+  validates :tip, presence: true, length: { in: 10..200 }, uniqueness: true
 
-  public
-    def self.of_the_day
-      self.where(date: Date.today).first
+  rails_admin do
+    navigation_label 'Daily Items'
+    list do
+      sort_by :date, :created_at
+      field :date do
+        strftime_format '%Y-%m-%d'
+      end
+      field :tip do
+        sortable false
+      end
+      field :creator
+      field :reviewed
     end
 
-  private
-    def set_date
-      if self.class.count > 1
-        self.update_attributes(date: self.class.maximum(:date) + 1.days)
-      else
-        self.update_attributes(date: Date.today)
+    edit do
+      field :tip
+      field :reviewed do
+        visible do
+          bindings[:object].reviewable?
+        end
       end
     end
-
+  end
 end

@@ -1,2 +1,0 @@
-class DailyVideosController < ApplicationController
-end

@@ -1,33 +1,35 @@
 #main_column.home_column
+  %ul
+    %li= link_to 'Videos', videos_path
+    %li= link_to 'Things', things_path
+    %li= link_to 'Thing Categories', thing_categories_path
+    %li= link_to 'Tips', tips_path
+    %li= link_to 'Positions', positions_path
+    %li= link_to 'Events', events_path
 
 #right_column.home_column
   #right_content
     #daily_dose Daily Dose of Dudefest
     #video_otd.daily_dose_item
       .right_label VIDEO OF THE DAY
-      .daily_dose_image
-        = image_tag 'http://img.youtube.com/vi/3rYq4xeM5_8/0.jpg'
-        -# <iframe frameborder="0" src="http://www.youtube.com/embed/3rYq4xeM5_8?rel=0&&&vq=large"
-                allowfullscreen
-                type="application/x-shockwave-flash"></iframe>
-      .right_title Ultimate Dudefest
+      .daily_dose_video= @video.source_html
+      .right_title= @video.title
     #thing_otd.daily_dose_item
       .right_label THING OF THE DAY
-      .daily_dose_image
-        = image_tag 'http://www.nvtc.ee/e-oppe/Marina/joogid/Beer.jpg'
-      .right_title Beer
+      .right_title= @thing.thing
+      .daily_dose_image= @thing.image_html
+      .right_description= @thing.description
     #tip_otd.daily_dose_item
       .right_label TIP OF THE DAY
       .right_description= @tip.tip
     #position_otd.daily_dose_item
       .right_label POSITION OF THE DAY
-      .right_description
-        Rope Swing: So you're doin' a girl, preferably in the ace, when you
-        get up on two chairs above her, and have her give you a
-        wristie (and swing from your weiner if you'd like)
+      .right_title= @position.position
+      .daily_dose_image= @position.image_html
+      .right_description= @position.description
     #history_otd.daily_dose_item
       .right_label TODAY IN DUDEFEST HISTORY
-      - @historical_events.each do |historical_event|
+      - @events.each do |event|
         .right_description
-          = historical_event.year_str
-          = link_to historical_event.event, historical_event.link
+          = event.year_str
+          = link_to event.event, event.link
