@@ -3,6 +3,7 @@
 
   .form-inputs
     = tip.input :tip
+    = tip.input :reviewed if @tip.reviewable?
 
   .form-actions
     = tip.button :submit

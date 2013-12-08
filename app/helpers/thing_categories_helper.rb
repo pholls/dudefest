@@ -1,0 +1,2 @@
+module ThingCategoriesHelper
+end

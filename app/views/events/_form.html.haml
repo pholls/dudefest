@@ -1,0 +1,10 @@
+= simple_form_for(@event) do |event|
+  = event.error_notification
+
+  .form-inputs
+    = event.input :event
+    = event.input :link
+    = event.input :date
+
+  .form-actions
+    = event.button :submit

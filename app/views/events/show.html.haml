@@ -1,0 +1,19 @@
+%h2 Show Historical Event
+
+#notice= notice
+
+%p 
+  %strong Date:
+  = @event.date
+
+%p 
+  %strong Event:
+  = @event.event
+
+%p 
+  %strong Link:
+  = @event.link
+
+= link_to 'Edit this Event', edit_event_path(@event)
+|
+= link_to 'All Events', events_path

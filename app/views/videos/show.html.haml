@@ -1,0 +1,18 @@
+%h2 Check Out Your video
+
+#notice= notice
+
+%p 
+  %strong Date:
+  = @video.date
+
+%p 
+  %strong Video:
+  = @video.title
+
+%p
+  = @video.source_html
+
+= link_to 'Adjust your video', edit_video_path(@video)
+|
+= link_to 'Check out all the videos', videos_path
