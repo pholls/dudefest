@@ -12,6 +12,7 @@ class CreateArticles < ActiveRecord::Migration
       t.references :column
       t.string :status
       t.boolean :finalized
+      t.integer :movie_id
 
       t.timestamps
     end

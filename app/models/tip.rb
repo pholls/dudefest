@@ -1,25 +1,35 @@
 class Tip < ActiveRecord::Base
-  include ItemReview, DailyItem
+  include ModelConfig, ItemReview, DailyItem
 
-  validates :tip, presence: true, length: { in: 10..200 }, uniqueness: true
+  validates :tip, presence: true, uniqueness: true, length: { in: 10..200 }
 
   rails_admin do
+    label 'Just the Tip'
     navigation_label 'Daily Items'
     list do
       sort_by :date, :created_at
-      field :date do
+      include_fields :date, :tip, :creator, :reviewed
+      configure :date do
         strftime_format '%Y-%m-%d'
       end
-      field :tip do
+      configure :tip do
+        label 'Just the Tip'
         sortable false
       end
-      field :creator
-      field :reviewed
     end
 
     edit do
-      field :tip
-      field :reviewed do
+      include_fields :tip, :reviewed do
+        read_only do
+          bindings[:object].is_read_only?
+        end
+      end
+      include_fields :notes
+      configure :tip do
+        label 'Put your tip in'
+        help 'Required. Between 10 and 200 characters.'
+      end
+      configure :reviewed do
         visible do
           bindings[:object].reviewable?
         end

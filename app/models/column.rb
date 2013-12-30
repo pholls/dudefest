@@ -1,25 +1,37 @@
 class Column < ActiveRecord::Base
-  has_many :articles, counter_cache: true
+  has_many :articles, inverse_of: :column
   belongs_to :columnist, class_name: 'User'
 
   validates_associated :columnist, allow_blank: true
-  validates :column, presence: true, uniqueness: true, length: { in: 4..32 }
+  validates :column, presence: true, uniqueness: true, length: { in: 4..50 }
   validates :short_name, presence: true, uniqueness: true, length: { in: 3..10 }
+
+  auto_html_for :default_image do
+    html_escape
+    image
+  end
 
   rails_admin do
     object_label_method :column
+    navigation_label 'Articles'
+    parent Article
     list do
       sort_by :column
-      field :column
-      field :short_name
-      field :columnist
-      field :articles_count
+      include_fields :column, :short_name, :columnist, :articles_count
     end
 
     edit do
-      field :column
-      field :short_name
-      field :columnist
+      include_fields :column, :short_name, :columnist, :default_image
+    end
+
+    show do
+      include_fields :column, :short_name, :columnist
+      field :default_image_html
     end
   end
+
+  public
+    def self.movie
+      self.where(short_name: 'Cinema').first
+    end
 end

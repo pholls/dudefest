@@ -12,17 +12,14 @@ module DailyItem
         if self.class.select(:date).count > 0
           self.date = self.class.maximum(:date) + 1.day
         else
-          self.date = Date.today
+          self.date = self.class.start_date
         end
       end
     end
 
   module ClassMethods
     def of_the_day
-      # This is commented out because it's easier to test. THIS MUST CHANGE
-      # where(date: Date.today).first
-      order(date: :desc).first
+      self.where(date: Date.today).first
     end
   end
-
 end

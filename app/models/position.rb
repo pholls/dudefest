@@ -1,5 +1,5 @@
 class Position < ActiveRecord::Base
-  include ItemReview, DailyItem
+  include ModelConfig, ItemReview, DailyItem
 
   validates :position, presence: true, length: { in: 3..32 }, uniqueness: true
   validates :description, presence: true, length: { in: 100..500 }, 
@@ -19,19 +19,20 @@ class Position < ActiveRecord::Base
     navigation_label 'Daily Items'
     list do
       sort_by :date, :created_at
-      field :date do
+      include_fields :date, :position, :creator, :reviewed
+      configure :date do
         strftime_format '%Y-%m-%d'
       end
-      field :position
-      field :creator
-      field :reviewed
     end
 
     edit do
-      field :position
-      field :description
-      field :image
-      field :reviewed do
+      include_fields :position, :description, :image, :reviewed do
+        read_only do
+          bindings[:object].is_read_only?
+        end
+      end
+      include_fields :notes 
+      configure :reviewed do
         visible do
           bindings[:object].reviewable?
         end
@@ -39,8 +40,7 @@ class Position < ActiveRecord::Base
     end
 
     show do
-      field :position
-      field :description
+      include_fields :position, :description
       field :image_html
       field :creator
     end

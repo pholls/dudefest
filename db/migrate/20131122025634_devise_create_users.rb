@@ -2,8 +2,8 @@ class DeviseCreateUsers < ActiveRecord::Migration
   def change
     create_table(:users) do |t|
       ## Database authenticatable
-      t.string :email,              :null => false, :default => ""
       t.string :username,           :null => false, :default => ""
+      t.string :email,              :null => false, :default => ""
       t.string :encrypted_password, :null => false, :default => ""
 
       ## Recoverable
@@ -38,7 +38,10 @@ class DeviseCreateUsers < ActiveRecord::Migration
       t.integer :events_count
       t.integer :things_count
       t.integer :positions_count
-      t.integer :videos_count
+      t.integer :daily_videos_count
+      t.integer :articles_count
+      t.integer :movies_count
+      t.integer :ratings_count
 
       t.timestamps
     end

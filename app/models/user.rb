@@ -1,56 +1,83 @@
 class User < ActiveRecord::Base
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable and :omniauthable
   ROLES = %w[admin editor reviewer writer reader]
 
-  before_create :set_role
-
-  devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable
+  # Include default devise modules. Others available are:
+  # :confirmable, :lockable, :timeoutable and :omniauthable
+  devise :database_authenticatable,
+       # :registerable, :recoverable, 
+         :rememberable, :trackable, :validatable
 
   validates :username, presence: true, length: { in: 4..28 }, uniqueness: true
-  validates :name, length: { in: 6..40 }, allow_blank: true
+  validates :name, presence: true, length: { in: 6..40 }
 
   has_many :tips, foreign_key: 'creator_id'
-  has_many :reviewed_tips, class_name: 'Tip', foreign_key: 'reviewer_id'
+  has_many :reviewed_tips, foreign_key: 'reviewer_id'
   has_many :events, foreign_key: 'creator_id'
-  has_many :reviewed_events, class_name: 'Tip', foreign_key: 'reviewer_id'
-  has_many :videos, foreign_key: 'creator_id'
-  has_many :reviewed_videos, class_name: 'Tip', foreign_key: 'reviewer_id'
+  has_many :reviewed_events, foreign_key: 'reviewer_id'
+  has_many :daily_videos, foreign_key: 'creator_id'
+  has_many :reviewed_daily_videos, foreign_key: 'reviewer_id'
   has_many :things, foreign_key: 'creator_id'
-  has_many :reviewed_things, class_name: 'Tip', foreign_key: 'reviewer_id'
+  has_many :reviewed_things, foreign_key: 'reviewer_id'
   has_many :positions, foreign_key: 'creator_id'
-  has_many :reviewed_positions, class_name: 'Tip', foreign_key: 'reviewer_id'
+  has_many :reviewed_positions, foreign_key: 'reviewer_id'
+  has_many :articles, foreign_key: 'creator_id'
+  has_many :edited_articles, foreign_key: 'editor_id'
+  has_many :ratings, foreign_key: 'creator_id'
+  has_many :reviewed_ratings, foreign_key: 'reviewer_id'
+  has_many :movies, foreign_key: 'creator_id'
 
   rails_admin do
     object_label_method :username
+    navigation_label 'Users'
     list do
       sort_by :username
-      field :username 
-      field :tips_count do
+      include_fields :username, :role, :tips_count, :daily_videos_count
+      include_fields :positions_count, :events_count, :things_count
+      include_fields :articles_count, :movies_count, :ratings_count
+
+      configure :role do
+        visible do
+          User.current.role?(:admin)
+        end
+      end
+      configure :tips_count do
         label 'Tips'
+        column_width 40
       end
-      field :videos_count do
+      configure :daily_videos_count do
         label 'Videos'
+        column_width 55
       end
-      field :positions_count do
+      configure :positions_count do
         label 'Positions'
+        column_width 75
       end
-      field :events_count do
+      configure :events_count do
         label 'Events'
+        column_width 55
       end
-      field :things_count do
+      configure :things_count do
         label 'Things'
+        column_width 55
+      end
+      configure :articles_count do
+        label 'Articles'
+        column_width 60
+      end
+      configure :movies_count do
+        label 'Movies'
+        column_width 60
+      end
+      configure :ratings_count do
+        label 'Ratings'
+        column_width 60
       end
     end
 
     edit do
-      field :username
-      field :name
-      field :email
-      field :password
-      field :password_confirmation
-      field :role do
+      include_fields :username, :name, :email, :password, :password_confirmation
+      include_fields :role
+      configure :role do
         visible do
           User.current.role? :admin
         end
@@ -73,10 +100,5 @@ class User < ActiveRecord::Base
 
     def self.current=(user)
       Thread.current[:current_user] = user
-    end
-
-  private
-    def set_role
-      self.role = ROLES.last
     end
 end

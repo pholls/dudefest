@@ -10,6 +10,7 @@ class CreateThings < ActiveRecord::Migration
       t.datetime :reviewed_at
       t.boolean :reviewed
       t.integer :creator_id
+      t.text :notes
 
       t.timestamps
     end

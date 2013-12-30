@@ -2,7 +2,6 @@ Dudefest::Application.routes.draw do
   mount Ckeditor::Engine => '/ckeditor'
   mount RailsAdmin::Engine => '/admin', :as => 'rails_admin'
   devise_for :users
-  resources :tips, :events, :videos, :thing_categories, :things, :positions
 
   get "home/index"
 

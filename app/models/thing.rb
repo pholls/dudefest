@@ -1,5 +1,5 @@
 class Thing < ActiveRecord::Base
-  include ItemReview, DailyItem
+  include ModelConfig, ItemReview, DailyItem
 
   belongs_to :thing_category
 
@@ -12,6 +12,9 @@ class Thing < ActiveRecord::Base
                           uniqueness: true
   validates :thing_category, presence: true
 
+  @@owner = nil
+  @@start_date = nil
+
   auto_html_for :image do
     html_escape
     image
@@ -22,21 +25,20 @@ class Thing < ActiveRecord::Base
     navigation_label 'Daily Items'
     list do
       sort_by :date, :created_at
-      field :date do
+      include_fields :date, :thing, :thing_category, :creator, :reviewed
+      configure :date do
         strftime_format '%Y-%m-%d'
       end
-      field :thing
-      field :thing_category
-      field :creator
-      field :reviewed
     end
 
     edit do
-      field :thing
-      field :thing_category
-      field :description
-      field :image
-      field :reviewed do
+      include_fields :thing_category, :thing, :image, :description, :reviewed do
+        read_only do
+          bindings[:object].is_read_only?
+        end
+      end
+      include_fields :notes
+      configure :reviewed do
         visible do
           bindings[:object].reviewable?
         end
@@ -44,11 +46,9 @@ class Thing < ActiveRecord::Base
     end
 
     show do
-      field :thing
-      field :thing_category
-      field :description
+      include_fields :thing_category, :thing
       field :image_html
-      field :creator
+      include_fields :description, :creator
     end
   end
   

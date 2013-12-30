@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131208143305) do
+ActiveRecord::Schema.define(version: 20131221043054) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -28,6 +28,7 @@ ActiveRecord::Schema.define(version: 20131208143305) do
     t.integer  "column_id"
     t.string   "status"
     t.boolean  "finalized"
+    t.integer  "movie_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -53,6 +54,32 @@ ActiveRecord::Schema.define(version: 20131208143305) do
     t.string   "short_name"
     t.integer  "columnist_id"
     t.integer  "articles_count"
+    t.string   "default_image"
+    t.integer  "days_between_posts"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "credits", force: true do |t|
+    t.integer  "movie_id"
+    t.integer  "name_variant_id"
+    t.integer  "position"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "credits", ["movie_id"], name: "index_credits_on_movie_id", using: :btree
+  add_index "credits", ["name_variant_id"], name: "index_credits_on_name_variant_id", using: :btree
+
+  create_table "daily_videos", force: true do |t|
+    t.string   "title"
+    t.string   "source"
+    t.date     "date"
+    t.integer  "reviewer_id"
+    t.datetime "reviewed_at"
+    t.boolean  "reviewed"
+    t.integer  "creator_id"
+    t.text     "notes"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -65,6 +92,51 @@ ActiveRecord::Schema.define(version: 20131208143305) do
     t.datetime "reviewed_at"
     t.boolean  "reviewed"
     t.integer  "creator_id"
+    t.text     "notes"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "genres", force: true do |t|
+    t.string   "genre"
+    t.text     "description"
+    t.integer  "movies_count"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "models", force: true do |t|
+    t.string   "model"
+    t.integer  "owner_id"
+    t.date     "start_date"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "models", ["owner_id"], name: "index_models_on_owner_id", using: :btree
+
+  create_table "movie_genres", force: true do |t|
+    t.integer  "movie_id"
+    t.integer  "genre_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "movie_genres", ["genre_id"], name: "index_movie_genres_on_genre_id", using: :btree
+  add_index "movie_genres", ["movie_id"], name: "index_movie_genres_on_movie_id", using: :btree
+
+  create_table "movies", force: true do |t|
+    t.string   "title"
+    t.date     "release_date"
+    t.integer  "ratings_count"
+    t.decimal  "total_rating"
+    t.integer  "reviewed_ratings"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "name_variants", force: true do |t|
+    t.string   "name_variant"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -78,6 +150,7 @@ ActiveRecord::Schema.define(version: 20131208143305) do
     t.datetime "reviewed_at"
     t.boolean  "reviewed"
     t.integer  "creator_id"
+    t.text     "notes"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -95,12 +168,21 @@ ActiveRecord::Schema.define(version: 20131208143305) do
 
   add_index "rails_admin_histories", ["item", "table", "month", "year"], name: "index_rails_admin_histories", using: :btree
 
-  create_table "thing_categories", force: true do |t|
-    t.string   "category"
+  create_table "ratings", force: true do |t|
+    t.integer  "creator_id"
+    t.decimal  "rating"
+    t.text     "body"
     t.integer  "reviewer_id"
     t.datetime "reviewed_at"
     t.boolean  "reviewed"
-    t.integer  "creator_id"
+    t.text     "notes"
+    t.integer  "movie_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "thing_categories", force: true do |t|
+    t.string   "category"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -115,6 +197,7 @@ ActiveRecord::Schema.define(version: 20131208143305) do
     t.datetime "reviewed_at"
     t.boolean  "reviewed"
     t.integer  "creator_id"
+    t.text     "notes"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -128,13 +211,14 @@ ActiveRecord::Schema.define(version: 20131208143305) do
     t.datetime "reviewed_at"
     t.boolean  "reviewed"
     t.integer  "creator_id"
+    t.text     "notes"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "users", force: true do |t|
-    t.string   "email",                  default: "", null: false
     t.string   "username",               default: "", null: false
+    t.string   "email",                  default: "", null: false
     t.string   "encrypted_password",     default: "", null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
@@ -150,24 +234,15 @@ ActiveRecord::Schema.define(version: 20131208143305) do
     t.integer  "events_count"
     t.integer  "things_count"
     t.integer  "positions_count"
-    t.integer  "videos_count"
+    t.integer  "daily_videos_count"
+    t.integer  "articles_count"
+    t.integer  "movies_count"
+    t.integer  "ratings_count"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
-
-  create_table "videos", force: true do |t|
-    t.string   "title"
-    t.string   "source"
-    t.date     "date"
-    t.integer  "reviewer_id"
-    t.datetime "reviewed_at"
-    t.boolean  "reviewed"
-    t.integer  "creator_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
 
 end

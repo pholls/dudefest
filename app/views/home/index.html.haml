@@ -1,32 +1,29 @@
 #main_column.home_column
-  %ul
-    %li= link_to 'Videos', videos_path
-    %li= link_to 'Things', things_path
-    %li= link_to 'Thing Categories', thing_categories_path
-    %li= link_to 'Tips', tips_path
-    %li= link_to 'Positions', positions_path
-    %li= link_to 'Events', events_path
 
 #right_column.home_column
   #right_content
     #daily_dose Daily Dose of Dudefest
-    #video_otd.daily_dose_item
-      .right_label VIDEO OF THE DAY
-      .daily_dose_video= @video.source_html
-      .right_title= @video.title
-    #thing_otd.daily_dose_item
-      .right_label THING OF THE DAY
-      .right_title= @thing.thing
-      .daily_dose_image= @thing.image_html
-      .right_description= @thing.description
-    #tip_otd.daily_dose_item
-      .right_label TIP OF THE DAY
-      .right_description= @tip.tip
-    #position_otd.daily_dose_item
-      .right_label POSITION OF THE DAY
-      .right_title= @position.position
-      .daily_dose_image= @position.image_html
-      .right_description= @position.description
+    - if @daily_video.present?
+      #video_otd.daily_dose_item
+        .right_label VIDEO OF THE DAY
+        .daily_dose_video= @daily_video.source_html
+        .right_title= @daily_video.title
+    - if @thing.present?
+      #thing_otd.daily_dose_item
+        .right_label THING OF THE DAY
+        .right_title= @thing.thing
+        .daily_dose_image= @thing.image_html
+        .right_description= @thing.description
+    - if @tip.present?
+      #tip_otd.daily_dose_item
+        .right_label TIP OF THE DAY
+        .right_description= @tip.tip
+    - if @position.present?
+      #position_otd.daily_dose_item
+        .right_label POSITION OF THE DAY
+        .right_title= @position.position
+        .daily_dose_image= @position.image_html
+        .right_description= @position.description
     #history_otd.daily_dose_item
       .right_label TODAY IN DUDEFEST HISTORY
       - @events.each do |event|

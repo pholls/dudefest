@@ -1,5 +1,5 @@
 class Event < ActiveRecord::Base
-  include ItemReview
+  include ModelConfig, ItemReview
 
   validates :event, presence: true, length: { in: 40..125 }, uniqueness: true
   validates :date, :link, presence: true, uniqueness: true
@@ -8,21 +8,23 @@ class Event < ActiveRecord::Base
 
   rails_admin do
     navigation_label 'Daily Items'
+    label 'Historical Event'
     list do
       sort_by :date, :created_at
-      field :date do
+      include_fields :date, :event, :creator, :reviewed
+      configure :date do
         strftime_format '%Y-%m-%d'
       end
-      field :event
-      field :creator
-      field :reviewed
     end
 
     edit do
-      field :event
-      field :link
-      field :date
-      field :reviewed do
+      include_fields :event, :link, :date, :reviewed do
+        read_only do
+          bindings[:object].is_read_only?
+        end
+      end
+      include_fields :notes
+      configure :reviewed do
         visible do
           bindings[:object].reviewable?
         end
@@ -30,9 +32,7 @@ class Event < ActiveRecord::Base
     end
 
     show do
-      field :event
-      field :link
-      field :creator
+      include_fields :event, :link, :creator
     end
   end
 

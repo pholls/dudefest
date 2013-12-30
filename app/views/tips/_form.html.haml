@@ -1,9 +1,0 @@
-= simple_form_for(@tip) do |tip|
-  = tip.error_notification
-
-  .form-inputs
-    = tip.input :tip
-    = tip.input :reviewed if @tip.reviewable?
-
-  .form-actions
-    = tip.button :submit
