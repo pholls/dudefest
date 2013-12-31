@@ -14,7 +14,7 @@ gem 'auto_html'
 gem 'devise'
 gem 'rails_admin'
 gem 'cancan'
-gem 'ckeditor', git: 'https://github.com/galetahub/ckeditor.git'
+gem 'ckeditor'
 gem 'rails_12factor', group: :production
 
 # Use SCSS for stylesheets
