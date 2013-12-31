@@ -10,7 +10,3 @@ task "assets:precompile" do
   end
 end
 
-# auto run ckeditor:create_nondigest_assets after assets:precompile
-Rake::Task['assets:precompile'].enhance do
-  Rake::Task['ckeditor:create_nondigest_assets'].invoke
-end
