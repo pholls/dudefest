@@ -23,7 +23,8 @@
         .right_title= @position.position
         .right_description.text= @position.description
     #history_otd.daily_dose_item
-      .right_label TODAY IN DUDEFEST HISTORY
+      - if @events.count > 0
+        .right_label TODAY IN DUDEFEST HISTORY
       - @events.each do |event|
         .right_description
           = event.year_str
