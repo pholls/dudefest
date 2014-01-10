@@ -4,7 +4,8 @@
       = render partial: '/articles/top_article', locals: { article: article }
   #shit_to_read.main_top SHIT TO READ
   #article_summaries
-    - @articles.last(@articles.count - 2).each do |article|
-      = render partial: '/articles/summary', locals: { article: article }
+    - if @articles.count > 2
+      - @articles.last(@articles.count - 2).each do |article|
+        = render partial: '/articles/summary', locals: { article: article }
 
 = render partial: 'daily_dose'
