@@ -1,0 +1,8 @@
+#main_column.home_column
+  #shit_to_read.main_top= @article.column.column.upcase
+  #article
+    #article_title= @article.title
+    #article_author= 'By ' + @article.author.name
+    #article_date= display(@article.date)
+
+= render partial: 'home/daily_dose'

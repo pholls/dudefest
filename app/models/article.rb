@@ -21,12 +21,13 @@ class Article < ActiveRecord::Base
     object_label_method :title
     navigation_label 'Articles'
     list do
-      sort_by :date, :created_at
+      sort_by :status, :date, :created_at
       include_fields :date, :column, :title, :author, :editor, :status
       configure :date do
         strftime_format '%Y-%m-%d'
       end
     end
+
     edit do
       field :column do
         associated_collection_scope do
@@ -50,6 +51,7 @@ class Article < ActiveRecord::Base
         end
       end
     end
+
     show do
       include_fields :column, :title, :author, :status, :body
       configure :body do
@@ -69,21 +71,44 @@ class Article < ActiveRecord::Base
       self.editor.present? && self.editor == User.current
     end
 
+    def display_date
+      tz = 'Eastern Time (US & Canada)'
+      self.date.to_datetime.in_time_zone(tz).strftime('%B %d, %Y')
+    end
+
+    def type
+      self.column.short_name.upcase
+    end
+
+    def display_image
+      self.column.default_image
+    end
+
+    def public?
+      tz = 'Eastern Time (US & Canada)'
+      self.finalized? #&& self.date <= DateTime.now.in_time_zone(tz).to_date
+    end
+
+    def self.public
+      self.order(date: :desc).select { |article| article.public? }
+    end
+
   private
     def determine_status
       if self.new_record?
         self.finalized = false
         self.status = '1 - Created'
         self.author = User.current
+        self.editor = set_editor
       elsif self.finalized?
         self.status = '4 - Finalized'
         self.finalized_at = Time.now
         if self.class.select(:date).count > 0
           self.date = self.class.maximum(:date) + 1.day
         else
-          self.date = Date.today
+          self.date = self.class.start_date
         end
-      elsif self.editor.nil? || self.author != User.current
+      elsif self.editor_or_admin?
         self.status = '2 - Edited'
         self.editor = User.current
         self.edited_at = Time.now
@@ -91,6 +116,14 @@ class Article < ActiveRecord::Base
         self.status = '3 - Responded'
         self.responded_at = Time.now
       end
+    end
+
+    def set_editor
+      User.current == self.class.owner ? User.find(5) : self.class.owner
+    end
+
+    def editor_or_admin?
+      self.editor == User.current || User.current.role?(:admin)
     end
 
     def is_movie_review?

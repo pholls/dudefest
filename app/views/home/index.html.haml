@@ -1,32 +1,10 @@
 #main_column.home_column
+  #top_articles
+    - @articles.first(2).each do |article|
+      = render partial: '/articles/top_article', locals: { article: article }
+  #shit_to_read.main_top SHIT TO READ
+  #article_summaries
+    - @articles.last(@articles.count - 2).each do |article|
+      = render partial: '/articles/summary', locals: { article: article }
 
-#right_column.home_column
-  #right_content
-    #daily_dose Daily Dose of Dudefest
-    - if @daily_video.present?
-      #video_otd.daily_dose_item
-        .right_label VIDEO OF THE DAY
-        .daily_dose_video= @daily_video.source_html
-        .right_title= @daily_video.title
-    - if @thing.present?
-      #thing_otd.daily_dose_item
-        .right_label THING OF THE DAY
-        .right_title= @thing.thing
-        .daily_dose_image= @thing.image_html
-        .right_description= @thing.description
-    - if @tip.present?
-      #tip_otd.daily_dose_item
-        .right_label TIP OF THE DAY
-        .right_description= @tip.tip
-    - if @position.present?
-      #position_otd.daily_dose_item
-        .right_label POSITION OF THE DAY
-        .right_title= @position.position
-        .daily_dose_image= @position.image_html
-        .right_description= @position.description
-    #history_otd.daily_dose_item
-      .right_label TODAY IN DUDEFEST HISTORY
-      - @events.each do |event|
-        .right_description
-          = event.year_str
-          = link_to event.event, event.link
+= render partial: 'daily_dose'

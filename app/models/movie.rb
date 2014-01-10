@@ -42,8 +42,22 @@ class Movie < ActiveRecord::Base
   end
 
   public
+    def complete_ratings 
+      self.ratings.select { |r| r.reviewed? }
+    end 
+
+    def title_with_year
+      self.title.upcase + ' (' + self.release_date.year.to_s + ')'
+    end
+
+    def author_and_date
+      r = self.review
+      'Reviewed by ' + r.author.name + ' on ' + r.display_date
+    end
+    
     def name_variant_ids=(ids)
-      unless (ids = ids.map(&:to_i).select { |i| i > 0 }) == (current_ids = credits.map(&:name_variant_id)) 
+      ids = ids.map(&:to_i).select { |i| i > 0 }
+      unless ids == (current_ids = credits.map(&:name_variant_id)) 
         (current_ids - ids).each { |id|
           credits.select { |c| 
             c.name_variant_id == id 

@@ -20,11 +20,10 @@ class User < ActiveRecord::Base
   has_many :reviewed_things, foreign_key: 'reviewer_id'
   has_many :positions, foreign_key: 'creator_id'
   has_many :reviewed_positions, foreign_key: 'reviewer_id'
-  has_many :articles, foreign_key: 'creator_id'
+  has_many :articles, foreign_key: 'author_id'
   has_many :edited_articles, foreign_key: 'editor_id'
   has_many :ratings, foreign_key: 'creator_id'
   has_many :reviewed_ratings, foreign_key: 'reviewer_id'
-  has_many :movies, foreign_key: 'creator_id'
 
   rails_admin do
     object_label_method :username
@@ -32,8 +31,11 @@ class User < ActiveRecord::Base
     list do
       sort_by :username
       include_fields :username, :role, :tips_count, :daily_videos_count
-      include_fields :positions_count, :events_count, :things_count
-      include_fields :articles_count, :movies_count, :ratings_count
+      include_fields :events_count, :things_count
+      include_fields :articles_count, :ratings_count
+      field :reviews_count do
+        sortable true
+      end
 
       configure :role do
         visible do
@@ -48,10 +50,6 @@ class User < ActiveRecord::Base
         label 'Videos'
         column_width 55
       end
-      configure :positions_count do
-        label 'Positions'
-        column_width 75
-      end
       configure :events_count do
         label 'Events'
         column_width 55
@@ -64,12 +62,12 @@ class User < ActiveRecord::Base
         label 'Articles'
         column_width 60
       end
-      configure :movies_count do
-        label 'Movies'
-        column_width 60
-      end
       configure :ratings_count do
         label 'Ratings'
+        column_width 60
+      end
+      configure :reviews_count do
+        label 'Movies'
         column_width 60
       end
     end
@@ -92,6 +90,10 @@ class User < ActiveRecord::Base
 
     def role_enum
       ROLES
+    end
+
+    def reviews_count
+      (count = self.articles.where.not(movie_id: nil).count) > 0 ? count : nil
     end
 
     def self.current

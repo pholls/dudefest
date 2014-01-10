@@ -4,7 +4,7 @@ class Position < ActiveRecord::Base
   validates :position, presence: true, length: { in: 3..32 }, uniqueness: true
   validates :description, presence: true, length: { in: 100..500 }, 
                           uniqueness: true
-  validates :image, presence: true, uniqueness: true
+  validates :image, uniqueness: true
   validates_formatting_of :image, using: :url
   validates :image, format: { with: /\.(png|jpg|jpeg|)\z/,
                               message: 'must be .png, .jpg, or .jpeg' }
@@ -26,7 +26,7 @@ class Position < ActiveRecord::Base
     end
 
     edit do
-      include_fields :position, :description, :image, :reviewed do
+      include_fields :position, :description, :reviewed do
         read_only do
           bindings[:object].is_read_only?
         end

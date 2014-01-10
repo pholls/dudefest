@@ -12,9 +12,6 @@ class Thing < ActiveRecord::Base
                           uniqueness: true
   validates :thing_category, presence: true
 
-  @@owner = nil
-  @@start_date = nil
-
   auto_html_for :image do
     html_escape
     image
@@ -23,6 +20,10 @@ class Thing < ActiveRecord::Base
   rails_admin do
     object_label_method :thing
     navigation_label 'Daily Items'
+    configure :thing_category do
+      label 'Category'
+    end
+
     list do
       sort_by :date, :created_at
       include_fields :date, :thing, :thing_category, :creator, :reviewed

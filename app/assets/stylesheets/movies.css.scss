@@ -1,0 +1,101 @@
+// Place all the styles related to the movies controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+#movie_info {
+  margin-top: 10px;
+  
+  .movie_info {
+    width: 330px;
+    display: inline-block;
+    vertical-align: top;
+  }
+
+  #movie_info_left {
+    font-size: 0px;
+    margin-right: 10px;
+
+    #movie_image {
+      width: 330px;
+      img {
+        max-width: 100%;
+      }
+    }
+  }
+
+  #movie_info_right {
+    .movie_info_list {
+      display: inline-block;
+      min-width: 100%;
+
+      .movie_info_title {
+        color: #CCCCCC;
+        background-color: #333333;
+        padding: 3px;
+        padding-left: 10px;
+        font-size: 1.15em;
+      }
+
+      .movie_info_item {
+        margin-top: 1px;
+        background-color: #CCCCCC;
+        padding: 2px;
+        padding-left: 10px;
+        font-size: .95em;
+      }
+    }
+
+    #name_variants {
+      margin-top: 10px;
+    }
+  }
+}
+
+.reviewed_by_on {
+  margin-top: 20px;
+  padding: 10px;
+  font-size: 1em;
+  text-align: center;
+  border-top: 1px #888888 solid;
+  border-bottom: 1px #888888 solid;
+}
+
+#ratings_title {
+  font-size: 40px;
+  background-color: #333333;
+  color: #CCCCCC;
+  width: 40px;
+  padding: 0px 5px;
+  text-align: center;
+  display: inline-block;
+  margin-top: 20px;
+}
+
+#ratings {
+  display: inline-block;
+  width: 620px;
+  vertical-align: top;
+  margin-top: 20px;
+  border-top: 1px #333333 solid;
+  
+  .rating {
+    margin-left: 20px;
+    border-bottom: 1px #888888 solid;
+
+    .rating_info {
+      width: 200px;
+      display: inline-block;
+      vertical-align: top;
+    }
+    .rater {
+      font-size: 1.2em;
+    }
+    .rating_number {
+    }
+    .rating_body {
+      display: inline-block;
+      width: 400px;
+      vertical-align: top;
+    }
+  }
+}
+

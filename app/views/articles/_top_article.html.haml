@@ -1,0 +1,7 @@
+.top_article
+  = link_to image_tag(article.display_image), article_path(article)
+  .article_type= link_to article.type, column_path(article.column)
+  .top_article_info
+    .article_title= link_to article.title, article_path(article)
+    .article_author
+      = 'By ' + article.author.name + ' on ' + display(article.date)

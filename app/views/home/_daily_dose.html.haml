@@ -1,0 +1,30 @@
+#right_column.home_column
+  #right_content
+    #daily_dose Daily Dose of Dudefest
+    - if @tip.present?
+      #tip_otd.daily_dose_item
+        .right_label TIP OF THE DAY
+        .right_description.text= @tip.tip
+    - if @daily_video.present?
+      #video_otd.daily_dose_item
+        .right_label VIDEO OF THE DAY
+        .daily_dose_video= @daily_video.source_html
+        .right_title= @daily_video.title
+    - if @thing.present?
+      #thing_otd.daily_dose_item
+        .right_label THING OF THE DAY
+        .daily_dose_image= @thing.image_html
+        .right_title= @thing.thing
+        .right_description.text= @thing.description
+    - if @position.present?
+      #position_otd.daily_dose_item
+        .right_label POSITION OF THE DAY
+        .daily_dose_image= @position.image_html
+        .right_title= @position.position
+        .right_description.text= @position.description
+    #history_otd.daily_dose_item
+      .right_label TODAY IN DUDEFEST HISTORY
+      - @events.each do |event|
+        .right_description
+          = event.year_str
+          = link_to event.event, event.link

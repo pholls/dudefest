@@ -1,0 +1,23 @@
+!!!
+%html
+  %head
+    %title Dudefest
+    = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true
+    = javascript_include_tag 'application', 'data-turbolinks-track' => true
+    = csrf_meta_tags
+    %link{ rel: 'shortcut icon', href: '/Dudefest.ico' }
+    = yield(:head)
+  %body
+    #header
+      #top
+        #logo>= link_to image_tag('/Dudefest.png'), root_path
+        #nav
+          %ul
+            %li>= link_to 'CINEMA', movies_path
+            %li>= link_to 'BOOZE', column_path('booze')
+            %li>= link_to 'FRAT', column_path('frat')
+            %li>= link_to 'COMING SOON', root_path
+            %li>= link_to 'CONTRIBUTE', root_path
+            %li= link_to 'ABOUT', root_path
+    #content
+      = yield

@@ -31,6 +31,14 @@ class Column < ActiveRecord::Base
   end
 
   public
+    def to_param
+      self.short_name.downcase
+    end
+
+    def public_articles
+      self.articles.order(date: :desc).select { |article| article.public? }
+    end
+
     def self.movie
       self.where(short_name: 'Cinema').first
     end

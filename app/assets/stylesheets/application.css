@@ -73,7 +73,7 @@ body {
   text-decoration: none;
 }
 
-#menu_items {
+#nav ul {
   vertical-align: bottom;
   list-style: none;
   margin: 0px;
@@ -81,19 +81,19 @@ body {
   padding: 0px;
 }
 
-.menu_item { 
+#nav ul li { 
   display: inline;
   font-size: 20px;
 }
 
-.menu_item a {
+#nav ul li a {
   text-decoration: none;
-  padding: 10px 15px;
+  padding: 10px 11px;
   color: #DDDDDD;
   display: inline-block;
 }
 
-.menu_item a:hover {
+#nav ul li a:hover {
   color: #333333;
   background-color: #DDDDDD;
   border-radius: 1px 1px 0px 0px;
@@ -116,8 +116,8 @@ body {
 }
   
 #main_column {
-  width: 673px;
-  margin: 10px 0px 10px 10px;
+  width: 670px;
+  margin: 10px 0px 0px 10px;
 }
 
 #shit_to_read {
@@ -127,14 +127,17 @@ body {
   padding: 5px;
   padding-left: 15px;
   margin: 0px;
-  margin-top: 20px;
-  font-size: 1.7em;
+  font-size: 1.65em;
 }
 
 #most_recent { 
   border: 1px solid #BBBBBB;
   border-top: 0px;
   border-right: 0px;
+}
+
+#top_articles {
+  margin-bottom: 15px;
 }
 
 .top_article {
@@ -163,10 +166,14 @@ body {
 }
 
 .article_type {
-  background-color: #333333;
+}
+
+.article_type a {
+  text-decoration: none;
   color: #DDDDDD;
+  padding: 4px 6px;
+  background-color: #333333;
   display: inline-block;
-  padding: 4px 8px;
   font-size: 10px;
   border-radius: 0px 0px 6px 0px;
   position: absolute;
@@ -175,12 +182,11 @@ body {
 }
 
 .article_date {
-  padding: 3px 8px;
+  padding-top: 10px;
   margin: 0px;
-  font-size: 12px;
-  text-align: right;
   height: 100%;
   vertical-align: bottom;
+  font-size: 0.9em;
 }
 
 .article_image {
@@ -202,46 +208,59 @@ body {
   vertical-align: top;
 }
 
-.article_title {
+.article_title a {
+  color: black;
+  text-decoration: none;
   font-size: 1.5em;
 }
 
-.article_author {
-  font-style: italic;
-  font-size: .9em;
+.article_view_count { 
+  font-size: .9em; 
+  color: #555555; 
+  padding-top: 28px; 
 }
 
-.article_view_count { font-size: .9em; color: #555555; padding-top: 28px; }
-
 #right_column {
-  width: 278px;
-  padding: 5px;
-  margin: 10px 10px 10px 10px;
+  width: 300px;
+  margin: 10px 5px;
 }
 
 #daily_dose {
   font-size: 1.65em;
-  padding-bottom: 8px;
   /*border-bottom: 2px solid #BBBBBB;*/
+  text-align: center;
+  padding: 0px;
+  margin: 0px;
 }
 
 .daily_dose_item {
-  padding: 16px 0px;
-  border-top: 2px solid #BBBBBB;
+  margin: 16px 0px 0px;
+  /*border-top: 2px solid #BBBBBB;*/
 }
 
 .right_label {
   text-align: left;
-  font-size: 1.2em;
+  font-size: 1.25em;
   margin-bottom: 10px;
+  vertical-align: top;
+  text-align: center;
+  background: #333333;
+  color: #CCCCCC; 
+  padding: 7px 0px;
+  margin: 0px;
+  margin-bottom: 2px;
+  font-size: 1.25em;
 }
 
 .daily_dose_image {
   margin: 0px;
+  margin-bottom: 2px;
+  padding: 0px;
+  font-size: 0px;
 }
 
 .daily_dose_image img {
-  max-width: 100%;
+  width: 100%;
   height: auto;
   border: 0 none;
   outline: none;
@@ -249,7 +268,9 @@ body {
 
 .daily_dose_video {
   margin: 0px;
+  margin-bottom: 2px;
   width: 100%;
+  font-size: 0px;
 }
 
 .daily_dose_video p {
@@ -261,13 +282,27 @@ body {
 
 .daily_dose_video iframe, .daily_dose_video embed, .daily_dose_video object {
   max-width: 100%;
-  height: 240px;
+  height: 250px;
   margin: 0px;
+  padding: 0px;
+  font-size: 0px;
 }
 
 .right_title {
-  padding-top: 8px;
+  padding: 5px 0px;
   text-align: center;
+  font-size: 0.95em;
+}
+
+.right_title, .right_description {
+  margin: 0px;
+  margin-bottom: 2px;
+  background-color: #CCCCCC;
+}
+
+.right_description {
+  font-size: .8em;
+  padding: 5px;
 }
 
 .right_title a {
@@ -283,6 +318,11 @@ body {
 .right_title a:hover, .right_description a:hover {
   color: #333333;
   text-decoration: underline;
+}
+
+.text {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  line-height: 140%;
 }
 
 #footer {

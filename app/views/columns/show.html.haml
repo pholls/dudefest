@@ -1,0 +1,7 @@
+#main_column.home_column
+  #shit_to_read.main_top= @column.column.upcase
+  #article_summaries
+    - @column.public_articles.each do |article|
+      = render partial: '/articles/summary', locals: { article: article }
+
+= render partial: 'home/daily_dose'

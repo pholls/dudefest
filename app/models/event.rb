@@ -1,7 +1,7 @@
 class Event < ActiveRecord::Base
   include ModelConfig, ItemReview
 
-  validates :event, presence: true, length: { in: 40..125 }, uniqueness: true
+  validates :event, presence: true, length: { in: 40..150 }, uniqueness: true
   validates :date, :link, presence: true, uniqueness: true
   validates_date :date, on_or_before: :today
   validates_formatting_of :link, using: :url

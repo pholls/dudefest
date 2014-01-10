@@ -7,6 +7,7 @@ gem 'rails', '4.0.1'
 gem 'pg'
 
 gem 'haml'
+gem 'haml-rails'
 gem 'simple_form'
 gem 'validates_formatting_of'
 gem 'validates_timeliness'

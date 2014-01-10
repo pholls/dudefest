@@ -8,7 +8,7 @@ module DailyItem
 
   private
     def set_date
-      if self.reviewed?
+      if self.reviewed? && self.date.nil?
         if self.class.select(:date).count > 0
           self.date = self.class.maximum(:date) + 1.day
         else
@@ -19,7 +19,8 @@ module DailyItem
 
   module ClassMethods
     def of_the_day
-      self.where(date: Date.today).first
+      today = DateTime.now.in_time_zone('Eastern Time (US & Canada)').to_date
+      self.where(date: today).first || self.order(:date).first
     end
   end
 end

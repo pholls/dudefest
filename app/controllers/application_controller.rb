@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   before_filter :configure_permitted_parameters, if: :devise_controller?
   before_filter :set_current_user
+  before_filter :set_daily_dose
 
   protected
     def configure_permitted_parameters
@@ -18,5 +19,13 @@ class ApplicationController < ActionController::Base
   private
     def set_current_user
       User.current = current_user
+    end
+
+    def set_daily_dose
+      @daily_video = DailyVideo.of_the_day
+      @thing = Thing.of_the_day
+      @tip = Tip.of_the_day
+      @position = Position.of_the_day
+      @events = Event.this_day
     end
 end

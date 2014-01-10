@@ -3,12 +3,12 @@ CKEDITOR.editorConfig = function( config ) {
     ['Cut','Copy','Paste','PasteText','PasteWord','-','Undo','Redo'],
     ['Find','Replace','-','SelectAll','-','Scayt'],
     ['Bold','Italic','Underline','Strike','-','RemoveFormat'],
-    ['NumberedList','-','Outdent','Indent','-','Blockquote'],
     '/',
+    ['NumberedList','-','Blockquote'],
     ['Link','Unlink'],
-    ['TextColor','BGColor'],
-    ['Styles','Format'],
+    ['Styles','Format','Source'],
     ['Preview','Maximize']
   ];
-  config.removePlugins = 'elementspath'
+  config.removePlugins = 'elementspath';
+  config.enterMode = CKEDITOR.ENTER_DIV
 };
