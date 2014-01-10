@@ -34,7 +34,9 @@ class Position < ActiveRecord::Base
       include_fields :notes 
       configure :reviewed do
         visible do
-          bindings[:object].reviewable?
+          false
+          # Change from the above to the below if we add position to the site
+          #bindings[:object].reviewable?
         end
       end
     end
