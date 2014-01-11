@@ -2,6 +2,6 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 jQuery ->
-  $(document).ready ->
+  $ ->
     if $('#ratings_title').height() < $('#ratings').height()
-      $('#ratings_title').height($('#ratings').height())
+      $('#ratings_title').height $('#ratings').height()
