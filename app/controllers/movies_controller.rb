@@ -5,5 +5,7 @@ class MoviesController < ApplicationController
 
   def show
     @movie = Movie.find(params[:id])
+      
+    redirect_to root_path unless @movie.review.public? 
   end
 end
