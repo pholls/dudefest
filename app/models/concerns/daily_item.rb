@@ -20,7 +20,7 @@ module DailyItem
   module ClassMethods
     def of_the_day
       # Comment out or get rid of the second part after launch
-      self.where(date: self.today_est).first || self.order(:date).first
+      where(date: self.today_est).first || where(date: self.start_date).first
     end
   end
 end
