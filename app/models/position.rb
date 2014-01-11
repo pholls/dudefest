@@ -2,7 +2,7 @@ class Position < ActiveRecord::Base
   include ModelConfig, ItemReview, DailyItem
 
   validates :position, presence: true, length: { in: 3..32 }, uniqueness: true
-  validates :description, presence: true, length: { in: 100..500 }, 
+  validates :description, presence: true, length: { in: 45..500 }, 
                           uniqueness: true
   validates :image, uniqueness: true
   validates_formatting_of :image, using: :url
