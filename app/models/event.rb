@@ -16,7 +16,7 @@ class Event < ActiveRecord::Base
       sort_by :date
       include_fields :date, :event, :creator, :reviewed
       configure :date do
-        strftime_format '%m/%d/%y'
+        strftime_format '%m/%d/%Y'
         sortable :month_day
         sort_reverse :false
       end
