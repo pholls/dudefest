@@ -4,9 +4,8 @@
 RailsAdmin.config do |config|
   config.authorize_with :cancan
 
-  #included = ['User', 'Tip', 'Event', 'Position', 'ThingCategory',
-  #                   'Thing', 'DailyVideo', 'Article', 'Column', 'Genre',
-  #                   'NameVariant']
+  config.default_items_per_page 200
+
   INCLUDED = %w(User Tip Event Position ThingCategory Thing DailyVideo Article
                 Column Genre NameVariant Movie Rating Model)
 
