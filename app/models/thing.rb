@@ -39,6 +39,10 @@ class Thing < ActiveRecord::Base
         end
       end
       include_fields :notes
+      configure :image do
+        label 'Image URL'
+        help 'Required. Use an image url here.'
+      end
       configure :reviewed do
         visible do
           bindings[:object].reviewable?
