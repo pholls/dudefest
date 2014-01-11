@@ -1,5 +1,5 @@
 class Tip < ActiveRecord::Base
-  include ModelConfig, ItemReview, DailyItem
+  include EasternTime, ModelConfig, ItemReview, DailyItem
 
   validates :tip, presence: true, uniqueness: true, length: { in: 10..200 }
 

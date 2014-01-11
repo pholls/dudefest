@@ -1,5 +1,5 @@
 class Thing < ActiveRecord::Base
-  include ModelConfig, ItemReview, DailyItem
+  include EasternTime, ModelConfig, ItemReview, DailyItem
 
   belongs_to :thing_category
 

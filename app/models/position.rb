@@ -1,5 +1,5 @@
 class Position < ActiveRecord::Base
-  include ModelConfig, ItemReview, DailyItem
+  include EasternTime, ModelConfig, ItemReview, DailyItem
 
   validates :position, presence: true, length: { in: 3..32 }, uniqueness: true
   validates :description, presence: true, length: { in: 45..500 }, 

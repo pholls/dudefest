@@ -19,8 +19,8 @@ module DailyItem
 
   module ClassMethods
     def of_the_day
-      today = DateTime.now.in_time_zone('Eastern Time (US & Canada)').to_date
-      self.where(date: today).first || self.order(:date).first
+      # Comment out or get rid of the second part after launch
+      self.where(date: self.today_est).first || self.order(:date).first
     end
   end
 end

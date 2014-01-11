@@ -1,19 +1,24 @@
 class Event < ActiveRecord::Base
-  include ModelConfig, ItemReview
+  include EasternTime, ModelConfig, ItemReview
+
+  before_validation :set_month_day
 
   validates :event, presence: true, length: { in: 40..150 }, uniqueness: true
   validates :date, :link, presence: true, uniqueness: true
   validates_date :date, on_or_before: :today
   validates_formatting_of :link, using: :url
+  validates :month_day, presence: true
 
   rails_admin do
     navigation_label 'Daily Items'
     label 'Historical Event'
     list do
-      sort_by :date, :created_at
+      sort_by :date
       include_fields :date, :event, :creator, :reviewed
       configure :date do
-        strftime_format '%Y-%m-%d'
+        strftime_format '%m/%d/%y'
+        sortable :month_day
+        sort_reverse :false
       end
     end
 
@@ -24,6 +29,13 @@ class Event < ActiveRecord::Base
         end
       end
       include_fields :notes
+      configure :date do
+        help 'Required. Don\'t enter the date as MM/DD/YYYY. It won\'t work.' \
+             'Instead either type the name of the month then the day & year' \
+             ' or use DD/MM/YYYY'
+        date_format :default
+        strftime_format '%m/%d/%y'
+      end
       configure :reviewed do
         visible do
           bindings[:object].reviewable?
@@ -32,7 +44,7 @@ class Event < ActiveRecord::Base
     end
 
     show do
-      include_fields :event, :link, :creator
+      include_fields :event, :link, :date, :creator
     end
   end
 
@@ -42,9 +54,15 @@ class Event < ActiveRecord::Base
     end
 
     def self.this_day
-      # Commenting this out for test purposes. This must change!
-      # where('EXTRACT(MONTH FROM DATE) = ? AND EXTRACT(DAY FROM DATE) = ?',
-      #       Date.today.month, Date.today.day).order(date: :desc)
-      order(date: :desc)
+      where(month_day: find_month_day(self.today_est)).order(date: :desc)
+    end
+
+  private
+    def self.find_month_day(given_date)
+      given_date.month * 100 + given_date.day
+    end
+
+    def set_month_day
+      self.month_day = self.class.find_month_day(self.date)
     end
 end

@@ -1,5 +1,5 @@
 class DailyVideo < ActiveRecord::Base
-  include ModelConfig, ItemReview, DailyItem
+  include EasternTime, ModelConfig, ItemReview, DailyItem
 
   validates :title, presence: true, length: { in: 3..32 }, uniqueness: true
   validates :source, presence: true, uniqueness: true
