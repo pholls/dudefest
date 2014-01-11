@@ -4,10 +4,11 @@ class Position < ActiveRecord::Base
   validates :position, presence: true, length: { in: 3..32 }, uniqueness: true
   validates :description, presence: true, length: { in: 45..500 }, 
                           uniqueness: true
-  validates :image, uniqueness: true
-  validates_formatting_of :image, using: :url
-  validates :image, format: { with: /\.(png|jpg|jpeg|)\z/,
-                              message: 'must be .png, .jpg, or .jpeg' }
+  validates :image, uniqueness: true, allow_blank: true
+  # Add this if we ever add position in production
+  #validates_formatting_of :image, using: :url
+  #validates :image, format: { with: /\.(png|jpg|jpeg|)\z/,
+  #                            message: 'must be .png, .jpg, or .jpeg' }
 
   auto_html_for :image do
     html_escape
