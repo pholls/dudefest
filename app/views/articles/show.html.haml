@@ -2,7 +2,8 @@
   #shit_to_read.main_top= @article.column.column.upcase
   #article
     #article_title= @article.title
-    #article_author= 'By ' + @article.author.name
+    .article_by_on= 'By ' + @article.author.name + ' on ' + @article.display_date
     #article_date= display(@article.date)
+    #article_body.text= @article.body.html_safe
 
 = render partial: 'home/daily_dose'

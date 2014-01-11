@@ -9,20 +9,23 @@
           #genres_title.movie_info_title Genres 
           - @movie.genres.each do |genre|
             .genre.movie_info_item= genre.genre
+        #average_rating 
+          DUDEFEST RATING
+          #dudefest_rating= @movie.average_rating
         #name_variants.movie_info_list 
           #name_variants_title.movie_info_title Dudes
           - @movie.name_variants.each do |name_variant|
             .name_variant.movie_info_item= name_variant.name_variant
-    .reviewed_by_on= @movie.author_and_date
+    .article_by_on= @movie.author_and_date
     #review.text= @movie.review.body.html_safe
-    .reviewed_by_on= @movie.author_and_date
-    #ratings_title> R A T I N G S
     #ratings
-      - @movie.complete_ratings.each do |rating|
-        .rating
-          .rating_info>
-            .rater= rating.creator.name
-            .rating_number= rating.rating
-          .rating_body.text= rating.body
+      #ratings_title> R A T I N G S
+      #ratings_list
+        - @movie.complete_ratings.each do |rating|
+          .rating
+            .rating_number>= rating.display_rating
+            .rating_info
+              .rating_body.text>= rating.body
+              .rater= rating.creator.name
 
 = render partial: 'home/daily_dose'

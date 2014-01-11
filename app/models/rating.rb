@@ -3,7 +3,6 @@ class Rating < ActiveRecord::Base
 
   after_find :recall_old_state
   around_save :set_movie_total_rating
-  before_validation :set_validated
 
   POSSIBLE_RATINGS = [10.0, 9.5, 9.0, 8.5, 8.0, 7.5, 7.0, 6.5, 6.0, 5.5, 5.0, 4.5, 4.0, 3.5, 3.0, 2.5, 2.0, 1.5, 1.0, 0.5, 0.0]
 
@@ -48,6 +47,10 @@ class Rating < ActiveRecord::Base
   public
     def rating_enum
       POSSIBLE_RATINGS
+    end
+
+    def display_rating
+      self.rating == self.rating.to_i ? self.rating.to_i : self.rating
     end
 
     def label_method

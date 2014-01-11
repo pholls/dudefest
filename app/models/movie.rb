@@ -54,6 +54,14 @@ class Movie < ActiveRecord::Base
       r = self.review
       'Reviewed by ' + r.author.name + ' on ' + r.display_date
     end
+
+    def average_rating
+      if self.reviewed_ratings.present? && self.reviewed_ratings > 0
+        '%.2f' % (self.total_rating / self.reviewed_ratings)
+      else
+        nil
+      end
+    end
     
     def name_variant_ids=(ids)
       ids = ids.map(&:to_i).select { |i| i > 0 }
@@ -73,19 +81,16 @@ class Movie < ActiveRecord::Base
       end
     end
 
+    def self.finalized
+      self.includes(:review).order('articles.date desc')
+                            .select { |m| m.review.public? }
+    end
+
   private
     def set_review
       if self.review.present?
         self.review.column = Column.movie if self.new_record?
         self.review.title = 'Review of ' + self.title
-      end
-    end
-
-    def average_rating
-      if self.reviewed_ratings.present? && self.reviewed_ratings > 0
-        self.total_rating / self.reviewed_ratings
-      else
-        nil
       end
     end
 

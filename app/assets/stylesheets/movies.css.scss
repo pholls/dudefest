@@ -15,7 +15,7 @@
     margin-right: 10px;
 
     #movie_image {
-      width: 330px;
+      width: 100%;
       img {
         max-width: 100%;
       }
@@ -25,14 +25,13 @@
   #movie_info_right {
     .movie_info_list {
       display: inline-block;
-      min-width: 100%;
 
       .movie_info_title {
         color: #CCCCCC;
         background-color: #333333;
         padding: 3px;
         padding-left: 10px;
-        font-size: 1.15em;
+        font-size: 1.3em;
       }
 
       .movie_info_item {
@@ -40,23 +39,39 @@
         background-color: #CCCCCC;
         padding: 2px;
         padding-left: 10px;
-        font-size: .95em;
+      }
+    }
+
+    #genres {
+      width: 160px;
+      vertical-align: top;
+    }
+
+    #average_rating {
+      width: 160px;
+      margin-left: 6px;
+      display: inline-block;
+      vertical-align: top;
+      text-align: center;
+      font-size: 1em;
+      background-color: #CCCCCC;
+      border: 2px solid #333333;
+
+      #dudefest_rating {
+        font-size: 3em;
       }
     }
 
     #name_variants {
       margin-top: 10px;
+      min-width: 100%;
     }
   }
 }
 
-.reviewed_by_on {
+#ratings {
+  border-top: 1px #333333 solid;
   margin-top: 20px;
-  padding: 10px;
-  font-size: 1em;
-  text-align: center;
-  border-top: 1px #888888 solid;
-  border-bottom: 1px #888888 solid;
 }
 
 #ratings_title {
@@ -67,35 +82,42 @@
   padding: 0px 5px;
   text-align: center;
   display: inline-block;
-  margin-top: 20px;
 }
 
-#ratings {
+#ratings_list {
   display: inline-block;
   width: 620px;
   vertical-align: top;
-  margin-top: 20px;
-  border-top: 1px #333333 solid;
+  border-bottom: 1px #333333 solid;
   
   .rating {
     margin-left: 20px;
     border-bottom: 1px #888888 solid;
+    padding: 10px 0px;
 
     .rating_info {
-      width: 200px;
       display: inline-block;
       vertical-align: top;
+      width: 510px;
+
+      .rater {
+        font-size: 1.2em;
+        margin-top: .5em;
+      }
     }
-    .rater {
-      font-size: 1.2em;
-    }
+
     .rating_number {
-    }
-    .rating_body {
+      text-align: left;
+      font-size: 3em;
       display: inline-block;
-      width: 400px;
       vertical-align: top;
+      width: 80px;
+      padding-right: 10px;
     }
+  }
+
+  .rating:last-child {
+    border-bottom: 0px;
   }
 }
 

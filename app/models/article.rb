@@ -72,8 +72,7 @@ class Article < ActiveRecord::Base
     end
 
     def display_date
-      tz = 'Eastern Time (US & Canada)'
-      self.date.to_datetime.in_time_zone(tz).strftime('%B %d, %Y')
+      self.date.strftime('%B %d, %Y')
     end
 
     def type
@@ -84,9 +83,13 @@ class Article < ActiveRecord::Base
       self.column.default_image
     end
 
+    def author_and_date
+      'By ' + @article.author.name + ' on ' + @article.display_date
+    end
+
     def public?
       tz = 'Eastern Time (US & Canada)'
-      self.finalized? #&& self.date <= DateTime.now.in_time_zone(tz).to_date
+      self.finalized? && self.date <= DateTime.now.in_time_zone(tz).to_date
     end
 
     def self.public
@@ -100,7 +103,7 @@ class Article < ActiveRecord::Base
         self.status = '1 - Created'
         self.author = User.current
         self.editor = set_editor
-      elsif self.finalized?
+      elsif self.finalized? && self.finalized_at.nil?
         self.status = '4 - Finalized'
         self.finalized_at = Time.now
         if self.class.select(:date).count > 0
@@ -110,7 +113,7 @@ class Article < ActiveRecord::Base
         end
       elsif self.editor_or_admin?
         self.status = '2 - Edited'
-        self.editor = User.current
+        self.editor ||= User.current
         self.edited_at = Time.now
       elsif self.responded_at.nil? || self.author == User.current
         self.status = '3 - Responded'
