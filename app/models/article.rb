@@ -87,6 +87,10 @@ class Article < ActiveRecord::Base
       'By ' + @article.author.name + ' on ' + @article.display_date
     end
 
+    def editor_or_admin?
+      self.editor == User.current || User.current.role?(:admin)
+    end
+
     def public?
       tz = 'Eastern Time (US & Canada)'
       self.finalized? && self.date <= DateTime.now.in_time_zone(tz).to_date
@@ -123,10 +127,6 @@ class Article < ActiveRecord::Base
 
     def set_editor
       User.current == self.class.owner ? User.find(5) : self.class.owner
-    end
-
-    def editor_or_admin?
-      self.editor == User.current || User.current.role?(:admin)
     end
 
     def is_movie_review?
