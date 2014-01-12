@@ -6,9 +6,11 @@ CKEDITOR.editorConfig = function( config ) {
     '/',
     ['NumberedList','-','Blockquote'],
     ['Link','Unlink'],
-    ['Styles','Format','Source'],
+    ['Styles','Format'],
     ['Preview','Maximize']
   ];
   config.removePlugins = 'elementspath';
-  config.enterMode = CKEDITOR.ENTER_DIV
+  config.height = 400;
+  config.contentsCss = 'p { margin: 0px; padding: 0px; }';
 };
+
