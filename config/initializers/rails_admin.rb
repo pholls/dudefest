@@ -4,8 +4,6 @@
 RailsAdmin.config do |config|
   config.authorize_with :cancan
 
-  config.default_items_per_page 200
-
   INCLUDED = %w(User Tip Event Position ThingCategory Thing DailyVideo Article
                 Column Genre NameVariant Movie Rating Model)
 
@@ -31,7 +29,7 @@ RailsAdmin.config do |config|
   # config.compact_show_view = false
 
   # Number of default rows per-page:
-  # config.default_items_per_page = 20
+  config.default_items_per_page = 200
 
   # Exclude specific models (keep the others):
   # config.excluded_models = ['Event', 'Position', 'Thing', 'ThingCategory', 'Tip', 'User', 'Video']

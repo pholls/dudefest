@@ -14,6 +14,7 @@ class Event < ActiveRecord::Base
     label 'Historical Event'
     list do
       sort_by :date
+      items_per_page 500
       include_fields :date, :event, :creator, :reviewed
       configure :date do
         strftime_format '%m/%d/%Y'
@@ -30,9 +31,7 @@ class Event < ActiveRecord::Base
       end
       include_fields :notes
       configure :date do
-        help 'Required. Don\'t enter the date as MM/DD/YYYY. It won\'t work.' \
-             'Instead either type the name of the month then the day & year' \
-             ' or use DD/MM/YYYY'
+        help 'Required. Enter date as YYYY-MM-DD'
         date_format :default
         strftime_format '%m/%d/%y'
       end
