@@ -6,7 +6,7 @@ CKEDITOR.editorConfig = function( config ) {
     '/',
     ['NumberedList','-','Blockquote'],
     ['Link','Unlink'],
-    ['Styles','Format'],
+    ['BGColor','Format'],
     ['Preview','Maximize']
   ];
   config.removePlugins = 'elementspath';
