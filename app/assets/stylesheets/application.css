@@ -141,6 +141,7 @@ body {
 }
 
 .top_article {
+  vertical-align: top;
   width: 49%;
   margin: 2px;
   position: relative;
