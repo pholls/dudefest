@@ -9,7 +9,6 @@ CKEDITOR.editorConfig = function( config ) {
     ['Styles','Format'],
     ['Preview','Maximize']
   ];
-  config.removePlugins = 'elementspath';
   config.height = 400;
   config.contentsCss = 'p { margin: 0px; padding: 0px; }';
 };
