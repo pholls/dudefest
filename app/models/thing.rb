@@ -33,10 +33,16 @@ class Thing < ActiveRecord::Base
     end
 
     edit do
-      include_fields :thing_category, :thing, :image, :description, :reviewed do
+      include_fields :thing_category, :thing, :description, :image, :reviewed do
         read_only do
           bindings[:object].is_read_only?
         end
+      end
+      field :image_html do
+        label 'Image'
+        read_only true
+        visible false
+        help false
       end
       include_fields :notes
       configure :image do
@@ -47,6 +53,12 @@ class Thing < ActiveRecord::Base
         visible do
           bindings[:object].reviewable?
         end
+      end
+    end
+
+    update do
+      field :image_html do
+        visible true
       end
     end
 
