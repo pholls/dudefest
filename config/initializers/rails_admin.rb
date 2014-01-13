@@ -39,10 +39,6 @@ RailsAdmin.config do |config|
   #  'Concerns::' + File.basename(p, '.rb').camelize
   #}
 
-  #config.excluded_models += ['MovieGenre']
-  #config.included_models = %w(User Tip Event Position ThingCategory Thing DailyVideo Article
-  #                            Movie Column Genre NameVariant)
-
   config.included_models = INCLUDED
 
 end
