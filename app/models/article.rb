@@ -107,19 +107,21 @@ class Article < ActiveRecord::Base
         self.status = '1 - Created'
         self.author = User.current
         self.editor = set_editor
-      elsif self.finalized? && self.finalized_at.nil?
+      elsif self.finalized?
         self.status = '4 - Finalized'
-        self.finalized_at = Time.now
-        if self.class.select(:date).count > 0
-          self.date = self.class.maximum(:date) + 1.day
-        else
-          self.date = self.class.start_date
+        if self.finalized_at.nil?
+          self.finalized_at = Time.now
+          if self.class.select(:date).count > 0
+            self.date = self.class.maximum(:date) + 1.day
+          else
+            self.date = self.class.start_date
+          end
         end
-      elsif self.editor_or_admin?
+      elsif self.editor == User.current
         self.status = '2 - Edited'
         self.editor ||= User.current
         self.edited_at = Time.now
-      elsif self.responded_at.nil? || self.author == User.current
+      elsif self.status?('2 - Edited') && self.author == User.current
         self.status = '3 - Responded'
         self.responded_at = Time.now
       end
