@@ -8,6 +8,7 @@ Bundler.require(:default, Rails.env)
 
 module Dudefest
   class Application < Rails::Application
+    config.assets.version = '1.1'
     config.assets.precompile += Ckeditor.assets
     config.assets.precompile += %w(ckeditor/*)
     # Settings in config/environments/* take precedence over those specified here.
