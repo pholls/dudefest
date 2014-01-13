@@ -333,6 +333,20 @@ body {
   line-height: 140%;
 }
 
+.text p {
+  margin: 0px;
+  padding: 0px;
+}
+
+.text ol {
+  margin: 0px;
+  padding-left: 20px;
+}
+
+.text ol li {
+  padding-left: 10px;
+}
+
 #footer {
   text-align: center;
 }
