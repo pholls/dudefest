@@ -32,11 +32,23 @@ class DailyVideo < ActiveRecord::Base
           bindings[:object].is_read_only?
         end
       end
+      field :source_html do
+        label 'Video'
+        read_only true
+        visible false
+        help false
+      end
       include_fields :notes
       configure :reviewed do
         visible do
           bindings[:object].reviewable?
         end
+      end
+    end
+
+    update do
+      field :source_html do
+        visible true
       end
     end
 
