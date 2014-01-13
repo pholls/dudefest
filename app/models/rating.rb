@@ -8,7 +8,7 @@ class Rating < ActiveRecord::Base
 
   belongs_to :movie, inverse_of: :ratings, counter_cache: true
 
-  validates :body, presence: true, uniqueness: true, length: { in: 50..500 }
+  validates :body, presence: true, uniqueness: true, length: { in: 10..500 }
   validates :rating, presence: true, inclusion: { in: POSSIBLE_RATINGS }
   validates :creator, uniqueness: { scope: :movie }
 
