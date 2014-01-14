@@ -68,7 +68,11 @@ class Article < ActiveRecord::Base
     end
 
     def finalizable?
-      self.editor.present? && self.editor == User.current
+      if self.editor.present? 
+        self.editor == User.current || User.current == self.class.owner
+      else
+        false
+      end
     end
 
     def display_date
