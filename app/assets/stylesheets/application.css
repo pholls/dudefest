@@ -169,6 +169,10 @@ body {
 .article_type {
 }
 
+#article_body {
+  margin-top: 20px;
+}
+
 .article_type a {
   text-decoration: none;
   color: #DDDDDD;
