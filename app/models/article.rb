@@ -13,7 +13,7 @@ class Article < ActiveRecord::Base
   validates_associated :editor, allow_blank: true
   validates :column, presence: true
   validates :title, presence: true, uniqueness: true, length: { in: 10..70 }
-  validates :body, presence: true, uniqueness: true, length: { in: 500..10000 }
+  validates :body, presence: true, uniqueness: true, length: { in: 300..10000 }
   # The below line will change once we start releasing > one article a week
   validates :date, allow_blank: true, uniqueness: true
 
