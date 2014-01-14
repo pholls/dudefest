@@ -117,7 +117,7 @@ class Article < ActiveRecord::Base
             self.date = self.class.start_date
           end
         end
-      elsif self.editor == User.current
+      elsif self.editor == User.current || self.class.owner == User.current
         self.status = '2 - Edited'
         self.editor ||= User.current
         self.edited_at = Time.now
