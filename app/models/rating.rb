@@ -3,6 +3,7 @@ class Rating < ActiveRecord::Base
 
   after_find :recall_old_state
   around_save :set_movie_total_rating
+  after_initialize :initialize_creator
 
   POSSIBLE_RATINGS = [10.0, 9.5, 9.0, 8.5, 8.0, 7.5, 7.0, 6.5, 6.0, 5.5, 5.0, 4.5, 4.0, 3.5, 3.0, 2.5, 2.0, 1.5, 1.0, 0.5, 0.0]
 
@@ -29,12 +30,16 @@ class Rating < ActiveRecord::Base
       include_fields :creator do
         read_only true
       end
+      field :body, :wysihtml5 do
+        bootstrap_wysihtml5_config_options lists: false, image: false,
+                                           link: false, :'font-styles' => false
+      end
+      include_fields :rating, :reviewed, :notes
       include_fields :body, :rating, :reviewed do
         read_only do
           bindings[:object].class == Rating && bindings[:object].is_read_only?
         end
       end
-      include_fields :notes 
       configure :reviewed do
         visible do
           r = bindings[:object].class == Rating && bindings[:object].reviewable?
@@ -45,6 +50,12 @@ class Rating < ActiveRecord::Base
   end
 
   public
+    def initialize_creator
+      if self.new_record?
+        self.creator ||= User.current
+      end
+    end
+
     def rating_enum
       POSSIBLE_RATINGS
     end

@@ -16,6 +16,7 @@ gem 'devise'
 gem 'rails_admin'
 gem 'cancan'
 gem 'ckeditor'
+gem 'bootstrap-wysihtml5-rails'
 gem 'rails_12factor', group: :production
 
 # Use SCSS for stylesheets
