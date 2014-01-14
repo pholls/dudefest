@@ -66,7 +66,7 @@ class Rating < ActiveRecord::Base
 
     def label_method
       if self.movie.present?
-        self.movie.title + ' - ' + self.creator.username
+        self.creator.username + ' - ' + self.display_rating.to_s
       else
         'New Rating'
       end
