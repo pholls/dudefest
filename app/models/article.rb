@@ -45,6 +45,11 @@ class Article < ActiveRecord::Base
         end
       end
       field :body, :ck_editor
+      field :image do
+        visible do
+          bindings[:object].class == Movie || bindings[:object].movie.present?
+        end
+      end
       field :finalized do
         visible do
           bindings[:object].class == Article && bindings[:object].finalizable?
@@ -84,7 +89,7 @@ class Article < ActiveRecord::Base
     end
 
     def display_image
-      self.column.default_image
+      self.image || self.column.default_image
     end
 
     def author_and_date
