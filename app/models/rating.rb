@@ -13,6 +13,8 @@ class Rating < ActiveRecord::Base
   validates :rating, presence: true, inclusion: { in: POSSIBLE_RATINGS }
   validates :creator, uniqueness: { scope: :movie }
 
+  default_scope { order(:id) }
+
   rails_admin do
     navigation_label 'Movies'
     parent Movie
