@@ -11,7 +11,7 @@ module Dudefest
     config.assets.version = '1.2'
     config.assets.precompile += Ckeditor.assets
     config.assets.precompile += %w(ckeditor/*)
-    config.assets.precompile += %w(bootstrap-wysihtml5.*)
+    config.assets.digest = false
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
