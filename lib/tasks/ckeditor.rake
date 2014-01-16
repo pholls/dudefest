@@ -39,4 +39,12 @@ task "assets:precompile" => :environment do
     # Debug information
     puts '---- end ----'
   end
+
+  for file in Dir["public/assets/bootstrap-wysihtml5*"]
+    next unless file =~ fingerprint
+
+    nondigest = file.sub fingerprint, '.'
+
+    FileUtils.cp file, nondigest, verbose: true
+  end
 end
