@@ -8,5 +8,7 @@
         #article_author= @article.author.name
         #article_date= display(@article.date)
     #article_body.text= @article.body.html_safe
+    #byline.text
+      %i= @article.display_byline.html_safe
 
 = render partial: 'home/daily_dose'
