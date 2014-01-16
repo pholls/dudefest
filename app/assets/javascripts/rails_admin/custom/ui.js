@@ -1,1 +1,0 @@
-//= require bootstrap-wysihtml5
