@@ -44,11 +44,15 @@ class Article < ActiveRecord::Base
           bindings[:object].movie.present?
         end
       end
-      field :body, :ck_editor
       field :image do
         visible do
           bindings[:object].class == Movie || bindings[:object].movie.present?
         end
+      end
+      field :body, :ck_editor
+      field :byline, :wysihtml5 do
+        bootstrap_wysihtml5_config_options emphasis: false, lists: false,
+                                           image: false, :'font-styles' => false
       end
       field :finalized do
         visible do
@@ -90,6 +94,10 @@ class Article < ActiveRecord::Base
 
     def display_image
       self.image || self.column.default_image
+    end
+
+    def display_byline
+      self.byline || self.author.byline
     end
 
     def author_and_date

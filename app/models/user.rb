@@ -74,11 +74,15 @@ class User < ActiveRecord::Base
 
     edit do
       include_fields :username, :name, :email, :password, :password_confirmation
-      include_fields :role
+      include_fields :password, :password_confirmation, :role
       configure :role do
         visible do
           User.current.role? :admin
         end
+      end
+      field :byline, :wysihtml5 do
+        bootstrap_wysihtml5_config_options emphasis: false, lists: false,
+                                           image: false, :'font-styles' => false
       end
     end
   end
