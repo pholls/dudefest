@@ -97,7 +97,7 @@ class Article < ActiveRecord::Base
     end
 
     def display_byline
-      self.byline || self.author.byline
+      self.byline.blank? ? self.author.byline : self.byline
     end
 
     def author_and_date
@@ -119,7 +119,6 @@ class Article < ActiveRecord::Base
 
   private
     def determine_status
-      self.byline = nil if self.byline.empty?
       if self.new_record?
         self.finalized = false
         self.status = '1 - Created'

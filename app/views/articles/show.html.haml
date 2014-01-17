@@ -10,5 +10,6 @@
     #article_body.text= @article.body.html_safe
     #byline.text
       %i= @article.display_byline.html_safe
+    #article_bottom
 
 = render partial: 'home/daily_dose'
