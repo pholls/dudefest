@@ -119,6 +119,7 @@ class Article < ActiveRecord::Base
 
   private
     def determine_status
+      self.byline = nil if self.byline.empty?
       if self.new_record?
         self.finalized = false
         self.status = '1 - Created'
