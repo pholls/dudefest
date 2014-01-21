@@ -76,7 +76,7 @@ class Article < ActiveRecord::Base
 
     def finalizable?
       if self.editor.present? 
-        self.editor == User.current || User.current == self.class.owner
+        self.editor_or_admin? && !self.finalized?
       else
         false
       end
