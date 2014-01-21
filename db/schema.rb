@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140116034935) do
+ActiveRecord::Schema.define(version: 20140121000657) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -32,7 +32,9 @@ ActiveRecord::Schema.define(version: 20140116034935) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "image"
-    t.string   "byline"
+    t.text     "byline"
+    t.boolean  "published"
+    t.datetime "published_at"
   end
 
   create_table "ckeditor_assets", force: true do |t|
@@ -82,6 +84,13 @@ ActiveRecord::Schema.define(version: 20140116034935) do
     t.boolean  "reviewed"
     t.integer  "creator_id"
     t.text     "notes"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "dudes", force: true do |t|
+    t.string   "name"
+    t.integer  "quotes_count"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -157,6 +166,24 @@ ActiveRecord::Schema.define(version: 20140116034935) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "quotes", force: true do |t|
+    t.text     "quote"
+    t.integer  "dude_id"
+    t.text     "context"
+    t.integer  "year"
+    t.string   "source"
+    t.date     "date"
+    t.integer  "creator_id"
+    t.integer  "reviewer_id"
+    t.datetime "reviewed_at"
+    t.boolean  "reviewed"
+    t.text     "notes"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "quotes", ["dude_id"], name: "index_quotes_on_dude_id", using: :btree
 
   create_table "rails_admin_histories", force: true do |t|
     t.text     "message"
@@ -243,7 +270,7 @@ ActiveRecord::Schema.define(version: 20140116034935) do
     t.integer  "ratings_count"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "byline"
+    t.text     "byline"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
