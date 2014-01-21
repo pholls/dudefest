@@ -19,7 +19,7 @@ class Article < ActiveRecord::Base
     object_label_method :title
     navigation_label 'Articles'
     list do
-      sort_by :status, :date, :created_at
+      sort_by 'status, date, created_at'
       include_fields :date, :column, :title, :author, :editor, :status
       configure :date do
         strftime_format '%Y-%m-%d'
@@ -55,6 +55,11 @@ class Article < ActiveRecord::Base
       field :finalized do
         visible do
           bindings[:object].class == Article && bindings[:object].finalizable?
+        end
+      end
+      field :published do
+        visible do
+          bindings[:object].class == Article && bindings[:object].finalized?
         end
       end
     end
@@ -108,7 +113,7 @@ class Article < ActiveRecord::Base
 
     def public?
       tz = 'Eastern Time (US & Canada)'
-      self.finalized? && self.date <= DateTime.now.in_time_zone(tz).to_date
+      self.published? && self.date <= DateTime.now.in_time_zone(tz).to_date
     end
 
     def self.public
@@ -118,20 +123,23 @@ class Article < ActiveRecord::Base
   private
     def determine_status
       if self.new_record?
-        self.finalized = false
+        self.finalized = self.published = false
         self.status = '1 - Created'
         self.author = User.current
         self.editor = set_editor
-      elsif self.finalized?
-        self.status = '4 - Finalized'
-        if self.finalized_at.nil?
-          self.finalized_at = Time.now
+      elsif self.published?
+        self.status = '5 - Published'
+        if self.published_at.nil?
+          self.published_at = Time.now
           if self.class.select(:date).count > 0
             self.date = self.class.maximum(:date) + 1.day
           else
             self.date = self.class.start_date
           end
         end
+      elsif self.finalized?
+        self.status = '4 - Finalized'
+        self.finalized_at ||= Time.now
       elsif self.editor == User.current || self.class.owner == User.current
         self.status = '2 - Edited'
         self.editor ||= User.current
