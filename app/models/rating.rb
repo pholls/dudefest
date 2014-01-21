@@ -32,10 +32,10 @@ class Rating < ActiveRecord::Base
       include_fields :creator do
         read_only true
       end
-      field :body, :wysihtml5 do
-        bootstrap_wysihtml5_config_options lists: false, image: false,
-                                           link: false, :'font-styles' => false
-      end
+      field :body #, :wysihtml5 do
+        #bootstrap_wysihtml5_config_options lists: false, image: false,
+        #                                   link: false, :'font-styles' => false
+      #end
       include_fields :rating, :reviewed, :notes
       include_fields :body, :rating, :reviewed do
         read_only do
