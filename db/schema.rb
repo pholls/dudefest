@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140121044444) do
+ActiveRecord::Schema.define(version: 20140123041306) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -87,6 +87,8 @@ ActiveRecord::Schema.define(version: 20140121044444) do
     t.text     "notes"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "published"
+    t.datetime "published_at"
   end
 
   create_table "dudes", force: true do |t|
@@ -182,6 +184,8 @@ ActiveRecord::Schema.define(version: 20140121044444) do
     t.text     "notes"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "published"
+    t.datetime "published_at"
   end
 
   add_index "quotes", ["dude_id"], name: "index_quotes_on_dude_id", using: :btree
@@ -231,6 +235,8 @@ ActiveRecord::Schema.define(version: 20140121044444) do
     t.text     "notes"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "published"
+    t.datetime "published_at"
   end
 
   add_index "things", ["thing_category_id"], name: "index_things_on_thing_category_id", using: :btree
@@ -245,6 +251,8 @@ ActiveRecord::Schema.define(version: 20140121044444) do
     t.text     "notes"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "published"
+    t.datetime "published_at"
   end
 
   create_table "users", force: true do |t|
