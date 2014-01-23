@@ -19,7 +19,7 @@ class Tip < ActiveRecord::Base
     end
 
     edit do
-      include_fields :tip, :reviewed do
+      include_fields :tip, :reviewed, :published do
         read_only do
           bindings[:object].is_read_only?
         end
@@ -31,7 +31,12 @@ class Tip < ActiveRecord::Base
       end
       configure :reviewed do
         visible do
-          bindings[:object].reviewable?
+          bindings[:object].reviewable? && !bindings[:object].reviewed?
+        end
+      end
+      configure :published do
+        visible do
+          bindings[:object].reviewed?
         end
       end
     end

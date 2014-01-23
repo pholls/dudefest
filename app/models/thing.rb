@@ -33,7 +33,8 @@ class Thing < ActiveRecord::Base
     end
 
     edit do
-      include_fields :thing_category, :thing, :description, :image, :reviewed do
+      include_fields :thing_category, :thing, :description, :image, 
+                     :published, :reviewed do
         read_only do
           bindings[:object].is_read_only?
         end
@@ -51,7 +52,12 @@ class Thing < ActiveRecord::Base
       end
       configure :reviewed do
         visible do
-          bindings[:object].reviewable?
+          bindings[:object].reviewable? && !bindings[:object].reviewed?
+        end
+      end
+      configure :published do
+        visible do
+          bindings[:object].reviewed? 
         end
       end
     end

@@ -8,7 +8,7 @@ module DailyItem
 
   private
     def set_date
-      if self.reviewed? && self.date.nil?
+      if self.published? && self.date.nil?
         if self.class.select(:date).count > 0
           self.date = self.class.maximum(:date) + 1.day
         else
