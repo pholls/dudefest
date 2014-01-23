@@ -18,6 +18,13 @@ gem 'cancan'
 gem 'ckeditor'
 gem 'bootstrap-wysihtml5-rails'
 gem 'rails_12factor', group: :production
+gem 'mini_magick'
+gem 'carrierwave'
+gem 'rails_admin_jcrop'
+gem 'fog'
+gem 'unf'
+gem 'carrierwave_backgrounder'
+gem 'sidekiq'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0'

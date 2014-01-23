@@ -1,5 +1,7 @@
 class Article < ActiveRecord::Base
   include ModelConfig
+  mount_uploader :image, ImageUploader
+  process_in_background :image
 
   before_validation :determine_status
 
@@ -18,9 +20,10 @@ class Article < ActiveRecord::Base
   rails_admin do
     object_label_method :title
     navigation_label 'Articles'
+    configure :image, :jcrop
     list do
       sort_by 'status, date, created_at'
-      include_fields :date, :column, :title, :author, :editor, :status
+      include_fields :date, :column, :title, :author, :status
       configure :date do
         strftime_format '%Y-%m-%d'
       end
@@ -43,9 +46,11 @@ class Article < ActiveRecord::Base
         end
       end
       field :image do
-        visible do
-          bindings[:object].class == Movie || bindings[:object].movie.present?
-        end
+        jcrop_options aspectRatio: 400.0/300.0
+        fit_image true
+      end
+      field :remote_image_url do
+        label 'Or Image URL'
       end
       field :body, :ck_editor
       field :byline, :wysihtml5 do
@@ -96,7 +101,11 @@ class Article < ActiveRecord::Base
     end
 
     def display_image
-      self.image || self.column.default_image
+      if self.image.present?
+        self.image_url(:display).to_s
+      else
+        self.image_old || self.column.default_image
+      end
     end
 
     def display_byline

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140121000657) do
+ActiveRecord::Schema.define(version: 20140121044444) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,10 +31,11 @@ ActiveRecord::Schema.define(version: 20140121000657) do
     t.integer  "movie_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "image"
+    t.string   "image_old"
     t.text     "byline"
     t.boolean  "published"
     t.datetime "published_at"
+    t.string   "image"
   end
 
   create_table "ckeditor_assets", force: true do |t|
