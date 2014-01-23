@@ -19,18 +19,10 @@ class AddPublishingToDailyItems < ActiveRecord::Migration
       add_column t, :published_at, :datetime
     end
 
-    # add_column :daily_videos, :published, :boolean
-    # add_column :daily_videos, :published_at, :datetime
-    # add_column :tip, :published, :boolean
-    # add_column :tip, :published_at, :datetime
-    # add_column :thing, :published, :boolean
-    # add_column :thing, :published_at, :datetime
-    # add_column :quote, :published, :boolean
-    # add_column :quote, :published_at, :datetime
-
     models.each do |m|
       m.reset_column_information
     end
+
     reversible do |dir|
       dir.up { models.each do |m| 
         m.all.each do |item|
