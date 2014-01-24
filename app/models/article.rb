@@ -14,7 +14,7 @@ class Article < ActiveRecord::Base
   validates_associated :author
   validates_associated :editor, allow_blank: true
   validates :column, presence: true
-  validates :title, presence: true, uniqueness: true, length: { in: 10..70 }
+  validates :title, presence: true, uniqueness: true, length: { in: 8..70 }
   validates :body, presence: true, uniqueness: true, length: { in: 300..10000 }
 
   rails_admin do
