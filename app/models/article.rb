@@ -52,6 +52,9 @@ class Article < ActiveRecord::Base
       field :remote_image_url do
         label 'Or Image URL'
       end
+      field :image_old do
+        read_only true
+      end
       field :body, :ck_editor
       field :byline, :wysihtml5 do
         bootstrap_wysihtml5_config_options emphasis: false, lists: false,
