@@ -12,7 +12,7 @@ class Column < ActiveRecord::Base
   end
 
   rails_admin do
-    object_label_method :column
+    object_label_method :short_name
     navigation_label 'Articles'
     parent Article
     list do
