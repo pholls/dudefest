@@ -1,7 +1,7 @@
 class Thing < ActiveRecord::Base
   include EasternTime, ModelConfig, ItemReview, DailyItem
 
-  belongs_to :thing_category
+  belongs_to :thing_category, inverse_of: :things
 
   validates :thing, presence: true, length: { in: 3..32 }, uniqueness: true
   validates :image, presence: true, uniqueness: true
@@ -25,7 +25,7 @@ class Thing < ActiveRecord::Base
     end
 
     list do
-      sort_by :date, :created_at
+      sort_by 'date, reviewed, created_at'
       include_fields :date, :thing, :thing_category, :creator, :reviewed
       configure :date do
         strftime_format '%Y-%m-%d'

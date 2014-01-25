@@ -1,4 +1,5 @@
 class ThingCategory < ActiveRecord::Base
+  has_many :things, inverse_of: :thing_category
   validates :category, presence: true, length: { in: 3..32 }, uniqueness: true
 
   rails_admin do
