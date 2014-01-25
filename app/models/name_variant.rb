@@ -12,9 +12,6 @@ class NameVariant < ActiveRecord::Base
     include_fields :name_variant do
       label 'Dude'
     end
-
-    list do
-      sort_by :name_variant
-    end
+    sort_by :name_variant
   end
 end
