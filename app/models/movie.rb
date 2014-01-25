@@ -4,7 +4,7 @@ class Movie < ActiveRecord::Base
   has_many :movie_genres, dependent: :destroy
   has_many :genres, through: :movie_genres
   has_one :review, class_name: 'Article', inverse_of: :movie, dependent: :destroy
-  has_many :credits, dependent: :destroy, inverse_of: :movie # autosave: true
+  has_many :credits, dependent: :destroy, inverse_of: :movie, autosave: true
   has_many :name_variants, through: :credits
   has_many :ratings, inverse_of: :movie, dependent: :destroy
 
