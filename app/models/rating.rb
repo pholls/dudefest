@@ -12,6 +12,7 @@ class Rating < ActiveRecord::Base
   validates :body, presence: true, uniqueness: true, length: { in: 10..500 }
   validates :rating, presence: true, inclusion: { in: POSSIBLE_RATINGS }
   validates :creator, uniqueness: { scope: :movie }
+  validates :movie, presence: true
 
   default_scope { order(:id) }
 
@@ -29,15 +30,11 @@ class Rating < ActiveRecord::Base
     end
 
     edit do
-      include_fields :creator do
+      include_fields :movie, :creator, :body, :rating, :reviewed, :notes
+      configure :creator do
         read_only true
       end
-      field :body #, :wysihtml5 do
-        #bootstrap_wysihtml5_config_options lists: false, image: false,
-        #                                   link: false, :'font-styles' => false
-      #end
-      include_fields :rating, :reviewed, :notes
-      include_fields :body, :rating, :reviewed do
+      include_fields :movie, :body, :rating, :reviewed do
         read_only do
           bindings[:object].class == Rating && bindings[:object].is_read_only?
         end
@@ -47,6 +44,12 @@ class Rating < ActiveRecord::Base
           r = bindings[:object].class == Rating && bindings[:object].reviewable?
           bindings[:object].class == Movie || r
         end
+      end
+    end
+
+    nested do
+      configure :movie do
+        visible false
       end
     end
   end
