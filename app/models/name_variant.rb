@@ -9,21 +9,12 @@ class NameVariant < ActiveRecord::Base
     object_label_method :name_variant
     navigation_label 'Movies'
     parent Movie
-    configure :name_variant do
+    include_fields :name_variant do
       label 'Dude'
     end
 
     list do
       sort_by :name_variant
-      include_fields :name_variant
-    end
-
-    edit do
-      include_fields :name_variant
-    end
-
-    show do
-      include_fields :name_variant
     end
   end
 end
