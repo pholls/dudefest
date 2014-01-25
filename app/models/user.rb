@@ -11,19 +11,13 @@ class User < ActiveRecord::Base
   validates :name, presence: true, length: { in: 6..40 }
 
   has_many :tips, foreign_key: 'creator_id'
-  has_many :reviewed_tips, foreign_key: 'reviewer_id'
   has_many :events, foreign_key: 'creator_id'
-  has_many :reviewed_events, foreign_key: 'reviewer_id'
   has_many :daily_videos, foreign_key: 'creator_id'
-  has_many :reviewed_daily_videos, foreign_key: 'reviewer_id'
   has_many :things, foreign_key: 'creator_id'
-  has_many :reviewed_things, foreign_key: 'reviewer_id'
   has_many :positions, foreign_key: 'creator_id'
-  has_many :reviewed_positions, foreign_key: 'reviewer_id'
   has_many :articles, foreign_key: 'author_id'
-  has_many :edited_articles, foreign_key: 'editor_id'
   has_many :ratings, foreign_key: 'creator_id'
-  has_many :reviewed_ratings, foreign_key: 'reviewer_id'
+  has_many :quotes, foreign_key: 'creator_id'
 
   rails_admin do
     object_label_method :username
