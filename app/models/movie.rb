@@ -30,11 +30,11 @@ class Movie < ActiveRecord::Base
     list do
       sort_by :title
       include_fields :title, :reviewed_ratings
-      field :average_rating do
-        sortable 'total_rating / reviewed_ratings'
-      end
       field :unreviewed_ratings do
         sortable 'ratings_count - reviewed_ratings'
+      end
+      field :average_rating do
+        sortable 'total_rating / reviewed_ratings'
       end
       include_fields :reviewed_ratings, :average_rating, :unreviewed_ratings do
         column_width 50
