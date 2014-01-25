@@ -1,0 +1,27 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  quote: MyText
+  dude_id: 
+  context: MyText
+  year: 1
+  source: MyString
+  date: 2014-01-16
+  creator_id: 1
+  reviewer_id: 1
+  reviewed_at: 2014-01-16 01:19:12
+  reviewed: false
+  notes: MyText
+
+two:
+  quote: MyText
+  dude_id: 
+  context: MyText
+  year: 1
+  source: MyString
+  date: 2014-01-16
+  creator_id: 1
+  reviewer_id: 1
+  reviewed_at: 2014-01-16 01:19:12
+  reviewed: false
+  notes: MyText

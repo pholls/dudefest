@@ -5,7 +5,7 @@ RailsAdmin.config do |config|
   config.authorize_with :cancan
 
   INCLUDED = %w(User Tip Event Position ThingCategory Thing DailyVideo Article
-                Column Genre NameVariant Movie Rating Model)
+                Column Genre NameVariant Movie Rating Model Quote Dude)
 
   ################  Global configuration  ################
 
