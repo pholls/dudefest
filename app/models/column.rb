@@ -51,4 +51,8 @@ class Column < ActiveRecord::Base
     def self.movie
       self.where(short_name: 'Cinema').first
     end
+
+    def self.guyde
+      self.where(short_name: 'Guyde').first
+    end
 end
