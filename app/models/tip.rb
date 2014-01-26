@@ -11,10 +11,13 @@ class Tip < ActiveRecord::Base
       include_fields :date, :tip, :creator, :reviewed
       configure :date do
         strftime_format '%Y-%m-%d'
+        column_width 75
       end
       configure :tip do
         label 'Just the Tip'
-        sortable false
+      end
+      configure :reviewed do
+        column_width 75
       end
     end
 

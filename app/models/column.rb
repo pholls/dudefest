@@ -15,9 +15,18 @@ class Column < ActiveRecord::Base
     object_label_method :short_name
     navigation_label 'Articles'
     parent Article
+    configure :short_name do
+      label 'Short Name'
+      column_width 90
+    end
+
     list do
       sort_by :column
       include_fields :column, :short_name, :columnist, :articles_count
+      configure :articles_count do
+        label 'Articles'
+        column_width 60
+      end
     end
 
     edit do

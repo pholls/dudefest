@@ -23,6 +23,10 @@ class DailyVideo < ActiveRecord::Base
       include_fields :date, :title, :creator, :reviewed
       configure :date do
         strftime_format '%Y-%m-%d'
+        column_width 75
+      end
+      configure :reviewed do
+        column_width 75
       end
     end
 

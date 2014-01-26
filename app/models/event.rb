@@ -18,8 +18,12 @@ class Event < ActiveRecord::Base
       include_fields :date, :event, :creator, :reviewed
       configure :date do
         strftime_format '%m/%d/%Y'
+        column_width 75
         sortable :month_day
         sort_reverse :false
+      end
+      configure :reviewed do
+        column_width 75
       end
     end
 

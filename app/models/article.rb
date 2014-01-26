@@ -26,6 +26,13 @@ class Article < ActiveRecord::Base
       include_fields :date, :column, :title, :author, :status
       configure :date do
         strftime_format '%Y-%m-%d'
+        column_width 75
+      end
+      configure :column do
+        column_width 60
+      end
+      configure :status do
+        column_width 95
       end
     end
 

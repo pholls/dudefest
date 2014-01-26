@@ -3,7 +3,7 @@ class Thing < ActiveRecord::Base
 
   belongs_to :thing_category, inverse_of: :things
 
-  validates :thing, presence: true, length: { in: 3..32 }, uniqueness: true
+  validates :thing, presence: true, length: { in: 3..26 }, uniqueness: true
   validates :image, presence: true, uniqueness: true
   validates_formatting_of :image, using: :url
   validates :image, format: { with: /\.(png|jpg|jpeg|)\z/,
@@ -22,13 +22,18 @@ class Thing < ActiveRecord::Base
     navigation_label 'Daily Items'
     configure :thing_category do
       label 'Category'
+      column_width 120
     end
 
     list do
       sort_by 'date, reviewed, created_at'
-      include_fields :date, :thing, :thing_category, :creator, :reviewed
+      include_fields :date, :thing_category, :thing, :creator, :reviewed
       configure :date do
         strftime_format '%Y-%m-%d'
+        column_width 75
+      end
+      configure :reviewed do
+        column_width 75
       end
     end
 

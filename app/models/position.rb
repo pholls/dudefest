@@ -23,6 +23,10 @@ class Position < ActiveRecord::Base
       include_fields :date, :position, :creator, :reviewed
       configure :date do
         strftime_format '%Y-%m-%d'
+        column_width 75
+      end
+      configure :reviewed do
+        column_width 75
       end
     end
 
