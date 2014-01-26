@@ -185,6 +185,6 @@ class Article < ActiveRecord::Base
     end
 
     def is_movie_review?
-      self.column.present? && self.column.column == Column.movie
+      self.column.present? && self.column == Column.movie
     end
 end
