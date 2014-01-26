@@ -19,8 +19,11 @@ module DailyItem
 
   module ClassMethods
     def of_the_day
-      # Comment out or get rid of the second part after launch
-      where(date: self.today_est).first || where(date: self.start_date).first
+      if Rails.env.production?
+        where(date: self.today_est).first
+      else
+        where.not(date: nil).first
+      end
     end
   end
 end
