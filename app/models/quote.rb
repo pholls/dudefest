@@ -27,7 +27,8 @@ class Quote < ActiveRecord::Base
     end
 
     edit do
-      include_fields :dude, :quote, :context, :source, :year, :reviewed do
+      include_fields :dude, :quote, :context, :source, :year, :reviewed,
+                     :published do
         read_only do
           bindings[:object].is_read_only?
         end
@@ -44,5 +45,12 @@ class Quote < ActiveRecord::Base
         end
       end
     end
+  end
+
+  def display_attribution
+    display = self.dude.name 
+    display += ' ' + self.context if self.context.present?
+    display += ', ' + self.year if self.year.present?
+    display
   end
 end

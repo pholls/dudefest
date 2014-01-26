@@ -25,6 +25,7 @@ class ApplicationController < ActionController::Base
       @daily_video = DailyVideo.of_the_day
       @thing = Thing.of_the_day
       @tip = Tip.of_the_day
+      @quote = Quote.of_the_day
       @position = Position.of_the_day
       @events = Event.this_day
     end

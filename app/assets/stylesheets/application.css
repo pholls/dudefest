@@ -310,20 +310,47 @@ body {
   font-size: 0px;
 }
 
+table.right_quote {
+  width: 300px;
+}
+
+td.daily_dose_open_quote, td.daily_dose_close_quote {
+  font-size: 5em;
+}
+
+td.daily_dose_open_quote {
+  padding-top: 20px;
+  vertical-align: top;
+}
+
+td.daily_dose_close_quote {
+  vertical-align: bottom;
+  padding-bottom: 35px;
+}
+
 .right_title {
   padding: 5px 0px;
   text-align: center;
-  font-size: 0.95em;
+  font-size: 1.05em;
 }
 
-.right_title, .right_description {
+.right_title, .right_description, .right_quote, .right_name {
   margin: 0px;
   margin-bottom: 2px;
   background-color: #CCCCCC;
 }
 
+.right_quote {
+  text-align: center;
+}
+
+.right_name {
+  padding: 5px 0px;
+  text-align: center;
+  font-size: 1.3em;
+}
+
 .right_description {
-  font-size: .8em;
   padding: 5px;
 }
 

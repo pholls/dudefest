@@ -10,11 +10,22 @@
         .right_label VIDEO OF THE DAY
         .daily_dose_video= @daily_video.source_html
         .right_title= @daily_video.title
+    - if @quote.present?
+      #quote_otd.daily_dose_item
+        .right_label QUOTE OF THE DAY
+        %table.right_quote
+          %tr.text
+            %td.daily_dose_open_quote &ldquo;
+            %td.daily_dose_quote= @quote.quote
+            %td.daily_dose_close_quote &bdquo;
+        .right_description.text.right_quote
+          %i &mdash;
+          %i= @quote.display_attribution
     - if @thing.present?
       #thing_otd.daily_dose_item
         .right_label THING OF THE DAY
         .daily_dose_image= @thing.image_html
-        .right_title= @thing.thing
+        .right_name= @thing.thing
         .right_description.text= @thing.description
     - if @position.present?
       #position_otd.daily_dose_item
