@@ -102,6 +102,17 @@ class Article < ActiveRecord::Base
       end
     end
 
+    def display_title
+      if Column.guyde == self.column
+        self.column.column + ': ' + self.title
+      else
+        self.title
+      end
+    end
+    def is_movie_review?
+      self.column.present? && self.column.column == Column.movie
+    end
+
     def display_date
       self.date.strftime('%B %d, %Y')
     end
