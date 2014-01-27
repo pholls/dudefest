@@ -95,11 +95,7 @@ class Article < ActiveRecord::Base
     end
 
     def finalizable?
-      if self.editor.present? 
-        self.editor_or_admin? && !self.finalized?
-      else
-        false
-      end
+      self.edited? && self.editor_or_admin? && !self.finalized?
     end
 
     def display_title
@@ -109,6 +105,7 @@ class Article < ActiveRecord::Base
         self.title
       end
     end
+
     def is_movie_review?
       self.column.present? && self.column.column == Column.movie
     end
