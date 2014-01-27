@@ -1,5 +1,5 @@
 class Article < ActiveRecord::Base
-  include ModelConfig
+  include ModelConfig, ColumnSchedule
   mount_uploader :image, ImageUploader
   process_in_background :image
 
@@ -161,11 +161,7 @@ class Article < ActiveRecord::Base
         self.status = '5 - Published'
         if self.published_at.nil?
           self.published_at = Time.now
-          if self.class.select(:date).count > 0
-            self.date = self.class.maximum(:date) + 1.day
-          else
-            self.date = self.class.start_date
-          end
+          self.date = self.assign_date()
         end
       elsif self.finalized?
         self.status = '4 - Finalized'

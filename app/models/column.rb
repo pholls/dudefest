@@ -5,6 +5,12 @@ class Column < ActiveRecord::Base
   validates_associated :columnist, allow_blank: true
   validates :column, presence: true, uniqueness: true, length: { in: 4..50 }
   validates :short_name, presence: true, uniqueness: true, length: { in: 3..10 }
+  validates :start_date, presence: true
+  validates :publish_days, presence: true, uniqueness: true, 
+                           length: { in: 1..7 }, 
+                           format: { with: /\A[1-7]+\z/,
+                                     message: 'must be days of the week' }
+  validates :default_image, presence: true, uniqueness: true
 
   auto_html_for :default_image do
     html_escape
@@ -22,15 +28,24 @@ class Column < ActiveRecord::Base
 
     list do
       sort_by :column
-      include_fields :column, :short_name, :columnist, :articles_count
+      include_fields :column, :short_name, :columnist, :publish_days,
+                     :articles_count
+      configure :publish_days do
+        label 'Days'
+        column_width 60
+      end
       configure :articles_count do
         label 'Articles'
         column_width 60
       end
+      configure :columnist do
+        column_width 80
+      end
     end
 
     edit do
-      include_fields :column, :short_name, :columnist, :default_image
+      include_fields :column, :short_name, :columnist, :publish_days,
+                     :start_date, :default_image
     end
 
     show do
