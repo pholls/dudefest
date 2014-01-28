@@ -37,7 +37,6 @@ class Event < ActiveRecord::Base
       configure :date do
         help 'Required. Enter date as YYYY-MM-DD'
         date_format :default
-        strftime_format '%m/%d/%y'
       end
       configure :reviewed do
         visible do
