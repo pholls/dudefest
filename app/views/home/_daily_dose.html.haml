@@ -37,6 +37,6 @@
       - if @events.count > 0
         .right_label TODAY IN DUDEFEST HISTORY
       - @events.each do |event|
-        .right_description
-          = event.year_str
+        .right_description.text
+          %b= event.year_str
           = link_to event.event, event.link
