@@ -33,7 +33,7 @@ class Ability
 
       if user.role? :editor
         can :edit, Article do |article|
-          !article.finalized? && !article.edited_at.nil? ? article.editor == user : true
+          !article.finalized? && !article.edited_at.nil? ? article.editor == user : false
         end
       end
 
