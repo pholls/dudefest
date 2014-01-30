@@ -126,8 +126,14 @@ class Article < ActiveRecord::Base
     def display_image
       if self.image.present?
         self.image_url(:display).to_s
+      elsif self.image_old.present?
+        self.image_old 
       else
-        self.image_old || self.column.image || self.column.default_image
+        if self.column.image.present?
+          self.image_url(:display).to_s
+        else
+          self.column.default_image
+        end
       end
     end
 
