@@ -2,6 +2,7 @@ class Event < ActiveRecord::Base
   include EasternTime, ModelConfig, ItemReview
 
   before_validation :set_month_day
+  before_validation :sanitize
 
   validates :event, presence: true, length: { in: 40..150 }, uniqueness: true
   validates :date, :link, presence: true, uniqueness: true
@@ -67,5 +68,10 @@ class Event < ActiveRecord::Base
 
     def set_month_day
       self.month_day = self.class.find_month_day(self.date)
+    end
+
+    def sanitize
+      Sanitize.clean!(self.event)
+      Sanitize.clean!(self.link)
     end
 end

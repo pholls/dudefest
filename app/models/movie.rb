@@ -1,5 +1,6 @@
 class Movie < ActiveRecord::Base
   before_validation :set_review
+  before_validation :sanitize
 
   has_many :movie_genres, dependent: :destroy
   has_many :genres, through: :movie_genres
@@ -104,6 +105,10 @@ class Movie < ActiveRecord::Base
         self.review.column = Column.movie if self.new_record?
         self.review.title = 'Review of ' + self.title
       end
+    end
+
+    def sanitize
+      Sanitize.clean!(self.title)
     end
 
 end

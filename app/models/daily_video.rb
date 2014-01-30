@@ -1,6 +1,8 @@
 class DailyVideo < ActiveRecord::Base
   include EasternTime, ModelConfig, ItemReview, DailyItem
 
+  before_validation :sanitize
+
   validates :title, presence: true, length: { in: 3..32 }, uniqueness: true
   validates :source, presence: true, uniqueness: true
   validates_formatting_of :source, using: :url
@@ -67,4 +69,10 @@ class DailyVideo < ActiveRecord::Base
       field :creator
     end
   end
+
+  private
+    def sanitize
+      Sanitize.clean!(self.title)
+      Sanitize.clean!(self.source)
+    end
 end

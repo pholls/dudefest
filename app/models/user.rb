@@ -1,6 +1,8 @@
 class User < ActiveRecord::Base
   ROLES = %w[admin editor reviewer writer reader]
 
+  before_validation :sanitize
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable,
@@ -100,5 +102,15 @@ class User < ActiveRecord::Base
 
     def self.current=(user)
       Thread.current[:current_user] = user
+    end
+
+  private
+    def sanitize
+      Sanitize.clean!(self.name) if self.name.present?
+      Sanitize.clean!(self.username)
+      Sanitize.clean!(self.email)
+      if self.byline.present?
+        Sanitize.clean!(self.byline, Sanitize::Config::BASIC)
+      end
     end
 end

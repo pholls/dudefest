@@ -1,6 +1,8 @@
 class Quote < ActiveRecord::Base
   include EasternTime, ModelConfig, ItemReview, DailyItem
 
+  before_validation :sanitize
+
   belongs_to :dude, inverse_of: :quotes, counter_cache: true
 
   validates :quote, presence: true, length: { in: 20..500 }, uniqueness: true
@@ -53,4 +55,11 @@ class Quote < ActiveRecord::Base
     display += ', ' + self.year if self.year.present?
     display
   end
+
+  private
+    def sanitize
+      Sanitize.clean!(self.quote) 
+      Sanitize.clean!(self.context) if self.context.present?
+      Sanitize.clean!(self.source) 
+    end
 end

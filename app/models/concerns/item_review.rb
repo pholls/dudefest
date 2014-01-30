@@ -4,6 +4,7 @@ module ItemReview
   included do
     before_validation :complete_create, on: :create
     before_update :complete_review
+    before_validation :sanitize_notes
 
     belongs_to :creator, class_name: 'User', counter_cache: true
     belongs_to :reviewer, class_name: 'User'
@@ -47,5 +48,9 @@ module ItemReview
         self.reviewer = User.current
         self.reviewed_at = Time.now
       end
+    end
+
+    def sanitize_notes
+      Sanitize.clean!(self.notes)
     end
 end

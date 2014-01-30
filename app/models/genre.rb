@@ -2,6 +2,8 @@ class Genre < ActiveRecord::Base
   has_many :movie_genres, dependent: :destroy
   has_many :movies, through: :movie_genres
 
+  before_validation :sanitize
+
   validates :genre, presence: :true, uniqueness: true
   # Uncomment this in a later release
   # validates :description, presence: :true, uniqueness: true
@@ -22,4 +24,10 @@ class Genre < ActiveRecord::Base
       include_fields :genre, :description
     end
   end
+
+  private
+    def sanitize
+      Sanitize.clean!(self.genre)
+      Sanitize.clean!(self.description) if self.description.present?
+    end
 end

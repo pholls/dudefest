@@ -2,6 +2,8 @@ class NameVariant < ActiveRecord::Base
   has_many :credits, inverse_of: :name_variant, dependent: :destroy
   has_many :movies, through: :credits
 
+  before_validation :sanitize
+
   validates :name_variant, presence: true, uniqueness: true
 
   rails_admin do
@@ -17,4 +19,9 @@ class NameVariant < ActiveRecord::Base
       sort_by :name_variant
     end
   end
+
+  private
+    def sanitize
+      Sanitize.clean!(self.name_variant)
+    end
 end

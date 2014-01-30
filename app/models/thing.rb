@@ -1,6 +1,8 @@
 class Thing < ActiveRecord::Base
   include EasternTime, ModelConfig, ItemReview, DailyItem
 
+  before_validation :sanitize
+
   belongs_to :thing_category, inverse_of: :things
 
   validates :thing, presence: true, length: { in: 3..26 }, uniqueness: true
@@ -83,5 +85,12 @@ class Thing < ActiveRecord::Base
   public
     def category
       self.thing_category.category
+    end
+
+  private
+    def sanitize
+      Sanitize.clean!(self.thing)
+      Sanitize.clean!(self.description)
+      Sanitize.clean!(self.image)
     end
 end

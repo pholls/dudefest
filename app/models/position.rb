@@ -1,6 +1,8 @@
 class Position < ActiveRecord::Base
   include EasternTime, ModelConfig, ItemReview, DailyItem
 
+  before_validation :sanitize
+
   validates :position, presence: true, length: { in: 3..32 }, uniqueness: true
   validates :description, presence: true, length: { in: 45..500 }, 
                           uniqueness: true
@@ -52,4 +54,11 @@ class Position < ActiveRecord::Base
       field :creator
     end
   end
+
+  private
+    def sanitize
+      Sanitize.clean!(self.position)
+      Sanitize.clean!(self.image) if self.image.present?
+      Sanitize.clean!(self.description)
+    end
 end

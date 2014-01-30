@@ -4,6 +4,7 @@ class Article < ActiveRecord::Base
   process_in_background :image
 
   before_validation :determine_status
+  before_validation :sanitize
 
   belongs_to :column, inverse_of: :articles, counter_cache: true
   belongs_to :author, class_name: 'User', counter_cache: true
@@ -179,5 +180,13 @@ class Article < ActiveRecord::Base
 
     def is_movie_review?
       self.column.present? && self.column == Column.movie
+    end
+
+    def sanitize
+      Sanitize.clean!(self.title)
+      Sanitize.clean!(self.body, Sanitize::Config::RELAXED)
+      if self.byline.present?
+        Sanitize.clean!(self.byline, Sanitize::Config::BASIC)
+      end
     end
 end

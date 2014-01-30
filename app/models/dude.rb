@@ -1,6 +1,8 @@
 class Dude < ActiveRecord::Base
   has_many :quotes, inverse_of: :dude
 
+  before_validation :sanitize
+
   validates :name, presence: true, uniqueness: true
   
   rails_admin do
@@ -12,4 +14,9 @@ class Dude < ActiveRecord::Base
       sort_by :name
     end
   end
+
+  private
+    def sanitize
+      Sanitize.clean!(self.name)
+    end
 end

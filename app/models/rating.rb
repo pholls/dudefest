@@ -4,6 +4,7 @@ class Rating < ActiveRecord::Base
   after_find :recall_old_state
   around_save :set_movie_total_rating
   after_initialize :initialize_creator
+  before_validation :sanitize
 
   POSSIBLE_RATINGS = [10.0, 9.5, 9.0, 8.5, 8.0, 7.5, 7.0, 6.5, 6.0, 5.5, 5.0, 4.5, 4.0, 3.5, 3.0, 2.5, 2.0, 1.5, 1.0, 0.5, 0.0]
 
@@ -95,4 +96,7 @@ class Rating < ActiveRecord::Base
       end
     end
 
+    def sanitize
+      Sanitize.clean!(self.body)
+    end
 end

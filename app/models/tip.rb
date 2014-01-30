@@ -1,6 +1,8 @@
 class Tip < ActiveRecord::Base
   include EasternTime, ModelConfig, ItemReview, DailyItem
 
+  before_validation :sanitize
+
   validates :tip, presence: true, uniqueness: true, length: { in: 10..200 }
 
   rails_admin do
@@ -44,4 +46,9 @@ class Tip < ActiveRecord::Base
       end
     end
   end
+
+  private
+    def sanitize
+      Sanitize.clean!(self.tip)
+    end
 end

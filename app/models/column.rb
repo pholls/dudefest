@@ -2,6 +2,8 @@ class Column < ActiveRecord::Base
   has_many :articles, inverse_of: :column
   belongs_to :columnist, class_name: 'User'
 
+  before_validation :sanitize
+
   validates_associated :columnist, allow_blank: true
   validates :column, presence: true, uniqueness: true, length: { in: 4..50 }
   validates :short_name, presence: true, uniqueness: true, length: { in: 3..10 }
@@ -69,5 +71,11 @@ class Column < ActiveRecord::Base
 
     def self.guyde
       self.where(short_name: 'Guyde').first
+    end
+
+  private
+    def sanitize
+      Sanitize.clean!(self.column)
+      Sanitize.clean!(self.short_name)
     end
 end
