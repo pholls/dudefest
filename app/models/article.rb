@@ -96,7 +96,11 @@ class Article < ActiveRecord::Base
     end
 
     def finalizable?
-      self.edited? && self.editor_or_admin? && !self.finalized?
+      if self.status.present? && self.status > '2'
+        self.editor_or_admin? && !self.finalized?
+      else
+        false
+      end
     end
 
     def display_title
