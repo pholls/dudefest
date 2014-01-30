@@ -1,4 +1,7 @@
 class Column < ActiveRecord::Base
+  mount_uploader :image, ImageUploader
+  process_in_background :image
+
   has_many :articles, inverse_of: :column
   belongs_to :columnist, class_name: 'User'
 
@@ -23,6 +26,7 @@ class Column < ActiveRecord::Base
     object_label_method :short_name
     navigation_label 'Articles'
     parent Article
+    configure :image, :jcrop
     configure :short_name do
       label 'Short Name'
       column_width 90
@@ -47,7 +51,17 @@ class Column < ActiveRecord::Base
 
     edit do
       include_fields :column, :short_name, :columnist, :publish_days,
-                     :start_date, :default_image
+                     :start_date
+      field :image do
+        jcrop_options aspectRatio: 400.0/300.0
+        fit_image true
+      end
+      field :remote_image_url do
+        label 'Or Image URL'
+      end
+      field :default_image do
+        read_only true
+      end
     end
 
     show do

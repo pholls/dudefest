@@ -1,20 +1,22 @@
 class Thing < ActiveRecord::Base
   include EasternTime, ModelConfig, ItemReview, DailyItem
+  mount_uploader :image, ImageUploader
+  process_in_background :image
 
   before_validation :sanitize
 
   belongs_to :thing_category, inverse_of: :things
 
   validates :thing, presence: true, length: { in: 3..26 }, uniqueness: true
-  validates :image, presence: true, uniqueness: true
-  validates_formatting_of :image, using: :url
-  validates :image, format: { with: /\.(png|jpg|jpeg|)\z/,
+  validates :image_old, presence: true, uniqueness: true
+  validates_formatting_of :image_old, using: :url
+  validates :image_old, format: { with: /\.(png|jpg|jpeg|)\z/,
                               message: 'must be .png, .jpg, or .jpeg' }
   validates :description, presence: true, length: { in: 150..500}, 
                           uniqueness: true
   validates :thing_category, presence: true
 
-  auto_html_for :image do
+  auto_html_for :image_old do
     html_escape
     image
   end
@@ -22,6 +24,7 @@ class Thing < ActiveRecord::Base
   rails_admin do
     object_label_method :thing
     navigation_label 'Daily Items'
+    configure :image, :jcrop
     configure :thing_category do
       label 'Category'
       column_width 120
@@ -40,44 +43,41 @@ class Thing < ActiveRecord::Base
     end
 
     edit do
-      include_fields :thing_category, :thing, :description, :image, 
+      include_fields :thing_category, :thing, :description, :image,
                      :published, :reviewed do
         read_only do
           bindings[:object].is_read_only?
         end
       end
-      field :image_html do
-        label 'Image'
-        read_only true
-        visible false
-        help false
+      field :image do
+        jcrop_options aspectRatio: 400.0/300.0
+        fit_image true
       end
-      include_fields :notes
-      configure :image do
-        label 'Image URL'
-        help 'Required. Use an image url here.'
-      end
-      configure :reviewed do
-        visible do
-          bindings[:object].reviewable? && !bindings[:object].reviewed?
+      field :remote_image_url do
+        label 'Or Image URL'
+        read_only do
+          bindings[:object].is_read_only?
         end
+      end
+      field :image_old do
+        read_only true
       end
       configure :published do
         visible do
           bindings[:object].reviewed? 
         end
       end
-    end
-
-    update do
-      field :image_html do
-        visible true
+      configure :reviewed do
+        visible do
+          bindings[:object].reviewable? && !bindings[:object].reviewed?
+        end
       end
+      include_fields :notes
     end
 
     show do
       include_fields :thing_category, :thing
-      field :image_html
+      field :image_old_html
       include_fields :description, :creator
     end
   end
@@ -87,10 +87,14 @@ class Thing < ActiveRecord::Base
       self.thing_category.category
     end
 
+    def display_image
+      self.image.present? ? self.image_url(:display).to_s : self.image_old
+    end
+
   private
     def sanitize
       Sanitize.clean!(self.thing)
       Sanitize.clean!(self.description)
-      Sanitize.clean!(self.image)
+      Sanitize.clean!(self.image_old)
     end
 end

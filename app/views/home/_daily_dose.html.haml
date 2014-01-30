@@ -24,7 +24,7 @@
     - if @thing.present?
       #thing_otd.daily_dose_item
         .right_label THING OF THE DAY
-        .daily_dose_image= @thing.image_html
+        .daily_dose_image= image_tag @thing.display_image
         .right_name= @thing.thing
         .right_description.text= @thing.description
     - if @position.present?
