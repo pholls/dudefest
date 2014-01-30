@@ -144,8 +144,7 @@ class Article < ActiveRecord::Base
     end
 
     def self.public
-      self.order(date: :desc, author_id: :asc)
-          .select { |article| article.public? }
+      self.order(date: :desc, author_id: :asc).select { |a| a.public? }
     end
 
   private
