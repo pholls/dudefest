@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140130042301) do
+ActiveRecord::Schema.define(version: 20140130054215) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -65,6 +65,7 @@ ActiveRecord::Schema.define(version: 20140130042301) do
     t.datetime "updated_at"
     t.string   "publish_days"
     t.date     "start_date"
+    t.string   "image"
   end
 
   create_table "credits", force: true do |t|
@@ -228,7 +229,7 @@ ActiveRecord::Schema.define(version: 20140130042301) do
 
   create_table "things", force: true do |t|
     t.string   "thing"
-    t.string   "image"
+    t.string   "image_old"
     t.text     "description"
     t.date     "date"
     t.integer  "thing_category_id"
@@ -241,6 +242,7 @@ ActiveRecord::Schema.define(version: 20140130042301) do
     t.datetime "updated_at"
     t.boolean  "published"
     t.datetime "published_at"
+    t.string   "image"
   end
 
   add_index "things", ["thing_category_id"], name: "index_things_on_thing_category_id", using: :btree
