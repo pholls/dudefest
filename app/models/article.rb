@@ -11,12 +11,12 @@ class Article < ActiveRecord::Base
   belongs_to :editor, class_name: 'User'
   belongs_to :movie, inverse_of: :review
 
-  validates_associated :column
   validates_associated :author
   validates_associated :editor, allow_blank: true
   validates :column, presence: true
   validates :title, presence: true, uniqueness: true, length: { in: 8..70 }
   validates :body, presence: true, uniqueness: true, length: { in: 300..10000 }
+  validates :column, presence: true
 
   rails_admin do
     object_label_method :title
