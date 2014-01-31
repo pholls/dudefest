@@ -10,7 +10,7 @@ class Ability
 
       items = [Tip, Event, Position, Thing, DailyVideo, Rating, Quote]
       creatable_items = items
-      creatable_items << Article << Movie << NameVariant
+      creatable_items << Article << Movie << NameVariant << Dude
       readable_items = creatable_items
       readable_items << ThingCategory << User << Column << Genre << NameVariant
 
