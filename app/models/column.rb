@@ -15,12 +15,6 @@ class Column < ActiveRecord::Base
                            length: { in: 1..7 }, 
                            format: { with: /\A[1-7]+\z/,
                                      message: 'must be days of the week' }
-  validates :default_image, presence: true, uniqueness: true
-
-  auto_html_for :default_image do
-    html_escape
-    image
-  end
 
   rails_admin do
     object_label_method :short_name
@@ -59,14 +53,10 @@ class Column < ActiveRecord::Base
       field :remote_image_url do
         label 'Or Image URL'
       end
-      field :default_image do
-        read_only true
-      end
     end
 
     show do
       include_fields :column, :short_name, :columnist
-      field :default_image_html
     end
   end
 

@@ -129,11 +129,7 @@ class Article < ActiveRecord::Base
       elsif self.image_old.present?
         self.image_old 
       else
-        if self.column.image.present?
-          self.image_url(:display).to_s
-        else
-          self.column.default_image
-        end
+        self.image_url(:display).to_s
       end
     end
 
