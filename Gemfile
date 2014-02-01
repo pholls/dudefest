@@ -26,6 +26,7 @@ gem 'unf'
 gem 'carrierwave_backgrounder'
 gem 'sidekiq'
 gem 'sanitize'
+gem 'unicorn'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0'
