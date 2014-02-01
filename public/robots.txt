@@ -5,4 +5,4 @@
 # Disallow: /
 #Sitemap: http://www.dudefest.com/sitemap.xml.gz
 # Try S3
-Sitemap: http://s3.amazonaws.com/sitemap-generator/sitemaps/sitemap.xml.gz
+Sitemap: http://dudefest.s3.amazonaws.com/sitemaps/sitemap.xml.gz
