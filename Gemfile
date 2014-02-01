@@ -25,6 +25,7 @@ gem 'fog'
 gem 'unf'
 gem 'carrierwave_backgrounder'
 gem 'sidekiq'
+gem 'sitemap_generator'
 gem 'sanitize'
 gem 'unicorn'
 

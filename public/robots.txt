@@ -3,3 +3,6 @@
 # To ban all spiders from the entire site uncomment the next two lines:
 # User-agent: *
 # Disallow: /
+#Sitemap: http://www.dudefest.com/sitemap.xml.gz
+# Try S3
+Sitemap: http://s3.amazonaws.com/sitemap-generator/sitemaps/sitemap.xml.gz
