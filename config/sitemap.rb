@@ -1,6 +1,6 @@
 # Set the host name for URL creation
 SitemapGenerator::Sitemap.default_host = 'http://www.dudefest.com'
-SitemapGenerator::Sitemap.sitemaps_host = 'http://s3.amazonaws.com/sitemap-generator/'
+SitemapGenerator::Sitemap.sitemaps_host = 'http://dudefest.s3.amazonaws.com/'
 SitemapGenerator::Sitemap.public_path = 'tmp/'
 SitemapGenerator::Sitemap.sitemaps_path = 'sitemaps/'
 SitemapGenerator::Sitemap.adapter = SitemapGenerator::WaveAdapter.new
