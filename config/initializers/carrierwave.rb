@@ -1,7 +1,6 @@
 CarrierWave.configure do |config|
   config.cache_dir = '#{Rails.root}/tmp'
   Rails.env.production? ? config.storage = :fog : config.storage = :file
-  #config.storage = :fog
   config.fog_credentials = {
     provider: 'AWS',
     aws_access_key_id: ENV['S3_KEY'],
