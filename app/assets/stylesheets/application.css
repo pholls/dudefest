@@ -374,6 +374,13 @@ td.daily_dose_close_quote {
   line-height: 140%;
 }
 
+.text img {
+  display: block;
+	margin: 0px auto;
+  max-width: 350px;
+  max-height: 350px;
+}
+
 .text p {
   margin: 0px;
   padding: 0px;

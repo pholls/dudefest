@@ -63,7 +63,10 @@ class Article < ActiveRecord::Base
       field :image_old do
         read_only true
       end
-      field :body, :ck_editor
+      # field :body, :ck_editor
+      field :body, :rich_editor do
+        config( { insert_many: true } )
+      end
       field :byline, :wysihtml5 do
         bootstrap_wysihtml5_config_options emphasis: false, lists: false,
                                            image: false, :'font-styles' => false

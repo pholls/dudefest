@@ -1,0 +1,45 @@
+/*	
+	This file defines the default set of CSS styles available in the Rich editor
+*/
+
+body {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  line-height: 140%;
+  color: #333333;
+  background-color: #E0E0E0;
+  max-width: 680px;
+  margin: 0px auto;
+  padding: 5px;
+}
+
+
+p.caption {
+	font-style: italic;
+	color: grey;
+}
+
+span.highlight {
+	background: yellow;
+}
+
+img {
+  display: block;
+	margin: 0px auto;
+  width: 300px;
+  max-width: 350px;
+  max-height: 350px;
+}
+
+ol {
+  margin: 0px;
+  padding-left: 20px;
+}
+
+ol li {
+  padding-left: 10px;
+}
+
+p { 
+  margin: 0px;
+  padding: 0px;
+}

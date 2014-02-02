@@ -1,3 +1,15 @@
+GIT
+  remote: https://github.com/bastiaanterhorst/rich.git
+  revision: ff14a9f91658df0ff46028c5b510c13b9ac6a2b0
+  specs:
+    rich (1.4.7)
+      jquery-rails
+      kaminari
+      mime-types
+      rack-raw-upload
+      rails (>= 3.2.0)
+      sass-rails
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -122,6 +134,8 @@ GEM
     rack-pjax (0.7.0)
       nokogiri (~> 1.5)
       rack (~> 1.3)
+    rack-raw-upload (1.1.1)
+      multi_json
     rack-test (0.6.2)
       rack (>= 1.0)
     rails (4.0.2)
@@ -256,6 +270,7 @@ DEPENDENCIES
   rails_12factor
   rails_admin
   rails_admin_jcrop
+  rich!
   sanitize
   sass-rails (~> 4.0.0)
   sdoc

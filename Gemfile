@@ -28,6 +28,7 @@ gem 'sidekiq'
 gem 'sitemap_generator'
 gem 'sanitize'
 gem 'unicorn'
+gem 'rich', git: 'https://github.com/bastiaanterhorst/rich.git'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0'
