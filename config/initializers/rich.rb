@@ -15,6 +15,9 @@ if Object.const_defined?("Rich")
     config.editor[:forcePasteAsPlainText] = false
     config.editor[:removePlugins] = 'menubutton,image,forms,elementspath'
     config.allow_embeds = true
+    config.image_styles = {
+      :thumb => "100x100#"
+    }
     # == Backend configuration
     # Rich uses Paperclip (https://github.com/thoughtbot/paperclip) by default.
     # You will need to add it to your Gemfile, however.
@@ -48,10 +51,6 @@ if Object.const_defined?("Rich")
     # When you change these after uploading some files,
     # remember to re-generate your styles by running:
     #   rake rich:refresh_assets
-    config.image_styles = {
-      :thumb => "100x100#"
-    }
-
     # == Convert options
     #
     # You can pass additional commands to ImageMagick to set image quality,
@@ -78,7 +77,7 @@ if Object.const_defined?("Rich")
     # The style to insert by default. In addition to the
     # styles defined above you can also use :original to get 
     # the unprocessed file. Make sure this style exists.
-    config.default_style = :thumb
+    config.default_style = :original
 
 	# == Upload non-image files
 	#
