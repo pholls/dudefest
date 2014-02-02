@@ -8,8 +8,11 @@
  * You're free to add application-wide styles to this file and they'll appear at the top of the
  * compiled file, but it's generally better to create a new file per style scope.
  *
+ * NOTE NOTE NOTE NOTE below we only require directory, but we might need to
+ * require the tree later. NOTE NOTE NOTE NOTE NOTE
+ *
  *= require_self
- *= require_tree .
+ *= require_directory
  */
 html {
   margin: 0px;
