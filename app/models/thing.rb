@@ -8,10 +8,11 @@ class Thing < ActiveRecord::Base
   belongs_to :thing_category, inverse_of: :things
 
   validates :thing, presence: true, length: { in: 3..26 }, uniqueness: true
-  validates :image_old, presence: true, uniqueness: true
-  validates_formatting_of :image_old, using: :url
-  validates :image_old, format: { with: /\.(png|jpg|jpeg|)\z/,
-                              message: 'must be .png, .jpg, or .jpeg' }
+  # No longer a thing
+  #validates :image_old, presence: true, uniqueness: true
+  #validates_formatting_of :image_old, using: :url
+  #validates :image_old, format: { with: /\.(png|jpg|jpeg|)\z/,
+  #                            message: 'must be .png, .jpg, or .jpeg' }
   validates :description, presence: true, length: { in: 150..500}, 
                           uniqueness: true
   validates :thing_category, presence: true
@@ -48,6 +49,17 @@ class Thing < ActiveRecord::Base
         read_only do
           bindings[:object].is_read_only?
         end
+      end
+      configure :description do
+        help ('Required. Between 150 and 500.<br>'\
+              'That gives you a lot of room to wiggle. The generally agreed '\
+              'upon form is to make this a definition.<br>Start your '\
+              'description with the name of the thing because there '\
+              'will be a picture separating it from the entry’s title.<br>'\
+              'Make sure that if you’re using a first person pronoun '\
+              'use "we" instead of "I" because Dudefest.com speaks '\
+              'with one voice.<br>Make sure you have a punchline in mind '\
+              'when you start your entry.').html_safe
       end
       field :image do
         jcrop_options aspectRatio: 400.0/300.0

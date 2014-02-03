@@ -32,7 +32,11 @@ class Tip < ActiveRecord::Base
       include_fields :notes
       configure :tip do
         label 'Put your tip in'
-        help 'Required. Between 10 and 200 characters.'
+        help 'Required. Between 10 and 200 characters. '\
+             'Keep the tips short and sweet. A piece of advice or a '\
+             'question leading off makes them very strong, followed '\
+             'by no more than two sentences to '\
+             'explain how to achieve the desired outcome.'
       end
       configure :reviewed do
         visible do
@@ -50,5 +54,13 @@ class Tip < ActiveRecord::Base
   private
     def sanitize
       Sanitize.clean!(self.tip)
+    end
+
+    def tip_help
+      'Required. Between 10 and 200 characters. '\
+      'I think just the tip of the day is a pretty strong category. I '\
+      'really like keeping the tips short and sweet. A piece of advice or a '\
+      'question leading off makes them very strong, followed by no more '\
+      'than two sentences to explain how to achieve the desired outcome.'
     end
 end

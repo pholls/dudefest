@@ -34,9 +34,33 @@ class Event < ActiveRecord::Base
           bindings[:object].is_read_only?
         end
       end
+      configure :event do
+        help ('Required. Between 40 and 150 characters. '\
+              'There are a few ways to tackle a historical event.<br>'\
+              '<b>1. The way it\'s phrased:</b><br>'\
+              '"Current U.S. President Bill Clinton does not have '\
+              'sexual relations with that woman for the first time."<br>'\
+              '<b>2. Random joke at the end because you can\'t think of '\
+              'anything:</b><br>'\
+              '"Mahatma Gandhi begins his final fast for the Indian '\
+              'independence. Hunger, more like shmunger."<br>'\
+              '<b>3. No joke necessary, because it’s just so goddamn '\
+              'dudefest:</b><br>'\
+              '"Mountaineer Aron Ralston cuts off his own arm to free '\
+              'himself from a canyon in Blue John Canyon in Utah after '\
+              'being trapped under a boulder for five days."<br>'\
+              '<b>4. Effect of the event:</b><br>'\
+              '"Women\'s Beach Volleyball debuts as an Olympic Sport in '\
+              'Atlanta. The bikini is finally recognized as athletic wear."')
+             .html_safe
+      end
+      configure :link do
+        help 'Required. Make sure the link has enough content to read, '\
+             'but mentions the event.'
+      end
       include_fields :notes
       configure :date do
-        help 'Required. Enter date as YYYY-MM-DD'
+        help 'Required. Enter date as YYYY-MM-DD.'
         date_format :default
       end
       configure :reviewed do

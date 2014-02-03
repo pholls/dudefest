@@ -11,6 +11,9 @@ class User < ActiveRecord::Base
 
   validates :username, presence: true, length: { in: 4..28 }, uniqueness: true
   validates :name, presence: true, length: { in: 6..40 }
+  validates :byline, presence: true, uniqueness: true
+  validates :role, presence: true, uniqueness: true
+  validates :password, presence: true
 
   has_many :tips, foreign_key: 'creator_id'
   has_many :events, foreign_key: 'creator_id'
@@ -79,6 +82,9 @@ class User < ActiveRecord::Base
       field :byline, :wysihtml5 do
         bootstrap_wysihtml5_config_options emphasis: false, lists: false,
                                            image: false, :'font-styles' => false
+        help ('Required. Dudes need a byline. Just a bit about yourself.<br>'\
+              'In any article you write, the byline will default to this.'
+             ).html_safe
       end
     end
   end

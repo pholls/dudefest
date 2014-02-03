@@ -35,6 +35,15 @@ class Rating < ActiveRecord::Base
       configure :creator do
         read_only true
       end
+      configure :body do
+        help ('Required. Between 10 and 500 characters.<br>'\
+              'Try to say something that wasn\'t said in the review, '\
+              'or in any of the other ratings.<br>'\
+              'Feel free to poke fun at another one of the writers, '\
+              'especially if they gave a movie a rating you disagree '\
+              'with.<br>'\
+              'Make sure you have a punchline in mind.').html_safe
+      end
       include_fields :movie, :body, :rating, :reviewed do
         read_only do
           bindings[:object].class == Rating && bindings[:object].is_read_only?

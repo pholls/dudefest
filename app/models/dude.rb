@@ -13,6 +13,13 @@ class Dude < ActiveRecord::Base
     list do
       sort_by :name
     end
+
+    edit do
+      configure :name do
+        help 'Required. Should be the actual name of the dude. '\
+             'Keep it consistent bros.'
+      end
+    end
   end
 
   private

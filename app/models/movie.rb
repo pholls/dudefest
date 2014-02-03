@@ -11,9 +11,11 @@ class Movie < ActiveRecord::Base
 
   validates_associated :review
   validates_associated :genres
+  validates_associated :ratings
   validates_associated :name_variants
   validates :title, presence: true, uniqueness: true, length: { in: 3..60 }
   validates :release_date, :review, :genres, :ratings, presence: true
+  validates :name_variants, presence: true
 
   accepts_nested_attributes_for :review, :ratings, :credits
 
@@ -44,6 +46,20 @@ class Movie < ActiveRecord::Base
 
     edit do
       include_fields :title, :release_date, :genres, :name_variants
+      configure :release_date do
+        help 'Required. Should be the U.S. release date.'
+      end
+      configure :genres do
+        help ('Required. Try to do at most two genres.<br>'\
+              'Three is acceptable, but should be used sparingly.').html_safe
+      end
+      configure :name_variants do
+        help ('Required. If there aren\'t any dudes in it, put N/A.<br>'\
+              'If there are dudes in it, list them in order of importance.<br>'\
+              'Feel free to list nicknames or pseudonyms or what not.<br>'\
+              'Like Sir Nicholas Cage, The Fresh Prince, The guy from '\
+              '_______, etc.').html_safe
+      end
       include_fields :review, :ratings do
         active true
       end

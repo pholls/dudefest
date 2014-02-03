@@ -38,6 +38,17 @@ class Position < ActiveRecord::Base
           bindings[:object].is_read_only?
         end
       end
+      configure :position do
+        help 'Required. Length between 3 and 32. Must start with "The".'
+      end
+      configure :description do
+        help ('Required. Length between 45 and 500. Should start with:<br>'\
+              '"So you\'re doin\' a girl, preferably in the ace",<br>'\
+              '"So you\'re doin\' a dude, definitely in the ace", or<br>'\
+              '"So a girl\'s doin\' another girl, somehow in the ace".<br>'\
+              'Description should be vivid and preferably not rapey (Finkle).'
+             ).html_safe
+      end
       include_fields :notes 
       configure :reviewed do
         visible do

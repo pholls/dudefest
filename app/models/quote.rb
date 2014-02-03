@@ -35,6 +35,18 @@ class Quote < ActiveRecord::Base
           bindings[:object].is_read_only?
         end
       end
+      configure :quote do
+        help 'Required. Between 20 and 500 characters.'\
+             'Try and make it funny dudes.'\
+      end
+      configure :context do
+        help ('Optional. At most 100 characters.<br>'\
+              'Use context to enhance the quote if possible.<br>'\
+              'The Ryan Leaf quote is an example of context.').html_safe
+      end
+      configure :source do
+        help 'Optional. Length up to 255. Helps verify the link.'
+      end
       include_fields :notes
       configure :reviewed do
         visible do

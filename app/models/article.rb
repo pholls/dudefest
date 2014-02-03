@@ -66,10 +66,13 @@ class Article < ActiveRecord::Base
       # field :body, :ck_editor
       field :body, :rich_editor do
         config( { insert_many: true } )
+        help 'Required. This is where your actual article goes dumbass.'
       end
       field :byline, :wysihtml5 do
         bootstrap_wysihtml5_config_options emphasis: false, lists: false,
                                            image: false, :'font-styles' => false
+        help 'Optional. If you don\'t want to use your default byline for '\
+             'this article, then fill one out here.'
       end
       field :finalized do
         visible do
