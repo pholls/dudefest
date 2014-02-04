@@ -389,6 +389,19 @@ td.daily_dose_close_quote {
   padding: 0px;
 }
 
+.text p.image_caption {
+  font-size: 0.75em;
+  margin-bottom: 1em;
+  text-align: center;
+}
+
+.text p.image_source {
+  font-size: 0.65em;
+  margin-bottom: 1em;
+  text-align: right;
+  margin-right: 160px;
+}
+
 .text ol {
   margin: 0px;
   padding-left: 20px;

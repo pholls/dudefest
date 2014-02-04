@@ -13,9 +13,17 @@ body {
 }
 
 
-p.caption {
-	font-style: italic;
-	color: grey;
+div.image_source {
+  margin-bottom: 1em;
+  font-size: 0.65em;
+  text-align: right;
+  margin-right: 160px;
+}
+
+div.image_caption {
+  margin-bottom: 1em;
+  font-size: 0.75em;
+  text-align: center;
 }
 
 span.highlight {

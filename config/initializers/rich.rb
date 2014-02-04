@@ -12,7 +12,7 @@ if Object.const_defined?("Rich")
         '-', 'Link', 'Unlink'],
        ['Scayt', 'Preview', 'Maximize']]
     config.editor[:startupOutlineBlocks] = false
-    config.editor[:forcePasteAsPlainText] = false
+    config.editor[:forcePasteAsPlainText] = true
     config.editor[:removePlugins] = 'menubutton,image,forms,elementspath'
     config.allow_embeds = true
     config.image_styles = {
