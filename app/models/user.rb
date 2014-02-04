@@ -13,7 +13,6 @@ class User < ActiveRecord::Base
   validates :name, presence: true, length: { in: 6..40 }
   validates :byline, presence: true, uniqueness: true
   validates :role, presence: true
-  validates :password, presence: true
 
   has_many :tips, foreign_key: 'creator_id'
   has_many :events, foreign_key: 'creator_id'
