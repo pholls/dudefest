@@ -107,6 +107,6 @@ class Thing < ActiveRecord::Base
     def sanitize
       Sanitize.clean!(self.thing)
       Sanitize.clean!(self.description)
-      Sanitize.clean!(self.image_old)
+      Sanitize.clean!(self.image_old) if self.image_old.present?
     end
 end
