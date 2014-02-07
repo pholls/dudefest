@@ -196,7 +196,7 @@ class Article < ActiveRecord::Base
 
     def sanitize
       Sanitize.clean!(self.title)
-      Sanitize.clean!(self.body, Sanitize::Config::RELAXED)
+      # Sanitize.clean!(self.body, Sanitize::Config::RELAXED)
       if self.byline.present?
         Sanitize.clean!(self.byline, Sanitize::Config::BASIC)
       end
