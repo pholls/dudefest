@@ -4,5 +4,5 @@
     .article_type= link_to article.type, column_path(article.column)
   .article_info
     .article_title= link_to article.display_title, article_path(article)
-    .article_author= 'By ' + article.author.name
+    .article_author= 'By ' + article.display_authors
     .article_date= article.display_date

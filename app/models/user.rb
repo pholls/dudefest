@@ -19,13 +19,17 @@ class User < ActiveRecord::Base
   has_many :daily_videos, foreign_key: 'creator_id'
   has_many :things, foreign_key: 'creator_id'
   has_many :positions, foreign_key: 'creator_id'
-  has_many :articles, foreign_key: 'author_id'
+  has_many :article_authors, foreign_key: 'author_id', dependent: :destroy,
+                             inverse_of: :author
+  has_many :articles, through: :article_authors
+  has_many :created_articles, foreign_key: 'creator_id', class_name: 'Article'
   has_many :ratings, foreign_key: 'creator_id'
   has_many :quotes, foreign_key: 'creator_id'
 
   rails_admin do
     object_label_method :username
     navigation_label 'Users'
+
     list do
       sort_by :username
       include_fields :username, :role, :tips_count, :daily_videos_count
@@ -34,7 +38,6 @@ class User < ActiveRecord::Base
       field :reviews_count do
         sortable true
       end
-
       configure :role do
         visible do
           User.current.role?(:admin)

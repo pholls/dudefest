@@ -2,7 +2,7 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
-    # user ||= User.new
+    # user ||= User.new(role: 'reader')
 
     if user && user.role?(:writer)
       can :access, :rails_admin

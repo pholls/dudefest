@@ -22,10 +22,6 @@ class Movie < ActiveRecord::Base
   rails_admin do
     object_label_method :title
     navigation_label 'Movies'
-    configure :name_variants do
-      label 'Dudes'
-      orderable true
-    end
     configure :credits do
       visible false
     end
@@ -54,13 +50,22 @@ class Movie < ActiveRecord::Base
               'Three is acceptable, but should be used sparingly.').html_safe
       end
       configure :name_variants do
+        label 'Dudes'
+        orderable true
         help ('Required. If there aren\'t any dudes in it, put N/A.<br>'\
               'If there are dudes in it, list them in order of importance.<br>'\
               'Feel free to list nicknames or pseudonyms or what not.<br>'\
               'Like Sir Nicholas Cage, The Fresh Prince, The guy from '\
               '_______, etc.').html_safe
       end
-      include_fields :review, :ratings do
+      include_fields :review, :ratings
+      configure :review do
+        active true
+        default_value do
+          Article.new
+        end
+      end
+      configure :ratings do
         active true
       end
     end
@@ -77,7 +82,7 @@ class Movie < ActiveRecord::Base
 
     def author_and_date
       r = self.review
-      'Reviewed by ' + r.author.name + ' on ' + r.display_date
+      'Reviewed by ' + r.display_authors + ' on ' + r.display_date
     end
 
     def average_rating

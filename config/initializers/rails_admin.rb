@@ -2,6 +2,9 @@
 # See github.com/sferik/rails_admin for more informations
 
 RailsAdmin.config do |config|
+  config.authenticate_with do
+    warden.authenticate! scope: :user
+  end
   config.authorize_with :cancan
 
   INCLUDED = %w(User Tip Event Position ThingCategory Thing DailyVideo Article

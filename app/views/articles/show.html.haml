@@ -7,7 +7,7 @@
       #article_image>= image_tag @article.display_image
       #article_info
         #article_title= @article.title
-        #article_author= @article.author.name
+        #article_author= @article.display_authors
         #article_date= display(@article.date)
     #article_body.text= @article.body.html_safe
     #byline.text

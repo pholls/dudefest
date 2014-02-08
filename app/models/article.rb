@@ -3,28 +3,40 @@ class Article < ActiveRecord::Base
   mount_uploader :image, ImageUploader
   process_in_background :image
 
+  after_initialize :initialize_article, on: :new
   before_validation :determine_status
   before_validation :sanitize
 
   belongs_to :column, inverse_of: :articles, counter_cache: true
-  belongs_to :author, class_name: 'User', counter_cache: true
+  belongs_to :creator, class_name: 'User'
   belongs_to :editor, class_name: 'User'
   belongs_to :movie, inverse_of: :review
+  has_many :article_authors, dependent: :destroy, inverse_of: :article,
+                             autosave: true
+  has_many :authors, through: :article_authors
 
-  validates_associated :author
+  validates_associated :creator
   validates_associated :editor, allow_blank: true
-  validates :column, presence: true
+  validates_associated :authors
   validates :title, presence: true, uniqueness: true, length: { in: 8..70 }
   validates :body, presence: true, uniqueness: true, length: { in: 300..15000 }
-  validates :column, presence: true
+  validates :column, :creator, presence: true
+  validates :authors, presence: true, on: :update
+  validate :creator_is_author
+
+  accepts_nested_attributes_for :article_authors
 
   rails_admin do
     object_label_method :title
     navigation_label 'Articles'
     configure :image, :jcrop
+    configure :article_authors do
+      visible false
+    end
+
     list do
-      sort_by 'status, date, created_at'
-      include_fields :date, :column, :title, :author, :status
+      sort_by 'status, date desc, created_at'
+      include_fields :date, :column, :title, :authors, :status
       configure :date do
         strftime_format '%Y-%m-%d'
         column_width 75
@@ -46,12 +58,12 @@ class Article < ActiveRecord::Base
         end
       end
       include_fields :column, :title do
-        visible do
-          bindings[:object].class == Article && bindings[:object].movie.nil?
-        end
         read_only do
           bindings[:object].movie.present?
         end
+      end
+      field :authors do
+        orderable true
       end
       field :image do
         jcrop_options aspectRatio: 400.0/300.0
@@ -76,18 +88,30 @@ class Article < ActiveRecord::Base
       end
       field :finalized do
         visible do
-          bindings[:object].class == Article && bindings[:object].finalizable?
+          bindings[:object].finalizable?
         end
       end
       field :published do
         visible do
-          bindings[:object].class == Article && bindings[:object].finalized?
+          bindings[:object].finalized?
         end
       end
     end
 
+    nested do
+      include_fields :column, :title, :authors do
+        visible false
+      end
+    end
+
+    create do
+      configure :authors do
+        visible false
+      end
+    end
+
     show do
-      include_fields :column, :title, :author, :status, :body
+      include_fields :column, :title, :authors, :status, :body
       configure :body do
         pretty_value do
           value.html_safe
@@ -140,11 +164,15 @@ class Article < ActiveRecord::Base
     end
 
     def display_byline
-      self.byline.blank? ? self.author.byline : self.byline
+      self.byline.blank? ? self.authors.map(&:byline).join('') : self.byline
+    end
+
+    def display_authors
+      self.authors.map(&:name).join(', ')
     end
 
     def author_and_date
-      'By ' + @article.author.name + ' on ' + @article.display_date
+      'By ' + self.display_authors + ' on ' + self.display_date
     end
 
     def editor_or_admin?
@@ -157,15 +185,40 @@ class Article < ActiveRecord::Base
     end
 
     def self.public
-      self.order(date: :desc, author_id: :asc).select { |a| a.public? }
+      self.order(date: :desc, creator_id: :asc).select { |a| a.public? }
+    end
+
+    def author_ids=(ids)
+      ids = ids.map(&:to_i).select { |i| i > 0 }
+      #ids |= [User.current.id] if self.new_record?
+      unless ids == (current_ids = article_authors.map(&:author_id)) 
+        (current_ids - ids).each { |id|
+          article_authors.select { |aa|
+            aa.author_id == id 
+          }.first.mark_for_destruction
+        }
+        ids.each_with_index do |id, i|
+          if current_ids.include? (id)
+            article_authors.select { |aa| aa.author_id == id }.first.position = (i + 1)
+          else
+            article_authors.build( { author_id: id, position: (i + 1) } )
+          end
+        end
+      end
     end
 
   private
+    def initialize_article
+      if self.new_record?
+        self.creator ||= User.current
+        self.article_authors.build(author: User.current, position: 1)
+      end
+    end
+
     def determine_status
       if self.new_record?
         self.finalized = self.published = false
         self.status = '1 - Created'
-        self.author = User.current
         self.editor = set_editor
       elsif self.published?
         self.status = '5 - Published'
@@ -180,9 +233,16 @@ class Article < ActiveRecord::Base
         self.status = '2 - Edited'
         self.editor ||= User.current
         self.edited_at = Time.now
-      elsif self.status?('2 - Edited') && self.author == User.current
+      elsif self.status?('2 - Edited') && self.creator == User.current
         self.status = '3 - Responded'
         self.responded_at = Time.now
+      end
+    end
+
+    def creator_is_author
+      unless article_authors.select { |aa| !aa.marked_for_destruction? }
+                            .select { |aa| aa.author == self.creator }.present?
+        errors.add(:authors, 'need to include the original author')
       end
     end
 
