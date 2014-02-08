@@ -81,9 +81,7 @@ class User < ActiveRecord::Base
           User.current.role? :admin
         end
       end
-      field :byline, :wysihtml5 do
-        bootstrap_wysihtml5_config_options emphasis: false, lists: false,
-                                           image: false, :'font-styles' => false
+      field :byline, :ck_editor do
         help ('Required. Dudes need a byline. Just a bit about yourself.<br>'\
               'In any article you write, the byline will default to this.'
              ).html_safe

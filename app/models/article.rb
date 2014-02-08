@@ -75,14 +75,11 @@ class Article < ActiveRecord::Base
       field :image_old do
         read_only true
       end
-      # field :body, :ck_editor
       field :body, :rich_editor do
-        config( { insert_many: true } )
+        config( { insert_many: true, allow_embed: true } )
         help 'Required. This is where your actual article goes dumbass.'
       end
-      field :byline, :wysihtml5 do
-        bootstrap_wysihtml5_config_options emphasis: false, lists: false,
-                                           image: false, :'font-styles' => false
+      field :byline, :ck_editor do
         help 'Optional. If you don\'t want to use your default byline for '\
              'this article, then fill one out here.'
       end
@@ -164,7 +161,7 @@ class Article < ActiveRecord::Base
     end
 
     def display_byline
-      self.byline.blank? ? self.authors.map(&:byline).join('') : self.byline
+      self.byline.blank? ? self.authors.map(&:byline).join('<br>') : self.byline
     end
 
     def display_authors
