@@ -22,18 +22,25 @@
       width: 330px;
       display: inline-block;
       vertical-align: top;
+      height: 250px;
+      position: relative;
 
       #article_title {
-        font-size: 2em;
+        font-size: 1.75em;
       }
 
       #article_author {
         margin-top: .5em;
-        font-size: 1.25em; 
+        font-size: 1.15em; 
       }
 
       #article_date {
-        margin-top: 1em;
+        margin-top: .5em;
+      }
+
+      #article_shares {
+        position: absolute;
+        bottom: 0px;
       }
     }
   }
@@ -46,4 +53,49 @@
   #article_bottom {
     min-height: 40px;
   }
+}
+
+nav.share {
+  display:inline-block;
+  margin: 0px auto;
+}
+
+nav.share div {
+  display: inline-block;
+  overflow:hidden;
+}
+
+nav.share iframe {
+  border: 0px; 
+  margin-top: 0px; 
+  padding-top: 0px;
+} 
+
+#___plusone_0 {
+  max-width: 70px; 
+  font-size: default;
+}
+
+.twitter-share-button, .twitter-count-horizontal {
+  max-width: 80px;
+}
+
+.fb_iframe_widget span { 
+  vertical-align: top; 
+}
+
+.fb_edge_widget_with_comment { 
+  vertical-align: top;
+}
+
+.fb-like{
+  display:inline-block
+}
+
+* html .fb-like{
+  display:inline
+}
+
+*+html .fb-like{
+  display:inline
 }

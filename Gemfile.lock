@@ -194,6 +194,9 @@ GEM
     sdoc (0.4.0)
       json (~> 1.8)
       rdoc (~> 4.0, < 5.0)
+    shareable (0.0.3)
+      actionpack (>= 3.0.0)
+      activesupport (>= 3.0.0)
     sidekiq (2.17.4)
       celluloid (>= 0.15.2)
       connection_pool (>= 1.0.0)
@@ -271,6 +274,7 @@ DEPENDENCIES
   sanitize
   sass-rails (~> 4.0.0)
   sdoc
+  shareable
   sidekiq
   simple_form
   sitemap_generator

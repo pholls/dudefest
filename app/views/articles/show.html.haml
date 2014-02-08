@@ -9,6 +9,7 @@
         #article_title= @article.title
         #article_author= @article.display_authors
         #article_date= display(@article.date)
+        #article_shares= render_shareable title: @article.display_title
     #article_body.text= @article.body.html_safe
     #byline.text
       %i= @article.display_byline.html_safe

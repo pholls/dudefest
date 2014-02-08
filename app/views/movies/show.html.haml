@@ -1,4 +1,5 @@
 - content_for(:title, @movie.title)
+- meta_description strip_tags(@movie.review.body).html_safe
 
 #main_column.home_column
   #shit_to_read.main_top= @movie.title_with_year
@@ -18,7 +19,9 @@
           #name_variants_title.movie_info_title Dudes
           - @movie.name_variants.each do |name_variant|
             .name_variant.movie_info_item= name_variant.name_variant
-    .article_by_on= @movie.author_and_date
+    #movie_review_info>
+      .review_shares>= render_shareable title: @movie.review.display_title
+      .review_by_on= @movie.author_and_date.html_safe
     #article_body.text= @movie.review.body.html_safe
     #byline.text
       %i= @movie.review.display_byline.html_safe

@@ -82,7 +82,7 @@ class Movie < ActiveRecord::Base
 
     def author_and_date
       r = self.review
-      'Reviewed by ' + r.display_authors + ' on ' + r.display_date
+      'Reviewed by ' + r.display_authors + '<br>on ' + r.display_date
     end
 
     def average_rating
