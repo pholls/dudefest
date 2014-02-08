@@ -1,5 +1,5 @@
 Shareable.configure do |config|
-  config.names = %w[ facebook twitter google_plus pinterest reddit ]
+  config.names = %w[ facebook twitter google_plus reddit pinterest ]
 
   ##############
   #facebook
