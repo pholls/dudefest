@@ -88,14 +88,15 @@ nav.share iframe {
   vertical-align: top;
 }
 
-.fb-like{
-  display:inline-block
+.fb-like {
+  display: inline-block;
+  margin-bottom: -5px;
 }
 
 * html .fb-like{
-  display:inline
+  display: inline;
 }
 
 *+html .fb-like{
-  display:inline
+  display: inline;
 }
