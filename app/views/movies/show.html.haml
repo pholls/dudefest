@@ -5,7 +5,7 @@
   = tag :meta, property: 'og:image', 
                content: image_url(@movie.review.display_image)
   = tag :meta, property: 'og:description', 
-               content: strip_tags(@movie.review.body).html_safe
+               content: Sanitize.clean(@movie.review.body).html_safe
 
 #main_column.home_column
   #shit_to_read.main_top= @movie.title_with_year
