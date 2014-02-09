@@ -1,4 +1,9 @@
 - content_for(:title, @movie.title)
+- content_for :head do
+  = tag :meta, property: 'og:title', content: @movie.review.display_title
+  = tag :meta, property: 'og:url', content: movie_url(@movie)
+  = tag :meta, property: 'og:image', 
+               content: image_url(@movie.review.display_image)
 
 #main_column.home_column
   #shit_to_read.main_top= @movie.title_with_year
@@ -19,7 +24,8 @@
           - @movie.name_variants.each do |name_variant|
             .name_variant.movie_info_item= name_variant.name_variant
     #movie_review_info>
-      .review_shares>= render_shareable title: @movie.review.display_title
+      .review_shares>= render_shareable title: @movie.review.display_title,
+                                        text: @movie.review.display_title
       .review_by_on= @movie.author_and_date.html_safe
     #article_body.text= @movie.review.body.html_safe
     #byline.text

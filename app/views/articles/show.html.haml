@@ -1,4 +1,8 @@
 - content_for(:title, @article.title)
+- content_for :head do
+  = tag :meta, property: 'og:title', content: @article.title
+  = tag :meta, property: 'og:url', content: article_url(@article)
+  = tag :meta, property: 'og:image', content: image_url(@article.display_image)
 
 #main_column.home_column
   #shit_to_read.main_top= @article.column.column.upcase

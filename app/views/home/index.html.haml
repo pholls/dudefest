@@ -1,4 +1,9 @@
 - content_for(:title, 'Dudefest.com | The Home Of All Things Dudefest')
+- content_for :head do
+  = tag :meta, property: 'og:title', 
+               content: 'Dudefest.com | Home Of All Things Dudefest'
+  = tag :meta, property: 'og:url', content: root_url
+  = tag :meta, property: 'og:image', content: image_url('/DudefestSymbol.png')
 
 #main_column.home_column
   #top_articles
