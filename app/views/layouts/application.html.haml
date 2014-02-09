@@ -12,7 +12,10 @@
     = csrf_meta_tags
     %link{ rel: 'shortcut icon', href: '/Dudefest.ico' }
     = yield(:head)
-    %meta{ property: "og:image", content: '/DudefestSymbol.png' }
+    %meta{ property: 'og:image', 
+           content: 'http://www.dudefest.com/DudefestSymbol.png' }
+    %meta{ name: 'keywords', content: meta_keywords }
+    %meta{ name: 'description', content: meta_description }
   %body
     #header
       #top
