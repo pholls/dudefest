@@ -4,7 +4,7 @@ Shareable.configure do |config|
   ##############
   #facebook
   ##############
-  #config.app_id=''
+  config.app_id='406559946144903'
   #config.send= 'false'
   config.layout='box_count'
   #config.show_faces=''
