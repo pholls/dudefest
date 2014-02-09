@@ -4,6 +4,7 @@
   = tag :meta, property: 'og:url', content: movie_url(@movie)
   = tag :meta, property: 'og:image', 
                content: image_url(@movie.review.display_image)
+  = tag :meta, property: 'og:description', content: @movie.review.body
 
 #main_column.home_column
   #shit_to_read.main_top= @movie.title_with_year
