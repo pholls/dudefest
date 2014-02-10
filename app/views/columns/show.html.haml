@@ -1,9 +1,9 @@
 - content_for(:title, @column.column)
 - meta_description @column.description
 - content_for :head do
-  = tag :meta, property: 'og:title', content: @column.title
+  = tag :meta, property: 'og:title', content: @column.column
   = tag :meta, property: 'og:url', content: column_url(@column)
-  = tag :meta, property: 'og:image', content: column_url(@column.image)
+  = tag :meta, property: 'og:image', content: image_url(@column.image)
   = tag :meta, property: 'og:description', content: @column.description
 
 #main_column.home_column
