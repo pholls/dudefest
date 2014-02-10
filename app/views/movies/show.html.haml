@@ -1,4 +1,5 @@
 - content_for(:title, @movie.title)
+- meta_description Sanitize.clean(@movie.review.body).html_safe
 - content_for :head do
   = tag :meta, property: 'og:title', content: @movie.review.display_title
   = tag :meta, property: 'og:url', content: movie_url(@movie)

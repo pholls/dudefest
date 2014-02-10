@@ -1,4 +1,5 @@
 - content_for(:title, @article.title)
+- meta_description Sanitize.clean(@article.body).html_safe
 - content_for :head do
   = tag :meta, property: 'og:title', content: @article.title
   = tag :meta, property: 'og:url', content: article_url(@article)

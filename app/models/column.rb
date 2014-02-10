@@ -11,6 +11,7 @@ class Column < ActiveRecord::Base
   validates :column, presence: true, uniqueness: true, length: { in: 4..50 }
   validates :short_name, presence: true, uniqueness: true, length: { in: 3..10 }
   validates :start_date, presence: true
+  validates :description, presence: true, uniqueness: true
   validates :publish_days, presence: true, uniqueness: true, 
                            length: { in: 1..7 }, 
                            format: { with: /\A[1-7]+\z/,
