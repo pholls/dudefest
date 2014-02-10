@@ -46,7 +46,7 @@ class Column < ActiveRecord::Base
 
     edit do
       include_fields :column, :short_name, :columnist, :publish_days,
-                     :start_date
+                     :start_date, :description
       field :image do
         jcrop_options aspectRatio: 400.0/300.0
         fit_image true
@@ -57,7 +57,7 @@ class Column < ActiveRecord::Base
     end
 
     show do
-      include_fields :column, :short_name, :columnist
+      include_fields :column, :short_name, :columnist, :description
     end
   end
 
