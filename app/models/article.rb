@@ -85,7 +85,7 @@ class Article < ActiveRecord::Base
       end
       field :finalized do
         visible do
-          binding[:object].class == 'Article' && bindings[:object].finalizable?
+          bindings[:object].class == 'Article' && bindings[:object].finalizable?
         end
       end
       field :published do
