@@ -18,7 +18,7 @@ class Ability
       can :read, readable_items
       can :edit, items
       can :edit, Article do |article|
-        article.author == user && !article.finalized?
+        article.creator == user && !article.finalized?
       end
       can :edit, Movie do |movie|
         !movie.review.finalized?
