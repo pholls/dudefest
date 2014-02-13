@@ -15,7 +15,6 @@ class Movie < ActiveRecord::Base
   validates_associated :name_variants
   validates :title, presence: true, uniqueness: true, length: { in: 3..60 }
   validates :release_date, :review, :genres, :ratings, presence: true
-  validates :name_variants, presence: true
 
   accepts_nested_attributes_for :review, :ratings, :credits
 
