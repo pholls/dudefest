@@ -5,7 +5,7 @@ class Quote < ActiveRecord::Base
 
   belongs_to :dude, inverse_of: :quotes, counter_cache: true
 
-  validates :quote, presence: true, length: { in: 20..500 }, uniqueness: true
+  validates :quote, presence: true, length: { in: 8..500 }, uniqueness: true
   validates_associated :dude, allow_blank: true
   validates :context, length: { in: 0..100 }, allow_blank: true
   validates :year, numericality: { only_integer: true, less_than: 2015 },
@@ -36,7 +36,7 @@ class Quote < ActiveRecord::Base
         end
       end
       configure :quote do
-        help 'Required. Between 20 and 500 characters.'\
+        help 'Required. Between 8 and 500 characters.'\
              'Try and make it funny dudes.'\
       end
       configure :context do
