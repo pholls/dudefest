@@ -46,12 +46,12 @@ class Rating < ActiveRecord::Base
       end
       include_fields :movie, :body, :rating, :reviewed do
         read_only do
-          bindings[:object].class == 'Rating' && bindings[:object].is_read_only?
+          bindings[:object].class == Rating && bindings[:object].is_read_only?
         end
       end
       configure :reviewed do
         visible do
-          bindings[:object].class == 'Rating' && bindings[:object].reviewable?
+          bindings[:object].class == Rating && bindings[:object].reviewable?
         end
       end
     end

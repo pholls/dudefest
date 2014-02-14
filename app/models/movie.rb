@@ -60,9 +60,6 @@ class Movie < ActiveRecord::Base
       include_fields :review, :ratings
       configure :review do
         active true
-        default_value do
-          Article.new
-        end
       end
       configure :ratings do
         active true

@@ -59,7 +59,7 @@ class Article < ActiveRecord::Base
       end
       include_fields :column, :title do
         read_only do
-          bindings[:object].class == 'Article' && bindings[:object].movie.present?
+          bindings[:object].class == Article && bindings[:object].movie.present?
         end
       end
       field :authors do
@@ -85,12 +85,12 @@ class Article < ActiveRecord::Base
       end
       field :finalized do
         visible do
-          bindings[:object].class == 'Article' && bindings[:object].finalizable?
+          bindings[:object].class == Article && bindings[:object].finalizable?
         end
       end
       field :published do
         visible do
-          bindings[:object].class == 'Article' && bindings[:object].finalized?
+          bindings[:object].class == Article && bindings[:object].finalized?
         end
       end
     end
