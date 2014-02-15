@@ -42,7 +42,7 @@ class Movie < ActiveRecord::Base
     edit do
       include_fields :title, :release_date, :genres, :name_variants
       configure :release_date do
-        help 'Required. Should be the U.S. release date.'
+        help 'Required. Should be the BoxOfficeMojo.com release date.'
       end
       configure :genres do
         help ('Required. Try to do at most two genres.<br>'\
