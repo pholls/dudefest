@@ -10,9 +10,9 @@ if Object.const_defined?("Rich")
         '-', 'NumberedList', 'Blockquote', 
         '-', 'richImage', 'MediaEmbed', 
         '-', 'Link', 'Unlink'],
-       ['Scayt', 'Preview', 'Maximize']]
+       ['BGColor', 'RemoveFormat', 'Scayt', 'Preview', 'Maximize']]
     config.editor[:startupOutlineBlocks] = false
-    config.editor[:forcePasteAsPlainText] = true
+    config.editor[:forcePasteAsPlainText] = false
     config.editor[:removePlugins] = 'menubutton,image,forms,elementspath'
     config.allow_embeds = true
     config.image_styles = {
