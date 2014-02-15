@@ -30,6 +30,7 @@ gem 'sanitize'
 gem 'unicorn'
 gem 'rich', git: 'https://github.com/bastiaanterhorst/rich.git'
 gem 'shareable'
+gem 'paper_trail'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0'

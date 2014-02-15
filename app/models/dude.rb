@@ -1,4 +1,5 @@
 class Dude < ActiveRecord::Base
+  has_paper_trail
   has_many :quotes, inverse_of: :dude
 
   before_validation :sanitize

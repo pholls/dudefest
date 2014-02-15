@@ -3,6 +3,8 @@ class Tip < ActiveRecord::Base
 
   before_validation :sanitize
 
+  has_paper_trail
+
   validates :tip, presence: true, uniqueness: true, length: { in: 10..200 }
 
   rails_admin do

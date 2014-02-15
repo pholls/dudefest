@@ -2,6 +2,7 @@ class Column < ActiveRecord::Base
   mount_uploader :image, ImageUploader
   process_in_background :image
 
+  has_paper_trail
   has_many :articles, inverse_of: :column
   belongs_to :columnist, class_name: 'User'
 

@@ -4,6 +4,8 @@ class Event < ActiveRecord::Base
   before_validation :set_month_day
   before_validation :sanitize
 
+  has_paper_trail
+
   validates :event, presence: true, length: { in: 40..150 }, uniqueness: true
   validates :date, :link, presence: true, uniqueness: true
   validates_date :date, on_or_before: :today

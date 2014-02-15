@@ -20,7 +20,7 @@ RailsAdmin.config do |config|
 
   # If you want to track changes on your models:
   INCLUDED.each do |model|
-    config.audit_with :history, model
+    config.audit_with :paper_trail, model, 'PaperTrail::Version'
   end
 
   # Or with a PaperTrail: (you need to install it first)
@@ -41,5 +41,4 @@ RailsAdmin.config do |config|
   #}
 
   config.included_models = INCLUDED
-
 end

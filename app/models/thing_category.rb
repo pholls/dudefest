@@ -1,5 +1,7 @@
 class ThingCategory < ActiveRecord::Base
+  has_paper_trail
   has_many :things, inverse_of: :thing_category
+
   validates :category, presence: true, length: { in: 3..15 }, uniqueness: true
 
   before_validation :sanitize

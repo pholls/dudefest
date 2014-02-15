@@ -3,6 +3,8 @@ class Position < ActiveRecord::Base
 
   before_validation :sanitize
 
+  has_paper_trail
+
   validates :position, presence: true, length: { in: 3..32 }, uniqueness: true
   validates :description, presence: true, length: { in: 45..500 }, 
                           uniqueness: true

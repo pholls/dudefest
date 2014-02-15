@@ -2,6 +2,7 @@ class Movie < ActiveRecord::Base
   before_validation :set_review
   before_validation :sanitize
 
+  has_paper_trail
   has_many :movie_genres, dependent: :destroy
   has_many :genres, through: :movie_genres
   has_one :review, class_name: 'Article', inverse_of: :movie, dependent: :destroy

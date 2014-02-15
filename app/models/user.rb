@@ -14,6 +14,7 @@ class User < ActiveRecord::Base
   validates :byline, presence: true, uniqueness: true
   validates :role, presence: true
 
+  has_paper_trail
   has_many :tips, foreign_key: 'creator_id'
   has_many :events, foreign_key: 'creator_id'
   has_many :daily_videos, foreign_key: 'creator_id'

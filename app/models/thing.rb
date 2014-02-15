@@ -5,6 +5,7 @@ class Thing < ActiveRecord::Base
 
   before_validation :sanitize
 
+  has_paper_trail
   belongs_to :thing_category, inverse_of: :things
 
   validates :thing, presence: true, length: { in: 3..26 }, uniqueness: true

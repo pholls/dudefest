@@ -7,6 +7,7 @@ class Article < ActiveRecord::Base
   before_validation :determine_status
   before_validation :sanitize
 
+  has_paper_trail
   belongs_to :column, inverse_of: :articles, counter_cache: true
   belongs_to :creator, class_name: 'User'
   belongs_to :editor, class_name: 'User'

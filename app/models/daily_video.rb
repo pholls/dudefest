@@ -3,6 +3,8 @@ class DailyVideo < ActiveRecord::Base
 
   before_validation :sanitize
 
+  has_paper_trail
+
   validates :title, presence: true, length: { in: 3..32 }, uniqueness: true
   validates :source, presence: true, uniqueness: true
   validates_formatting_of :source, using: :url

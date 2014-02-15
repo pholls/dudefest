@@ -3,6 +3,7 @@ class Quote < ActiveRecord::Base
 
   before_validation :sanitize
 
+  has_paper_trail
   belongs_to :dude, inverse_of: :quotes, counter_cache: true
 
   validates :quote, presence: true, length: { in: 8..500 }, uniqueness: true
