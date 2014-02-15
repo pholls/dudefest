@@ -19,7 +19,7 @@ class Article < ActiveRecord::Base
   validates_associated :editor, allow_blank: true
   validates_associated :authors
   validates :title, presence: true, uniqueness: true, length: { in: 8..70 }
-  validates :body, presence: true, uniqueness: true, length: { in: 300..15000 }
+  validates :body, presence: true, uniqueness: true
   validates :column, :creator, presence: true
   validates :authors, presence: true, on: :update
   validate :creator_is_author
@@ -86,6 +86,17 @@ class Article < ActiveRecord::Base
         help 'Optional. If you don\'t want to use your default byline for '\
              'this article, then fill one out here.'
       end
+      field :created do
+        label 'Submit Draft'
+        visible do
+          bindings[:object].class == Article && bindings[:object].creatable?
+        end
+      end
+      field :needs_rewrite do
+        visible do
+          bindings[:object].class == Article && bindings[:object].rewritable?
+        end
+      end
       field :finalized do
         visible do
           bindings[:object].class == Article && bindings[:object].finalizable?
@@ -123,6 +134,14 @@ class Article < ActiveRecord::Base
   public
     def status?(base_status)
       base_status.to_s == self.status
+    end
+
+    def creatable?
+      self.creator == User.current && self.status < '1'
+    end
+
+    def rewritable?
+      self.editor == User.current && self.status?('1 - Created')
     end
 
     def finalizable?
@@ -190,7 +209,6 @@ class Article < ActiveRecord::Base
 
     def author_ids=(ids)
       ids = ids.map(&:to_i).select { |i| i > 0 }
-      #ids |= [User.current.id] if self.new_record?
       unless ids == (current_ids = article_authors.map(&:author_id)) 
         (current_ids - ids).each { |id|
           article_authors.select { |aa|
@@ -212,30 +230,35 @@ class Article < ActiveRecord::Base
       if self.new_record?
         self.creator ||= User.current
         self.article_authors.build(author: User.current, position: 1)
+        self.created ||= self.needs_rewrite ||= false
+        self.finalized ||= self.published ||= false
+        self.editor ||= self.class.owner
+        self.status ||= '0 - Drafting'
       end
     end
 
     def determine_status
-      if self.new_record?
-        self.finalized = self.published = false
-        self.status = '1 - Created'
-        self.editor = set_editor
-      elsif self.published?
+      if self.published? # 5 - Published
+        self.published_at ||= Time.now
+        self.date ||= self.assign_date()
         self.status = '5 - Published'
-        if self.published_at.nil?
-          self.published_at = Time.now
-          self.date = self.assign_date()
-        end
-      elsif self.finalized?
-        self.status = '4 - Finalized'
+      elsif self.finalized? # 4 - Finalized
         self.finalized_at ||= Time.now
-      elsif self.editor == User.current || self.class.owner == User.current
-        self.status = '2 - Edited'
-        self.editor ||= User.current
+        self.status = '4 - Finalized'
+      elsif self.needs_rewrite? && self.created? # -1 - Rewrite
+        self.created = self.needs_rewrite = false
+        self.status = '-1 - Rewrite'
+      elsif self.editor == User.current && self.status > '1' # 2 - Edited
         self.edited_at = Time.now
-      elsif self.status?('2 - Edited') && self.creator == User.current
-        self.status = '3 - Responded'
+        self.edited = true
+        self.status = '2 - Edited'
+      elsif self.edited? && creator == User.current # 3 - Responded
         self.responded_at = Time.now
+        self.status = '3 - Responded'
+      elsif self.created? && self.creator == User.current # 1 - Created
+        self.status = '1 - Created'
+      elsif self.creator == User.current # 0 - Drafting
+        self.status = '0 - Drafting'
       end
     end
 
