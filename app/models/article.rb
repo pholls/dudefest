@@ -49,7 +49,7 @@ class Article < ActiveRecord::Base
         column_width 95
       end
       configure :creator do
-        column_width 90
+        column_width 85
       end
     end
 

@@ -28,6 +28,9 @@ class Event < ActiveRecord::Base
       configure :reviewed do
         column_width 75
       end
+      configure :creator do
+        column_width 85
+      end
     end
 
     edit do

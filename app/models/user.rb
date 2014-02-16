@@ -34,7 +34,7 @@ class User < ActiveRecord::Base
     list do
       sort_by :username
       include_fields :username, :role, :tips_count, :daily_videos_count
-      include_fields :events_count, :things_count
+      include_fields :events_count, :things_count, :quotes_count
       include_fields :articles_count, :ratings_count
       field :reviews_count do
         sortable true
@@ -59,6 +59,10 @@ class User < ActiveRecord::Base
       configure :things_count do
         label 'Things'
         column_width 55
+      end
+      configure :quotes_count do
+        label 'Quotes'
+        column_width 60
       end
       configure :articles_count do
         label 'Articles'

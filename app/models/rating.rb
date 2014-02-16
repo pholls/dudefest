@@ -24,6 +24,7 @@ class Rating < ActiveRecord::Base
     object_label_method :label_method
     configure :creator do
       label 'Rater'
+      column_width 85
     end
 
     list do
