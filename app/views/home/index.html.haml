@@ -7,12 +7,12 @@
 
 #main_column.home_column
   #top_articles
-    - @articles.first(2).each do |article|
+    - @top_two.each do |article|
       = render partial: '/articles/top_article', locals: { article: article }
   #shit_to_read.main_top SHIT TO READ
   #article_summaries
-    - if @articles.count > 2
-      - @articles.last(@articles.count - 2).each do |article|
-        = render partial: '/articles/summary', locals: { article: article }
+    - @articles.each do |article|
+      = render partial: '/articles/summary', locals: { article: article }
+  #paginate= paginate @articles
 
 = render partial: 'daily_dose'
