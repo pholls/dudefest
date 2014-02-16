@@ -18,7 +18,7 @@ class Quote < ActiveRecord::Base
     navigation_label 'Daily Items'
 
     list do
-      sort_by 'date, reviewed, created_at'
+      sort_by 'date desc, reviewed, creator_id, created_at'
       include_fields :date, :dude, :quote, :creator, :reviewed
       configure :date do
         strftime_format '%Y-%m-%d'

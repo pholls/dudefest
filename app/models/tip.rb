@@ -11,7 +11,7 @@ class Tip < ActiveRecord::Base
     label 'Just the Tip'
     navigation_label 'Daily Items'
     list do
-      sort_by :date, :created_at
+      sort_by 'date desc, reviewed, creator_id, created_at'
       include_fields :date, :tip, :creator, :reviewed
       configure :date do
         strftime_format '%Y-%m-%d'

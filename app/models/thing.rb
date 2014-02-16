@@ -9,11 +9,6 @@ class Thing < ActiveRecord::Base
   belongs_to :thing_category, inverse_of: :things
 
   validates :thing, presence: true, length: { in: 3..26 }, uniqueness: true
-  # No longer a thing
-  #validates :image_old, presence: true, uniqueness: true
-  #validates_formatting_of :image_old, using: :url
-  #validates :image_old, format: { with: /\.(png|jpg|jpeg|)\z/,
-  #                            message: 'must be .png, .jpg, or .jpeg' }
   validates :description, presence: true, length: { in: 150..500}, 
                           uniqueness: true
   validates :thing_category, presence: true
@@ -33,7 +28,7 @@ class Thing < ActiveRecord::Base
     end
 
     list do
-      sort_by 'date, reviewed, created_at'
+      sort_by 'date desc, reviewed, creator_id, created_at'
       include_fields :date, :thing_category, :thing, :creator, :reviewed
       configure :date do
         strftime_format '%Y-%m-%d'
@@ -89,9 +84,7 @@ class Thing < ActiveRecord::Base
     end
 
     show do
-      include_fields :thing_category, :thing
-      field :image_old_html
-      include_fields :description, :creator
+      include_fields :thing_category, :thing, :description, :creator
     end
   end
   
