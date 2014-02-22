@@ -196,6 +196,10 @@ class Article < ActiveRecord::Base
       'By ' + self.display_authors + ' on ' + self.display_date
     end
 
+    def can_edit?
+      self.editor == User.current || self.class.owner == User.current
+    end
+
     def editor_or_admin?
       self.editor == User.current || User.current.role?(:admin)
     end
@@ -234,7 +238,11 @@ class Article < ActiveRecord::Base
         self.article_authors.build(author: User.current, position: 1)
         self.created ||= self.needs_rewrite ||= false
         self.finalized ||= self.published ||= false
-        self.editor ||= self.class.owner
+        if self.creator == self.class.owner
+          self.editor ||= User.find(5)
+        else
+          self.editor ||= self.class.owner
+        end
         self.status ||= '0 - Drafting'
       end
     end
@@ -250,7 +258,7 @@ class Article < ActiveRecord::Base
       elsif self.needs_rewrite? && self.created? # -1 - Rewrite
         self.created = self.needs_rewrite = false
         self.status = '-1 - Rewrite'
-      elsif self.editor == User.current && self.status > '1' # 2 - Edited
+      elsif self.can_edit? && self.status > '1' # 2 - Edited
         self.edited_at = Time.now
         self.edited = true
         self.status = '2 - Edited'
