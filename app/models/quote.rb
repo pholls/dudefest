@@ -11,7 +11,8 @@ class Quote < ActiveRecord::Base
   validates :context, length: { in: 0..100 }, allow_blank: true
   validates :year, numericality: { only_integer: true, less_than: 2015 },
                    allow_blank: true
-  validates_formatting_of :source, using: :url, allow_blank: true 
+  validates_formatting_of :source, using: :url
+  validates :source, presence: true
 
   rails_admin do
     object_label_method :quote
