@@ -262,6 +262,7 @@ class Article < ActiveRecord::Base
       elsif self.creator == User.current # 0 - Drafting
         self.status = '0 - Drafting'
       end
+      self.status_order_by = self.status.to_i
     end
 
     def creator_is_author
