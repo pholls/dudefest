@@ -1,0 +1,18 @@
+#main_column.home_column
+  #shit_to_read JOIN THE DUDEFEST CREW
+  #sign_in
+    = simple_form_for(resource, as: resource_name,
+                                url: registration_path(resource_name)) do |f|
+      = f.error_notification
+      .form-inputs.simple_form
+        = f.input :username, required: true, autofocus: true
+        = f.input :email, required: true
+        = f.input :password, required: true
+        = f.input :password_confirmation, required: true
+      .form-actions
+        .actions= f.button :submit, 'SIGN UP'
+  #sign_up
+    %h3 Already a member<br> of the crew?
+    = render 'devise/shared/links'
+
+= render 'home/daily_dose'
