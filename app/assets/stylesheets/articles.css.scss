@@ -4,6 +4,7 @@
 
 #article {
   margin-top: 10px;
+  border-bottom: 1px solid #888888;
 
   #article_top {
     padding-bottom: 10px;
@@ -48,10 +49,6 @@
   #article_body {
     margin-top: 10px;
     border-top: 1px solid #888888;
-  }
-
-  #article_bottom {
-    min-height: 40px;
   }
 }
 

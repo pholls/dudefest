@@ -20,6 +20,10 @@
     #article_body.text= @article.body.html_safe
     #byline.text
       %i= @article.display_byline.html_safe
-    #article_bottom
+  #comments
+    = render partial: '/comments/form'
+    #comment_list 
+      - @comments.each do |comment|
+        = render partial: '/comments/comment', locals: { comment: comment }
 
 = render partial: 'home/daily_dose'

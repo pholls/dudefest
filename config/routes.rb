@@ -1,5 +1,7 @@
 Dudefest::Application.routes.draw do
-  resources :movies, :articles
+  resources :movies, :articles do
+    resources :comments
+  end
 
   get 'about', to: 'about#index'
   get 'contribute', to: 'contribute#index'

@@ -1,14 +1,13 @@
 #main_column.home_column
   #shit_to_read SIGN IN TO DUDEFEST
-  #sign_in
+  #sign_in>
     = simple_form_for(resource, as: resource_name, 
                                 url: session_path(resource_name)) do |f|
       .form-inputs.simple_form
         = f.input :username, required: false, autofocus: true
         = f.input :password, required: false
         = f.input :remember_me, as: :boolean if devise_mapping.rememberable?
-      .form-actions.actions
-        = f.button :submit, 'SIGN IN'
+      .form-actions.actions= f.button :submit, 'SIGN IN'
   #sign_up
     %h3 Want to join our crew?
     = render 'devise/shared/links'

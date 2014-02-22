@@ -6,7 +6,10 @@ class MoviesController < ApplicationController
 
   def show
     @movie = Movie.find(params[:id])
+    @commentable = @movie.review
+    @comments = @commentable.root_comments
+    @comment = Comment.new
       
-    redirect_to root_path unless @movie.review.public? 
+    redirect_to root_path unless @commentable.public? 
   end
 end

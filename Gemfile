@@ -32,6 +32,7 @@ gem 'rich', git: 'https://github.com/bastiaanterhorst/rich.git'
 gem 'shareable'
 gem 'paper_trail'
 gem 'kaminari'
+gem 'acts_as_commentable_with_threading'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0'

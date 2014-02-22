@@ -7,6 +7,10 @@ module ApplicationHelper
     datetime.in_time_zone('Eastern Time (US & Canada)')
   end
 
+  def display_datetime(datetime)
+    eastern(datetime).strftime('%m-%d-%Y | %l:%M %p')
+  end
+
   def meta_keywords(tags = nil)
     if tags.present?
       content_for :meta_keywords, tags

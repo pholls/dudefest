@@ -1,0 +1,12 @@
+= form_for [@commentable, @comment] do |c|
+  - if user_signed_in?
+    .comment_field.field
+      = c.text_area :body, rows: 6, placeholder: 'This is where comments go'
+    .comment_count_submit
+      .comment_count= @commentable.comment_threads.count.to_s + ' Comments'
+      .comment_actions.actions= c.submit 'SUBMIT COMMENT'
+  - else
+    .comment_count_submit
+      .comment_count= @commentable.comment_threads.count.to_s + ' Comments'
+      .comment_actions.actions
+        = link_to 'LOG IN TO COMMENT', new_user_session_path

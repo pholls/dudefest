@@ -27,7 +27,7 @@
       display: inline-block;
 
       .movie_info_title {
-        color: #CCCCCC;
+        color: #DDDDDD;
         background-color: #333333;
         padding: 3px;
         padding-left: 10px;
@@ -89,18 +89,25 @@
 }
 
 #ratings {
-  border-top: 1px #333333 solid;
-  margin-top: 20px;
+  border: 1px #333333 solid;
+  border-right: 0px;
+  border-left: 0px;
+  overflow: hidden;
 }
 
 #ratings_title {
   font-size: 40px;
   background-color: #333333;
-  color: #CCCCCC;
+  color: #DDDDDD;
   width: 40px;
   padding: 0px 5px;
   text-align: center;
   display: inline-block;
+}
+
+#ratings_title {
+  padding-bottom: 10000px;
+  margin-bottom: -10000px;
 }
 
 #ratings_list {

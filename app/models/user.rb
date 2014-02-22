@@ -1,18 +1,19 @@
 class User < ActiveRecord::Base
   ROLES = %w[admin editor reviewer writer reader]
 
+  after_initialize :set_user
   before_validation :sanitize
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
-  devise :database_authenticatable,
-       # :registerable, :recoverable, 
+  devise :database_authenticatable, :registerable, # :recoverable, 
          :rememberable, :trackable, :validatable
 
   validates :username, presence: true, length: { in: 4..28 }, uniqueness: true
-  validates :name, presence: true, length: { in: 6..40 }
-  validates :byline, presence: true, uniqueness: true
+  validates :name, presence: true, length: { in: 4..35 }
+  validates :byline, uniqueness: true, allow_blank: true
   validates :role, presence: true
+  validates :email, length: { in: 6..35 }
 
   has_paper_trail
   has_many :tips, foreign_key: 'creator_id'
@@ -116,6 +117,10 @@ class User < ActiveRecord::Base
     end
 
   private
+    def set_user
+      self.role = 'reader' if self.new_record?
+    end
+
     def sanitize
       Sanitize.clean!(self.name) if self.name.present?
       Sanitize.clean!(self.username)
@@ -123,5 +128,6 @@ class User < ActiveRecord::Base
       if self.byline.present?
         Sanitize.clean!(self.byline, Sanitize::Config::BASIC)
       end
+      self.name ||= self.username
     end
 end

@@ -2,6 +2,7 @@ class Article < ActiveRecord::Base
   include ModelConfig, ColumnSchedule
   mount_uploader :image, ImageUploader
   process_in_background :image
+  acts_as_commentable
 
   after_initialize :initialize_article, on: :new
   before_validation :determine_status

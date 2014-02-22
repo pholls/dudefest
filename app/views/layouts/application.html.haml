@@ -21,15 +21,27 @@
     #header
       #top
         #logo>= link_to image_tag('/Dudefest.png'), root_path
-        #nav
-          %ul
-            %li>= link_to 'CINEMA', movies_path
-            %li>= link_to 'BOOZE', column_path('booze')
-            %li>= link_to 'FRAT', column_path('frat')
-            %li>= link_to 'GUYDE', column_path('guyde')
-            %li>= link_to 'UP NEXT', coming_soon_path
-            %li>= link_to 'CONTRIBUTE', contribute_path
-            %li= link_to 'ABOUT', about_path
+        #site_nav
+          #user_nav>
+            - if user_signed_in?
+              Waddup,
+              = link_to current_user.name, edit_user_registration_path
+              |
+              = link_to 'Sign Out', destroy_user_session_path, method: :delete,
+                         confirm: 'Are you sure you want to sign out?'
+            - else
+              = link_to 'Sign In', new_user_session_path
+              |
+              = link_to 'Sign Up', new_user_registration_path
+          #nav
+            %ul
+              %li>= link_to 'CINEMA', movies_path
+              %li>= link_to 'BOOZE', column_path('booze')
+              %li>= link_to 'FRAT', column_path('frat')
+              %li>= link_to 'GUYDE', column_path('guyde')
+              %li>= link_to 'UP NEXT', coming_soon_path
+              %li>= link_to 'CONTRIBUTE', contribute_path
+              %li= link_to 'ABOUT', about_path
     #content
       = yield
     #footer
