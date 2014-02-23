@@ -144,7 +144,7 @@ class Movie < ActiveRecord::Base
 
     def at_least_two_ratings
       if self.review.published? && self.reviewed_ratings < 2
-        errors.add(:review, 'needs >= 2 ratings')
+        errors.add(:review, 'needs at least 2 reviewed ratings')
       end
     end
 
