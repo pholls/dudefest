@@ -1,4 +1,5 @@
 class Movie < ActiveRecord::Base
+  after_initialize :initialize_ratings
   before_validation :set_review
   before_validation :sanitize
 
@@ -16,6 +17,7 @@ class Movie < ActiveRecord::Base
   validates_associated :name_variants
   validates :title, presence: true, uniqueness: true, length: { in: 3..60 }
   validates :release_date, :review, :genres, :ratings, presence: true
+  validate :at_least_two_ratings
 
   accepts_nested_attributes_for :review, :ratings, :credits
 
@@ -129,10 +131,20 @@ class Movie < ActiveRecord::Base
     end
 
   private
+    def initialize_ratings
+      self.reviewed_ratings ||= self.total_rating ||= 0 if self.new_record?
+    end
+
     def set_review
       if self.review.present?
         self.review.column = Column.movie if self.new_record?
         self.review.title = 'Review of ' + self.title
+      end
+    end
+
+    def at_least_two_ratings
+      if self.review.published? && self.reviewed_ratings < 2
+        errors.add(:review, 'needs >= 2 ratings')
       end
     end
 
