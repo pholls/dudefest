@@ -112,6 +112,17 @@ class Movie < ActiveRecord::Base
       end
     end
 
+    # Necessary for rails_admin review booleans
+    def creatable?; self.review.creatable? end
+    def rewritable?; self.review.rewritable? end
+    def finalizable?; self.review.finalizable? end
+    def finalized?; self.review.finalized? end
+
+    # Necessary for rails_admin ratings boolean
+    def reviewable?
+      self.ratings.any? ? self.ratings.first.owner_or_admin? : false
+    end
+
     def self.finalized
       self.includes(:review).order('articles.date desc')
                             .select { |m| m.review.public? }

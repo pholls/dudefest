@@ -53,7 +53,7 @@ class Rating < ActiveRecord::Base
       end
       configure :reviewed do
         visible do
-          bindings[:object].class == Rating && bindings[:object].reviewable?
+          bindings[:object].reviewable?
         end
       end
     end

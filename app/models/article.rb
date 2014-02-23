@@ -91,22 +91,22 @@ class Article < ActiveRecord::Base
       field :created do
         label 'Submit Draft'
         visible do
-          bindings[:object].class == Article && bindings[:object].creatable?
+          bindings[:object].creatable?
         end
       end
       field :needs_rewrite do
         visible do
-          bindings[:object].class == Article && bindings[:object].rewritable?
+          bindings[:object].rewritable?
         end
       end
       field :finalized do
         visible do
-          bindings[:object].class == Article && bindings[:object].finalizable?
+          bindings[:object].finalizable?
         end
       end
       field :published do
         visible do
-          bindings[:object].class == Article && bindings[:object].finalized?
+          bindings[:object].finalized?
         end
       end
     end
@@ -163,7 +163,7 @@ class Article < ActiveRecord::Base
     end
 
     def is_movie_review?
-      self.column.present? && self.column.column == Column.movie
+      self.column.present? && self.column == Column.movie
     end
 
     def display_date
@@ -236,8 +236,10 @@ class Article < ActiveRecord::Base
       if self.new_record?
         self.creator ||= User.current
         self.article_authors.build(author: User.current, position: 1)
-        self.created ||= self.needs_rewrite ||= false
-        self.finalized ||= self.published ||= false
+        self.created = false if self.created.nil?
+        self.needs_rewrite = false if self.needs_rewrite.nil?
+        self.finalized = false if self.finalized.nil?
+        self.published = false if self.published.nil?
         if self.creator == self.class.owner
           self.editor ||= User.find(5)
         else
@@ -278,14 +280,6 @@ class Article < ActiveRecord::Base
                             .select { |aa| aa.author == self.creator }.present?
         errors.add(:authors, 'need to include the original author')
       end
-    end
-
-    def set_editor
-      User.current == self.class.owner ? User.find(5) : self.class.owner
-    end
-
-    def is_movie_review?
-      self.column.present? && self.column == Column.movie
     end
 
     def sanitize
