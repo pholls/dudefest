@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.0.2'
+gem 'rails', '4.0.3'
 
 # Use postgresql as the database for Active Record
 gem 'pg'
@@ -31,7 +31,7 @@ gem 'unicorn'
 gem 'rich', git: 'https://github.com/bastiaanterhorst/rich.git'
 gem 'shareable'
 gem 'paper_trail'
-gem 'kaminari'
+gem 'kaminari', git: 'https://github.com/musicglue/kaminari.git'
 gem 'acts_as_commentable_with_threading'
 
 # Use SCSS for stylesheets
