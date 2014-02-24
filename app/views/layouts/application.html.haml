@@ -28,7 +28,7 @@
               = link_to current_user.name, edit_user_registration_path
               |
               = link_to 'Sign Out', destroy_user_session_path, method: :delete,
-                         confirm: 'Are you sure you want to sign out?'
+                         data: { confirm: 'Are you sure you want to sign out?' }
             - else
               = link_to 'Sign In', new_user_session_path
               |
