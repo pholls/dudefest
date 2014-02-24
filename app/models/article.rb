@@ -93,21 +93,32 @@ class Article < ActiveRecord::Base
         visible do
           bindings[:object].creatable?
         end
+        help 'Until you check this box, your article will just be a draft. '\
+             'Check this box to submit your article for editing'
       end
       field :needs_rewrite do
         visible do
           bindings[:object].rewritable?
         end
+        help 'Is this article a piece of shit? Have the jackass who '\
+             'submitted this piece of garbage rewrite it.'
       end
       field :finalized do
         visible do
           bindings[:object].finalizable?
         end
+        help ('Checklist for finalizing an article:<br>'\
+              '1. Make sure grammar, spelling, etc. are all set.<br>'\
+              '2. Make sure the article has no extra space at the end.<br>'\
+              '3. Make sure movies are all caps & TV shows are in italics.<br>'\
+              '4. If it\'s a review, it needs to have >= 2 reviewed ratings.'
+             ).html_safe
       end
       field :published do
         visible do
           bindings[:object].finalized?
         end
+        help 'Schedule this article to be released. It best be good to go.'
       end
     end
 
