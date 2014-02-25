@@ -8,8 +8,8 @@
     - if @daily_video.present?
       #video_otd.daily_dose_item
         .right_label VIDEO OF THE DAY
-        .daily_dose_video= @daily_video.source_html
         .right_title= @daily_video.title
+        .daily_dose_video= @daily_video.source_html
     - if @quote.present?
       #quote_otd.daily_dose_item
         .right_label QUOTE OF THE DAY
