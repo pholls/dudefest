@@ -115,10 +115,10 @@ class Movie < ActiveRecord::Base
     end
 
     # Necessary for rails_admin review booleans
-    def creatable?; self.review.creatable? end
-    def rewritable?; self.review.rewritable? end
-    def finalizable?; self.review.finalizable? end
-    def finalized?; self.review.finalized? end
+    def creatable?; self.review.present? ? self.review.creatable? : true end
+    def rewritable?; self.review.present? ? self.review.rewritable? : false end
+    def finalizable?; self.review.nil? ? false : self.review.finalizable? end
+    def finalized?; self.review.present? ? self.review.finalized? : false end
 
     # Necessary for rails_admin ratings boolean
     def reviewable?
