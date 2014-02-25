@@ -37,7 +37,7 @@ class Article < ActiveRecord::Base
     end
 
     list do
-      sort_by 'status, date desc, column_id, creator_id, created_at'
+      sort_by 'status_order_by, date desc, column_id, creator_id, created_at'
       include_fields :date, :column, :title, :creator, :status
       configure :date do
         strftime_format '%Y-%m-%d'
