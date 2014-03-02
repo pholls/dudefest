@@ -27,6 +27,7 @@ class User < ActiveRecord::Base
   has_many :created_articles, foreign_key: 'creator_id', class_name: 'Article'
   has_many :ratings, foreign_key: 'creator_id'
   has_many :quotes, foreign_key: 'creator_id'
+  has_many :taglines, foreign_key: 'creator_id'
 
   rails_admin do
     object_label_method :username

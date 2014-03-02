@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140216233854) do
+ActiveRecord::Schema.define(version: 20140302182340) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -50,7 +50,10 @@ ActiveRecord::Schema.define(version: 20140216233854) do
     t.boolean  "created"
     t.boolean  "edited"
     t.integer  "status_order_by"
+    t.integer  "topic_id"
   end
+
+  add_index "articles", ["topic_id"], name: "index_articles_on_topic_id", using: :btree
 
   create_table "ckeditor_assets", force: true do |t|
     t.string   "data_file_name",               null: false
@@ -265,6 +268,17 @@ ActiveRecord::Schema.define(version: 20140216233854) do
     t.string   "simplified_type",        default: "file"
   end
 
+  create_table "taglines", force: true do |t|
+    t.string   "tagline"
+    t.integer  "creator_id"
+    t.boolean  "reviewed"
+    t.text     "notes"
+    t.integer  "reviewer_id"
+    t.datetime "reviewed_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "thing_categories", force: true do |t|
     t.string   "category"
     t.datetime "created_at"
@@ -305,6 +319,14 @@ ActiveRecord::Schema.define(version: 20140216233854) do
     t.datetime "published_at"
   end
 
+  create_table "topics", force: true do |t|
+    t.string   "topic"
+    t.text     "description"
+    t.integer  "articles_count"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "users", force: true do |t|
     t.string   "username",               default: "", null: false
     t.string   "email",                  default: "", null: false
@@ -331,6 +353,7 @@ ActiveRecord::Schema.define(version: 20140216233854) do
     t.datetime "updated_at"
     t.text     "byline"
     t.integer  "quotes_count"
+    t.integer  "taglines_count"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

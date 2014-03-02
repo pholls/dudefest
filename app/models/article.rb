@@ -10,6 +10,7 @@ class Article < ActiveRecord::Base
 
   has_paper_trail
   belongs_to :column, inverse_of: :articles, counter_cache: true
+  belongs_to :topic, inverse_of: :articles, counter_cache: true
   belongs_to :creator, class_name: 'User'
   belongs_to :editor, class_name: 'User'
   belongs_to :movie, inverse_of: :review
@@ -62,7 +63,7 @@ class Article < ActiveRecord::Base
           }
         end
       end
-      include_fields :column, :title do
+      include_fields :column, :title, :topic do
         read_only do
           bindings[:object].class == Article && bindings[:object].movie.present?
         end
@@ -123,7 +124,7 @@ class Article < ActiveRecord::Base
     end
 
     nested do
-      include_fields :column, :title, :authors do
+      include_fields :column, :title, :topic, :authors do
         visible false
       end
     end
@@ -135,7 +136,7 @@ class Article < ActiveRecord::Base
     end
 
     show do
-      include_fields :column, :title, :authors, :status, :body
+      include_fields :column, :title, :topic, :authors, :status, :body
       configure :body do
         pretty_value do
           value.html_safe
