@@ -16,14 +16,13 @@ class Event < ActiveRecord::Base
     navigation_label 'Daily Items'
     label 'Historical Event'
     list do
-      sort_by :date
+      sort_by 'reviewed, month_day, date'
       items_per_page 500
       include_fields :date, :event, :creator, :reviewed
       configure :date do
         strftime_format '%m/%d/%Y'
         column_width 75
         sortable :month_day
-        sort_reverse :false
       end
       configure :reviewed do
         column_width 75
