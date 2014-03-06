@@ -4,4 +4,4 @@
       = comment.user.name
       = image_tag '/DudefestSymbol.png' if comment.user.role?(:reviewer)
     .comment_datetime= display_datetime(comment.created_at)
-  .comment_body.text= comment.body
+  .comment_body.text= comment.body_html
