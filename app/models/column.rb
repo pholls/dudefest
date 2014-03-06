@@ -11,6 +11,7 @@ class Column < ActiveRecord::Base
   validates_associated :columnist, allow_blank: true
   validates :column, presence: true, uniqueness: true, length: { in: 4..50 }
   validates :short_name, presence: true, uniqueness: true, length: { in: 3..10 }
+  validates :image, presence: true
   validates :start_date, presence: true
   validates :description, presence: true, uniqueness: true
   validates :publish_days, presence: true, uniqueness: true, 
@@ -41,7 +42,7 @@ class Column < ActiveRecord::Base
         column_width 60
       end
       configure :columnist do
-        column_width 80
+        column_width 85
       end
     end
 
