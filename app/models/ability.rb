@@ -8,9 +8,10 @@ class Ability
       can :access, :rails_admin
       can :dashboard
 
-      items = [Tip, Event, Position, Thing, DailyVideo, Rating, Quote, Tagline]
+      items = %w(Tip Event Position Thing DailyVideo Rating Quote Tagline)
       creatable_items = items
       creatable_items << Article << Movie << NameVariant << Dude << Title
+      creatable_items << Comment
       readable_items = creatable_items
       readable_items << ThingCategory << User << Column << Genre << NameVariant
       readable_items << Topic

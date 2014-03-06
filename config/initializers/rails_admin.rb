@@ -9,7 +9,7 @@ RailsAdmin.config do |config|
 
   INCLUDED = %w(User Tip Event Position ThingCategory Thing DailyVideo Article
                 Column Genre NameVariant Movie Rating Model Quote Dude Tagline
-                Topic Title)
+                Topic Title Comment)
 
   ################  Global configuration  ################
 

@@ -8,7 +8,7 @@ class Comment < ActiveRecord::Base
   # want user to vote on the quality of comments.
   #acts_as_votable
 
-  belongs_to :commentable, :polymorphic => true
+  belongs_to :commentable, polymorphic: true
 
   # NOTE: Comments belong to a user
   belongs_to :user
@@ -17,6 +17,36 @@ class Comment < ActiveRecord::Base
     html_escape
     link
   end
+
+  rails_admin do
+    object_label_method :body
+    navigation_label 'Articles'
+    parent Article
+    configure :commentable do
+      label 'Article'
+    end
+    configure :body do
+      label 'Comment'
+    end
+
+    list do
+      sort_by :body
+      include_fields :commentable, :user, :body, :created_at
+      configure :created_at do
+        strftime_format '%Y-%m-%d %H:%M'
+      end
+    end
+
+    edit do
+      include_fields :commentable, :body
+    end
+    
+    show do
+      include_fields :commentable, :user, :created_at
+      field :body_html
+    end
+  end
+
   # Helper class method that allows you to build a comment
   # by passing a commentable object, a user_id, and comment text
   # example in readme
