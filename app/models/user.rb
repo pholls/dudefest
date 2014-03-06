@@ -1,4 +1,6 @@
 class User < ActiveRecord::Base
+  mount_uploader :avatar, AvatarUploader
+  process_in_background :avatar
   ROLES = %w[admin editor reviewer writer reader]
 
   after_initialize :set_user
@@ -13,7 +15,8 @@ class User < ActiveRecord::Base
   validates :name, presence: true, length: { in: 4..35 }
   validates :byline, uniqueness: true, allow_blank: true
   validates :role, presence: true
-  validates :email, length: { in: 6..35 }
+  validates :email, presence: true, uniqueness: :true, length: { in: 6..35 }
+  validates :bio, uniqueness: true, allow_blank: true
 
   has_paper_trail
   has_many :tips, foreign_key: 'creator_id'
@@ -28,10 +31,12 @@ class User < ActiveRecord::Base
   has_many :ratings, foreign_key: 'creator_id'
   has_many :quotes, foreign_key: 'creator_id'
   has_many :taglines, foreign_key: 'creator_id'
+  has_many :titles, inverse_of: :user
 
   rails_admin do
     object_label_method :username
-    navigation_label 'Users'
+    navigation_label 'Admin'
+    configure :avatar, :jcrop
 
     list do
       sort_by :username
@@ -82,8 +87,13 @@ class User < ActiveRecord::Base
 
     edit do
       include_fields :username, :name, :email, :password, :password_confirmation
-      include_fields :password, :password_confirmation, :role
-      configure :role do
+      field :avatar do
+        jcrop_options aspectRatio: 400.0/400.0
+        fit_image true
+      end
+      field :titles
+      field :bio
+      field :role do
         visible do
           User.current.role? :admin
         end
