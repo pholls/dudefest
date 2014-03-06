@@ -133,8 +133,8 @@ class User < ActiveRecord::Base
     end
 
     def sanitize
-      Sanitize.clean!(self.name) if self.name.present?
-      Sanitize.clean!(self.username)
+      #Sanitize.clean!(self.name) if self.name.present?
+      #Sanitize.clean!(self.username)
       Sanitize.clean!(self.email)
       if self.byline.present?
         Sanitize.clean!(self.byline, Sanitize::Config::BASIC)
