@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140305015602) do
+ActiveRecord::Schema.define(version: 20140306055022) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -75,7 +75,7 @@ ActiveRecord::Schema.define(version: 20140305015602) do
     t.string   "column"
     t.string   "short_name"
     t.integer  "columnist_id"
-    t.integer  "articles_count"
+    t.integer  "articles_count",     default: 0, null: false
     t.integer  "days_between_posts"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -130,7 +130,7 @@ ActiveRecord::Schema.define(version: 20140305015602) do
 
   create_table "dudes", force: true do |t|
     t.string   "name"
-    t.integer  "quotes_count"
+    t.integer  "quotes_count", default: 0, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -152,7 +152,7 @@ ActiveRecord::Schema.define(version: 20140305015602) do
   create_table "genres", force: true do |t|
     t.string   "genre"
     t.text     "description"
-    t.integer  "movies_count"
+    t.integer  "movies_count", default: 0, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -180,7 +180,7 @@ ActiveRecord::Schema.define(version: 20140305015602) do
   create_table "movies", force: true do |t|
     t.string   "title"
     t.date     "release_date"
-    t.integer  "ratings_count"
+    t.integer  "ratings_count",    default: 0, null: false
     t.decimal  "total_rating"
     t.integer  "reviewed_ratings"
     t.datetime "created_at"
@@ -331,7 +331,7 @@ ActiveRecord::Schema.define(version: 20140305015602) do
   create_table "topics", force: true do |t|
     t.string   "topic"
     t.text     "description"
-    t.integer  "articles_count"
+    t.integer  "articles_count", default: 0, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -350,19 +350,19 @@ ActiveRecord::Schema.define(version: 20140305015602) do
     t.string   "last_sign_in_ip"
     t.string   "name"
     t.string   "role"
-    t.integer  "tips_count"
-    t.integer  "events_count"
-    t.integer  "things_count"
-    t.integer  "positions_count"
-    t.integer  "daily_videos_count"
-    t.integer  "articles_count"
-    t.integer  "movies_count"
-    t.integer  "ratings_count"
+    t.integer  "tips_count",             default: 0,  null: false
+    t.integer  "events_count",           default: 0,  null: false
+    t.integer  "things_count",           default: 0,  null: false
+    t.integer  "positions_count",        default: 0,  null: false
+    t.integer  "daily_videos_count",     default: 0,  null: false
+    t.integer  "articles_count",         default: 0,  null: false
+    t.integer  "movies_count",           default: 0,  null: false
+    t.integer  "ratings_count",          default: 0,  null: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "byline"
-    t.integer  "quotes_count"
-    t.integer  "taglines_count"
+    t.integer  "quotes_count",           default: 0,  null: false
+    t.integer  "taglines_count",         default: 0,  null: false
     t.string   "avatar"
     t.text     "bio"
   end
