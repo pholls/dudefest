@@ -73,7 +73,7 @@ class Quote < ActiveRecord::Base
     display = ''
     display += self.dude.name + ' ' if self.dude.present?
     display += self.context if self.context.present?
-    display += ', ' + self.year if self.year.present?
+    display += ', ' + self.year.to_s if self.year.present?
     display
   end
 
