@@ -70,9 +70,9 @@ class Quote < ActiveRecord::Base
   end
 
   def display_attribution
-    display 
-    display += self.dude.name if self.dude.present?
-    display += ' ' + self.context if self.context.present?
+    display = ''
+    display += self.dude.name + ' ' if self.dude.present?
+    display += self.context if self.context.present?
     display += ', ' + self.year if self.year.present?
     display
   end
