@@ -2,7 +2,7 @@ class Topic < ActiveRecord::Base
   has_paper_trail
   has_many :articles, inverse_of: :column
 
-  validates :topic, presence: true, uniqueness: true, length: { in: 4..30 }
+  validates :topic, presence: true, uniqueness: true, length: { in: 3..30 }
 
   rails_admin do
     navigation_label 'Articles'
