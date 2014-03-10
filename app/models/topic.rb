@@ -11,7 +11,7 @@ class Topic < ActiveRecord::Base
 
     list do
       sort_by :topic
-      include_fields :topic, :description
+      include_fields :topic, :description, :articles_count
     end
 
     edit do
