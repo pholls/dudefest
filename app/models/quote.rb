@@ -11,8 +11,8 @@ class Quote < ActiveRecord::Base
   validates :context, length: { in: 0..100 }, allow_blank: true
   validates :year, numericality: { only_integer: true, less_than: 2015 },
                    allow_blank: true
-  validates_formatting_of :source, using: :url
   validates :source, presence: true
+  validates_formatting_of :source, using: :url
 
   rails_admin do
     object_label_method :quote
@@ -71,9 +71,9 @@ class Quote < ActiveRecord::Base
 
   def display_attribution
     display = ''
-    display += self.dude.name + ' ' if self.dude.present?
-    display += self.context if self.context.present?
-    display += ', ' + self.year.to_s if self.year.present?
+    display += self.dude.name + ', ' if self.dude.present?
+    display += self.context + ', ' if self.context.present?
+    display += self.year.to_s if self.year.present?
     display
   end
 
