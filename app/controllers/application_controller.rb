@@ -38,7 +38,7 @@ class ApplicationController < ActionController::Base
       @columns = Column.live
       @topics = Topic.live.limit(5)
       @genres = Genre.order(movies_count: :desc).limit(6)
-      @writers = User.order(articles_count: :desc).limit(7)
+      @writers = User.order(articles_count: :desc).limit(6)
       @tagline = Tagline.where(reviewed: true).order('RANDOM()').first
     end
 end
