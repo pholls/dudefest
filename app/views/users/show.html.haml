@@ -29,7 +29,7 @@
     #ratings
       #ratings_title> B I O
       #ratings_list
-        #user_bio.text= @user.bio
+        #user_bio.text= @user.bio.html_safe
     #user_articles
       #user_articles_header= 'Articles by ' + @user.name
       #article_summaries
