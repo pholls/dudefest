@@ -1,0 +1,22 @@
+- content_for(:title, 'Legal Disclaimer')
+- meta_description @meta_description
+
+#main_column.home_column
+  #shit_to_read DUDEFEST.COM LEGAL DISCLAIMER
+  #article_body.text
+    %p
+      Dudefest.com publishes rumors, opinions, stories, as well as factual
+      information. The information or ideas presented on this site may or may
+      not be true and should not be taken as fact. The views and opinions
+      presented are just that, views and opinions, and should not be used in
+      any other way. Furthermore the opinions and posts in the comments
+      section do not reflect the opinions of Dudefest.com and we are not
+      responsible for them. Any emails sent to Dudefest.com or any of its
+      writers may be published. If you have any copyright issues or problems
+      with the site, please email 
+      <a href='mailto:dudes@dudefest.com'>dudes@dudefest.com</a>. If you'd
+      like to take legal action against the site, please read
+      %span= link_to 'this article', article_path(98)
+      %span> .
+
+= render partial: 'home/daily_dose'

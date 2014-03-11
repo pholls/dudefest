@@ -7,7 +7,7 @@
   = tag :meta, property: 'og:description', content: @column.description
 
 #main_column.home_column
-  #shit_to_read.main_top MOVIES WE'VE REVIEWED
+  #shit_to_read.main_top= @header.upcase + ' MOVIES WE\'VE REVIEWED'
   #article_summaries
     - @movies.each do |movie|
       .article_summary

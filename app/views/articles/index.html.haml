@@ -1,0 +1,16 @@
+- content_for(:title, 'Dudefest Articles')
+- meta_description 'Dudefest.com has a ton of articles. You can read them here.'
+- content_for :head do
+  = tag :meta, property: 'og:title', content: 'Dudefest Articles'
+  = tag :meta, property: 'og:url', content: articles_url
+  = tag :meta, property: 'og:image', content: image_url('/DudefestSymbol.png')
+  = tag :meta, property: 'og:description', 
+        content: 'Dudefest.com has a ton of articles. You can read them here.'
+
+#main_column.home_column
+  #shit_to_read.main_top= @header.upcase
+  #article_summaries
+    - @articles.each do |article|
+      = render partial: '/articles/summary', locals: { article: article }
+
+= render 'home/daily_dose'

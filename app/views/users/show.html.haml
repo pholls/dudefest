@@ -1,0 +1,39 @@
+- content_for(:title, @user.name)
+- meta_description @user.byline
+- content_for :head do
+  = tag :meta, property: 'og:title', content: @user.name
+  = tag :meta, property: 'og:url', content: user_url(@user)
+  = tag :meta, property: 'og:image', 
+               content: image_url(@user.avatar.url(:display))
+  = tag :meta, property: 'og:description', content: @user.byline
+
+#main_column.home_column
+  #shit_to_read= @user.name.upcase
+  #user
+    #user_top
+      #user_avatar>= image_tag @user.avatar.url(:display)
+      #user_info
+        .user_info
+          .user_info_label.short_label> Username
+          .user_info_value.short_value>= @user.username
+        .user_info
+          .user_info_label.short_label> Email
+          .user_info_value.short_value>= mail_to @user.email
+        .user_info
+          .user_info_label.short_label> Articles
+          .user_info_value.short_value>= @user.public_articles.count
+        .user_info
+          .title_list_header.user_info_label> Roles at Dudefest.com
+          - @user.titles.each do |title|
+            .title_item.user_info_value>= title.title
+    #ratings
+      #ratings_title> B I O
+      #ratings_list
+        #user_bio.text= @user.bio
+    #user_articles
+      #user_articles_header= 'Articles by ' + @user.name
+      #article_summaries
+        - @user.public_articles.each do |article|
+          = render partial: '/articles/summary', locals: { article: article }
+
+= render 'home/daily_dose'

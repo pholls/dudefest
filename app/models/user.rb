@@ -52,36 +52,36 @@ class User < ActiveRecord::Base
         end
       end
       configure :tips_count do
-        label 'Tips'
-        column_width 40
+        label 'Tip'
+        column_width 30
       end
       configure :daily_videos_count do
-        label 'Videos'
-        column_width 55
+        label 'Vid'
+        column_width 30
       end
       configure :events_count do
-        label 'Events'
-        column_width 55
+        label 'Event'
+        column_width 50
       end
       configure :things_count do
-        label 'Things'
-        column_width 55
+        label 'Thing'
+        column_width 50
       end
       configure :quotes_count do
-        label 'Quotes'
-        column_width 60
+        label 'Quote'
+        column_width 50
       end
       configure :articles_count do
-        label 'Articles'
-        column_width 60
+        label 'Article'
+        column_width 55
       end
       configure :ratings_count do
-        label 'Ratings'
-        column_width 60
+        label 'Rate'
+        column_width 40
       end
       configure :reviews_count do
-        label 'Movies'
-        column_width 60
+        label 'Movie'
+        column_width 50
       end
     end
 
@@ -117,6 +117,10 @@ class User < ActiveRecord::Base
 
     def reviews_count
       (count = self.articles.where.not(movie_id: nil).count) > 0 ? count : nil
+    end
+
+    def public_articles
+      self.articles.order(date: :desc).select { |article| article.public? }
     end
 
     def self.current

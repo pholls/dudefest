@@ -1,0 +1,19 @@
+- content_for(:title, 'Dudefest Dudes')
+- meta_description 'Who are the dudefest dudes? Find out here!'
+- content_for :head do
+  = tag :meta, property: 'og:title', content: 'Dudefest Dudes'
+  = tag :meta, property: 'og:url', content: users_url
+  = tag :meta, property: 'og:image', content: image_url('/DudefestSymbol.png')
+  = tag :meta, property: 'og:description', 
+        content: 'Who are the dudefest dudes? Find out here!'
+
+#main_column.home_column
+  #shit_to_read.main_top DUDEFEST DUDES
+  #writers
+    - @users.each_with_index do |user, index|
+      .writer>
+        .writer_avatar>= link_to image_tag(user.avatar.url(:display)), 
+                                user_path(user)
+        .writer_name>= link_to user.name, user_path(user)
+
+= render '/home/daily_dose'

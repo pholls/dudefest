@@ -5,6 +5,7 @@ class ApplicationController < ActionController::Base
   before_filter :configure_permitted_parameters, if: :devise_controller?
   before_filter :set_current_user
   before_filter :set_daily_dose
+  before_filter :set_nav
   rescue_from CanCan::AccessDenied do |exception|
     redirect_to main_app.root_path, :alert => exception.message
   end
@@ -31,5 +32,13 @@ class ApplicationController < ActionController::Base
       @quote = Quote.of_the_day
       @position = Position.of_the_day
       @events = Event.this_day
+    end
+
+    def set_nav
+      @columns = Column.live
+      @topics = Topic.live.limit(5)
+      @genres = Genre.order(movies_count: :desc).limit(6)
+      @writers = User.order(articles_count: :desc).limit(7)
+      @tagline = Tagline.where(reviewed: true).order('RANDOM()').first
     end
 end

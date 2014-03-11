@@ -1,0 +1,110 @@
+// Place all the styles related to the users controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+#user {
+  margin-top: 10px;
+
+  #user_top {
+    padding-bottom: 15px;
+
+    #user_avatar {
+      width: 300px;
+      margin-right: 10px;
+      display: inline-block;
+
+      img {
+        max-width: 100%;
+      }
+    }
+
+    #user_info {
+      width: 360px;
+      display: inline-block;
+      vertical-align: top;
+
+      .user_info {
+        margin-bottom: 5px;
+        .short_label { width: 85px; }
+        .short_value { width: 255px; }
+        .user_info_label {
+          
+          background-color: #333333;
+          color: #DDDDDD;
+        }
+
+        .user_info_value {
+          background-color: #CCCCCC;
+
+          a { color: #333333; text-decoration: none; }
+          a:hover { color: #888888; }
+        }
+
+        div { 
+          display: inline-block; 
+          font-size: 1.1em;
+          padding: 5px;
+        }
+
+        .title_list_header, .title_item {
+          display: block;
+        }
+
+        .title_item {
+          margin-top: 2px;
+        }
+      }
+
+      .user_info:last-child { margin-bottom: 0px; }
+    }
+  }
+
+  #user_bio { 
+    padding: 10px;
+    padding-right: 0px;
+  }
+
+  #user_articles {
+    #user_articles_header {
+      font-size: 1.75em;
+      padding: 5px;
+      padding-left: 15px;
+      background-color: #CCCCCC;
+      border: 1px solid #333333;
+      border-top: none;
+    }
+  }
+}
+
+#writers {
+  margin-top: 10px;
+
+  .writer {
+    display: inline-block;
+    width: 330px;
+    position: relative;
+
+    .writer_avatar {
+      font-size: 0px;
+      a { font-size: 0px; }
+      img { max-width: 100%; font-size: 0px;}
+    }
+
+    .writer_name a {
+      position: absolute;
+      text-align: center;
+      bottom: 0px;
+      padding: 10px;
+      background-color: #CCCCCC;
+      background-color: rgba(204,204,204,.5);
+      color: #333333;
+      text-decoration: none;
+      font-size: 1.3em;
+    }
+  }
+
+  .writer:nth-child(2n) {
+    margin-left: 10px;
+    margin-bottom: 10px;
+  }
+}

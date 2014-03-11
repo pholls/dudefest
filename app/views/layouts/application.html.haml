@@ -33,15 +33,36 @@
               = link_to 'Sign In', new_user_session_path
               |
               = link_to 'Sign Up', new_user_registration_path
-          #nav
-            %ul
-              %li>= link_to 'CINEMA', movies_path
-              %li>= link_to 'BOOZE', column_path('booze')
-              %li>= link_to 'FRAT', column_path('frat')
-              %li>= link_to 'GUYDE', column_path('guyde')
-              %li>= link_to 'UP NEXT', coming_soon_path
-              %li>= link_to 'CONTRIBUTE', contribute_path
-              %li= link_to 'ABOUT', about_path
+          %ul#nav
+            %li>
+              = link_to 'MOVIES &#x25BE;'.html_safe, movies_path
+              %ul>
+                - @genres.each do |genre|
+                  %li>= link_to genre.genre, movies_path(genre: genre)
+            %li>
+              = link_to 'COLUMNS &#x25BE;'.html_safe, articles_path
+              %ul>
+                - @columns.each do |column|
+                  %li>= link_to column.short_name, column_path(column)
+            %li>
+              = link_to 'TOPICS &#x25BE;'.html_safe, articles_path
+              %ul.right_align>
+                - @topics.each do |topic|
+                  %li>= link_to topic.topic, articles_path(topic: topic)
+            %li>
+              = link_to 'WRITERS &#x25BE;'.html_safe, users_path
+              %ul.right_align>
+                - @writers.each do |writer|
+                  %li>= link_to writer.name, user_path(writer)
+            %li>
+              = link_to 'INFO &#x25BE;'.html_safe, info_path
+              %ul.right_align>
+                %li>= link_to 'Legal', legal_path
+                %li>= link_to 'Coming Soon', coming_soon_path
+                %li>= link_to 'Contribute', contribute_path
+                %li>= link_to 'About', about_path
+    #sub_nav
+      #tagline= @tagline.tagline
     #content
       = yield
     #footer

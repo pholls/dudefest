@@ -17,3 +17,24 @@
 //= require ckeditor/override
 //= require ckeditor/init
 //= require_tree .
+
+var ready;
+ready = function() { 
+  $('#nav li').hover(
+    function () {
+      //show its submenu
+      $('a', this).addClass('selected');
+      $('ul', this).show();
+      $('#sub_nav').css('font-size','0');
+    }, 
+    function () {
+      //hide its submenu
+      $('a', this).removeClass('selected');
+      $('ul', this).hide();
+      $('#sub_nav').css('font-size','20px');
+    }
+  );
+};
+
+$(document).ready(ready);
+$(document).on('page:load', ready);

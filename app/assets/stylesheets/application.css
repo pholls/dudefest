@@ -38,6 +38,7 @@ body {
 #top {
   margin: 0px auto;
   color: #DDDDDD;
+  position: relative;
 }
 
 #logo {
@@ -49,7 +50,7 @@ body {
 #logo a {
   text-decoration: none;
   display: inline-block;
-  width: 280px;
+  width: 325px;
   font-size: 0px;
   padding: 15px 20px 15px 0px;
 }
@@ -62,12 +63,12 @@ body {
 
 #site_nav {
   display: inline-block;
-  width: 700px;
+  width: 655px;
 }
 
 #user_nav {
   text-align: right;
-  margin: 0px 10px 7px 0px;
+  margin: 0px 10px 10px 0px;
 }
 
 #user_nav a {
@@ -79,7 +80,7 @@ body {
   text-decoration: underline;
 }
 
-#nav ul {
+ul#nav {
   vertical-align: bottom;
   list-style: none;
   margin: 0px;
@@ -87,31 +88,76 @@ body {
   text-align: right;
 }
 
-#nav ul li { 
+#nav li {
+  display: inline;
+  font-size: 22px;
+}
+
+#nav li a {
+  text-decoration: none;
+  padding: 10px 12px;
+  color: #DDDDDD;
+  display: inline-block;
+}
+
+#nav li a.selected {
+  color: #333333;
+  background-color: #DDDDDD;
+  border-radius: 1px 1px 0px 0px;
+}
+
+#nav ul {
+  list-style: none;
+  left: 0px;
+  position: absolute;
+  text-align: center;
+  width: 980px;
+  padding: 0px 14px;
+  display: none;
+  background-color: #DDDDDD;
+}
+
+#nav ul.right_align {
+  text-align: right;
+}
+
+#nav ul li {
   display: inline;
   font-size: 20px;
 }
 
 #nav ul li a {
   text-decoration: none;
-  padding: 10px 10px;
-  color: #DDDDDD;
+  color: #333333;
+  padding: 10px 10px 15px;
   display: inline-block;
 }
 
 #nav ul li a:hover {
-  color: #333333;
-  background-color: #DDDDDD;
-  border-radius: 1px 1px 0px 0px;
+  color: #888888;
+}
+
+#sub_nav {
+  height: 42px;
+  text-align: left;
+  font-size: 20px;
+  width: 1000px;
+  margin: 10px auto 0px;
+  z-index: 50;
+}
+
+#tagline {
+  padding-left: 63px;
 }
 
 #content {
-  margin: 10px auto 0px;
+  margin: 5px auto 0px;
   padding: 0px;
   border: 1px solid #AAAAAA;
   border-bottom: 0px;
   box-shadow: 0px 0px 5px #888888;
   background-color: #E0E0E0;
+  z-index: 100;
 }
 
 .home_column {
@@ -232,12 +278,6 @@ body {
   color: black;
   text-decoration: none;
   font-size: 1.5em;
-}
-
-.article_view_count { 
-  font-size: .9em; 
-  color: #555555; 
-  padding-top: 28px; 
 }
 
 #right_column {
@@ -403,6 +443,15 @@ td.daily_dose_close_quote {
 
 .text ol li {
   padding-left: 10px;
+}
+
+.text a {
+  text-decoration: none;
+  color: #666666;
+}
+
+.text a:hover {
+  text-decoration: underline;
 }
 
 #footer {

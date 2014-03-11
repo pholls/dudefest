@@ -1,0 +1,33 @@
+#main_column.home_column
+  #shit_to_read DUDEFEST.COM INFO
+  #article_body.text
+    %p
+      You dudes have any questions about Dudefest.com? Check out the
+      %span= link_to 'About Page', about_path
+      %span>.
+    %p &nbsp;
+    %p
+      You dudes want to help out with generating content? Check out the
+      %span= link_to 'Contribute Page', contribute_path
+      %span>.
+    %p &nbsp;
+    %p
+      You dudes want to find out what's next for the site? Check out the
+      %span= link_to 'Coming Soon Page', coming_soon_path
+      %span>.
+    %p &nbsp;
+    %p
+      You dudes need to read Dudefest.com's legal disclaimer? Check out the
+      %span= link_to 'Legal Page', legal_path
+      %span>. If need be, you can find directions on how to sue the site
+      %span
+      %span= link_to 'here', article_path(98)
+      %span>.
+    %p &nbsp;
+    %p
+      Any additional information about dudefest or Dudefest.com can be found in
+      the following short film.
+    %p &nbsp;
+    %p.center_align= @video.source_html
+
+= render 'home/daily_dose'

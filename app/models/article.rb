@@ -26,6 +26,7 @@ class Article < ActiveRecord::Base
   validates :column, :creator, presence: true
   validates :authors, presence: true, on: :update
   validate :creator_is_author
+  validates :topic, presence: true, unless: :is_movie_review?
 
   accepts_nested_attributes_for :article_authors
 
@@ -226,6 +227,11 @@ class Article < ActiveRecord::Base
 
     def self.public
       self.order(date: :desc, creator_id: :asc).select { |a| a.public? }
+    end
+
+    def self.public_articles
+      self.order(date: :desc, creator_id: :asc).select { |a| a.public? }
+           .select { |a| !a.is_movie_review? }
     end
 
     def author_ids=(ids)
