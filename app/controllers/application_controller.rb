@@ -35,9 +35,9 @@ class ApplicationController < ActionController::Base
     end
 
     def set_nav
-      @columns = Column.live
-      @topics = Topic.live.limit(5)
-      @genres = Genre.order(movies_count: :desc).limit(6)
+      @columns = Column.order(:column).live
+      @topics = Topic.order(:topic).live.limit(5)
+      @genres = Genre.unscoped.order(movies_count: :desc).limit(6)
       @writers = User.order(articles_count: :desc).limit(8)
       @tagline = Tagline.where(reviewed: true).order('RANDOM()').first
     end
