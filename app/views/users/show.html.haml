@@ -14,9 +14,6 @@
       #user_avatar>= image_tag @user.avatar.url(:display)
       #user_info
         .user_info
-          .user_info_label.short_label> Username
-          .user_info_value.short_value>= @user.username
-        .user_info
           .user_info_label.short_label> Email
           .user_info_value.short_value>= mail_to @user.email
         .user_info
