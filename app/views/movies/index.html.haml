@@ -16,7 +16,9 @@
           .article_type= link_to movie.review.type, movies_path
         .article_info
           .article_title= link_to movie.title, movie_path(movie)
-          .article_author= 'Review by ' + movie.review.display_authors
+          .article_author
+            Review by 
+            = link_to movie.review.creator.name, user_path(movie.review.creator)
           .article_date= movie.review.display_date
 
 = render partial: 'home/daily_dose'
