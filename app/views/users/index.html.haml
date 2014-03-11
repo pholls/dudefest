@@ -10,7 +10,7 @@
 #main_column.home_column
   #shit_to_read.main_top DUDEFEST DUDES
   #writers
-    - @users.each_with_index do |user, index|
+    - @writers.each_with_index do |user, index|
       .writer>
         .writer_avatar>= link_to image_tag(user.avatar.url(:display)), 
                                 user_path(user)
