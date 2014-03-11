@@ -123,6 +123,10 @@ class User < ActiveRecord::Base
       self.articles.order(date: :desc).select { |article| article.public? }
     end
 
+    def last_name
+      self.name.split.last
+    end
+
     def self.current
       Thread.current[:current_user]
     end

@@ -53,7 +53,7 @@
               = link_to 'WRITERS &#x25BE;'.html_safe, users_path
               %ul.right_align>
                 - @writers.each do |writer|
-                  %li>= link_to writer.name, user_path(writer)
+                  %li>= link_to writer.last_name, user_path(writer)
             %li>
               = link_to 'INFO &#x25BE;'.html_safe, info_path
               %ul.right_align>
