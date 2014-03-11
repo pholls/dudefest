@@ -18,7 +18,8 @@
         #genres.movie_info_list>
           #genres_title.movie_info_title Genres 
           - @movie.genres.each do |genre|
-            .genre.movie_info_item= genre.genre
+            .genre.movie_info_item
+              =link_to genre.genre, movies_path(genre: genre)
         #average_rating 
           DUDEFEST RATING
           #dudefest_rating= @movie.average_rating
@@ -29,7 +30,11 @@
     #movie_review_info>
       .review_shares>= render_shareable title: @movie.review.display_title,
                                         text: @movie.review.display_title
-      .review_by_on= @movie.author_and_date.html_safe
+      .review_by_on
+        By
+        = link_to @movie.review.creator.name, user_path(@movie.review.creator)
+        %br
+        = @movie.review.display_date
     #article_body.text= @movie.review.body.html_safe
     #byline.text
       %i= @movie.review.display_byline.html_safe
@@ -41,7 +46,7 @@
             .rating_number>= rating.display_rating
             .rating_info
               .rating_body.text>= rating.body
-              .rater= rating.creator.name
+              .rater= link_to rating.creator.name, user_path(rating.creator)
   #comments
     = render partial: '/comments/form'
     #comment_list 
