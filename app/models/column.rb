@@ -11,11 +11,10 @@ class Column < ActiveRecord::Base
   validates_associated :columnist, allow_blank: true
   validates :column, presence: true, uniqueness: true, length: { in: 4..50 }
   validates :short_name, presence: true, uniqueness: true, length: { in: 3..10 }
-  validates :image, presence: true
+  validates :image, presence: true, if: :active?
   validates :start_date, presence: true, if: :active?
-  validates :days, presence: true, if: :active?
-  validates :description, presence: true, uniqueness: true
-  validates :publish_days, presence: true, uniqueness: true, 
+  validates :description, presence: true, uniqueness: true, if: :active?
+  validates :publish_days, presence: true, if: :active?, uniqueness: true, 
                            length: { in: 1..7 }, 
                            format: { with: /\A[1-7]+\z/,
                                      message: 'must be days of the week' }
