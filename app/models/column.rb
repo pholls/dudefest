@@ -12,7 +12,8 @@ class Column < ActiveRecord::Base
   validates :column, presence: true, uniqueness: true, length: { in: 4..50 }
   validates :short_name, presence: true, uniqueness: true, length: { in: 3..10 }
   validates :image, presence: true
-  validates :start_date, presence: true
+  validates :start_date, presence: true, if: :active?
+  validates :days, presence: true, if: :active?
   validates :description, presence: true, uniqueness: true
   validates :publish_days, presence: true, uniqueness: true, 
                            length: { in: 1..7 }, 
@@ -25,30 +26,30 @@ class Column < ActiveRecord::Base
     parent Article
     configure :image, :jcrop
     configure :short_name do
-      label 'Short Name'
-      column_width 90
+      label 'Short'
+      column_width 50
     end
 
     list do
       sort_by :column
-      include_fields :column, :short_name, :columnist, :publish_days,
-                     :articles_count
+      include_fields :column, :short_name, :publish_days, :articles_count, 
+                     :active
       configure :publish_days do
         label 'Days'
-        column_width 60
+        column_width 45
       end
       configure :articles_count do
         label 'Articles'
         column_width 60
       end
-      configure :columnist do
-        column_width 85
+      configure :active do
+        column_width 50
       end
     end
 
     edit do
       include_fields :column, :short_name, :columnist, :publish_days,
-                     :start_date, :description
+                     :start_date, :active, :description
       field :image do
         jcrop_options aspectRatio: 400.0/300.0
         fit_image true
