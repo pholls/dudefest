@@ -97,8 +97,10 @@ class User < ActiveRecord::Base
         end
       end
       field :byline, :ck_editor do
-        help ('Required. Dudes need a byline. Just a bit about yourself.<br>'\
-              'In any article you write, the byline will default to this.'
+        help ('Optional. Dudes need a byline. Just a bit about yourself.<br>'\
+              'In any article you write, the byline will default to this.<br>'\
+              'If you don\'t fill this out, you\'ll have to make a new byline '\
+              'for each article you write.'
              ).html_safe
       end
     end

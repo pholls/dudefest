@@ -21,7 +21,7 @@
         #article_shares= render_shareable title: @article.display_title
     #article_body.text= @article.body.html_safe
     #byline.text
-      %i= @article.display_byline.html_safe
+      %i= @article.byline.html_safe
   #comments
     = render partial: '/comments/form'
     #comment_list 

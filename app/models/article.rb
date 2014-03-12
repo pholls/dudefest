@@ -27,6 +27,7 @@ class Article < ActiveRecord::Base
   validates :authors, presence: true, on: :update
   validates :topic, presence: true, unless: :is_movie_review?
   validates :image, presence: true, if: :created?
+  validates :byline, presence: true
   validate :creator_is_author
 
   accepts_nested_attributes_for :article_authors
@@ -91,8 +92,8 @@ class Article < ActiveRecord::Base
         help 'Required. This is where your actual article goes dumbass.'
       end
       field :byline, :ck_editor do
-        help 'Optional. If you don\'t want to use your default byline for '\
-             'this article, then fill one out here.'
+        help 'Required. If you don\'t like filling out a byline every time, '\
+             'then fill our the byline on your user page.'
       end
       field :created do
         label 'Submit Draft'
@@ -201,10 +202,6 @@ class Article < ActiveRecord::Base
       end
     end
 
-    def display_byline
-      self.byline.blank? ? self.authors.map(&:byline).join('<br>') : self.byline
-    end
-
     def display_authors
       self.authors.map(&:name).join(', ')
     end
@@ -268,6 +265,7 @@ class Article < ActiveRecord::Base
           self.editor ||= self.class.owner
         end
         self.status ||= '0 - Drafting'
+        self.byline = self.creator.byline
       end
     end
 
@@ -307,8 +305,6 @@ class Article < ActiveRecord::Base
     def sanitize
       # Sanitize.clean!(self.title)
       # Sanitize.clean!(self.body, Sanitize::Config::RELAXED)
-      if self.byline.present?
-        Sanitize.clean!(self.byline, Sanitize::Config::BASIC)
-      end
+      Sanitize.clean!(self.byline, Sanitize::Config::BASIC)
     end
 end
