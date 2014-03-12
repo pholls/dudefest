@@ -25,8 +25,9 @@ class Article < ActiveRecord::Base
   validates :body, presence: true, uniqueness: true
   validates :column, :creator, presence: true
   validates :authors, presence: true, on: :update
-  validate :creator_is_author
   validates :topic, presence: true, unless: :is_movie_review?
+  validates :image, presence: true, if: :created?
+  validate :creator_is_author
 
   accepts_nested_attributes_for :article_authors
 
@@ -40,7 +41,7 @@ class Article < ActiveRecord::Base
 
     list do
       sort_by 'status_order_by, date desc, column_id, creator_id, created_at'
-      include_fields :date, :column, :topic, :title, :creator, :status
+      include_fields :date, :column, :title, :creator, :status
       configure :date do
         strftime_format '%Y-%m-%d'
         column_width 75

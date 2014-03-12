@@ -12,6 +12,7 @@ class Thing < ActiveRecord::Base
   validates :description, presence: true, length: { in: 150..500}, 
                           uniqueness: true
   validates :thing_category, presence: true
+  validates :image, presence: true
 
   auto_html_for :image_old do
     html_escape
