@@ -42,10 +42,7 @@ class User < ActiveRecord::Base
       sort_by :username
       include_fields :username, :role, :tips_count, :daily_videos_count
       include_fields :events_count, :things_count, :quotes_count
-      include_fields :articles_count, :ratings_count
-      field :reviews_count do
-        sortable true
-      end
+      include_fields :articles_count, :ratings_count, :movies_count
       configure :role do
         visible do
           User.current.role?(:admin)
@@ -79,7 +76,7 @@ class User < ActiveRecord::Base
         label 'Rate'
         column_width 40
       end
-      configure :reviews_count do
+      configure :movies_count do
         label 'Movie'
         column_width 50
       end
@@ -113,10 +110,6 @@ class User < ActiveRecord::Base
 
     def role_enum
       ROLES
-    end
-
-    def reviews_count
-      (count = self.articles.where.not(movie_id: nil).count) > 0 ? count : nil
     end
 
     def public_articles

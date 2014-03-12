@@ -10,6 +10,8 @@ class Movie < ActiveRecord::Base
   has_many :credits, dependent: :destroy, inverse_of: :movie, autosave: true
   has_many :name_variants, through: :credits
   has_many :ratings, inverse_of: :movie, dependent: :destroy
+  belongs_to :creator, class_name: 'User', inverse_of: :movie, 
+                       counter_cache: true
 
   validates_associated :review
   validates_associated :genres
