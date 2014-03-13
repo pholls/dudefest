@@ -19,8 +19,11 @@
         .user_info
           .user_info_label.short_label> Twitter
           .user_info_value.short_value>
-            = link_to '@' + @user.twitter_handle, 
-                      'https://www.twitter.com/' + @user.twitter_handle
+            - if @user.twitter_handle.present?
+              = link_to '@' + @user.twitter_handle, 
+                        'https://www.twitter.com/' + @user.twitter_handle
+            - else
+              &nbsp;
         .user_info
           .user_info_label.short_label> Articles
           .user_info_value.short_value>= @user.public_articles.count
