@@ -84,7 +84,12 @@ class User < ActiveRecord::Base
     end
 
     edit do
-      include_fields :username, :name, :email, :password, :password_confirmation
+      include_fields :username, :name, :email
+      field :twitter_handle do
+        help 'Optional. Don\'t add the @ in front of it. Just do your user '\
+             'name.'
+      end
+      include_fields :password, :password_confirmation
       field :avatar do
         jcrop_options aspectRatio: 400.0/400.0
         fit_image true
