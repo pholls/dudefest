@@ -478,6 +478,16 @@ td.daily_dose_close_quote {
   vertical-align: top;
 }
 
+.simple_form textarea {
+  width: 250px;
+  height: 100px;
+  max-width: 250px;
+}
+
+.simple_form label.text {
+  font-family: Futura, "Trebuchet MS", Arial, sans-serif;
+}
+
 .simple_form div.boolean, .simple_form input[type='submit'] {
   margin-left: 120px;
 }
