@@ -7,6 +7,7 @@ class Article < ActiveRecord::Base
   after_initialize :initialize_article, on: :new
   before_validation :determine_status
   before_validation :sanitize
+  before_validation :substitute_references
 
   has_paper_trail
   belongs_to :column, inverse_of: :articles, counter_cache: true
@@ -293,6 +294,19 @@ class Article < ActiveRecord::Base
         self.status = '0 - Drafting'
       end
       self.status_order_by = self.status.to_i
+    end
+
+    def substitute_references
+      writers = User.where.not(role: 'reader').where.not(role: 'writer')
+      writers.find_each do |w|
+        self.body.gsub!("[[#{w.name}]]", create_link("/users/#{w.id}", w.name))
+        self.body.gsub!("[[#{w.last_name}]]", 
+                        create_link("/users/#{w.id}", w.last_name))
+      end
+    end
+
+    def create_link(href, label)
+      "<a href='#{href}'>#{label}</a>"
     end
 
     def creator_is_author
