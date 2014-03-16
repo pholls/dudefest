@@ -46,6 +46,10 @@ class Movie < ActiveRecord::Base
 
     edit do
       include_fields :title, :release_date, :genres, :name_variants
+      configure :title do
+        help 'Required. CAPITALIZE IT. If you reference any other movies in '\
+             'your review, capitalize their names too.'
+      end
       configure :release_date do
         help 'Required. Should be the BoxOfficeMojo.com release date.'
       end
