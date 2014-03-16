@@ -16,3 +16,6 @@
 /tmp
 config/environmental_variables.rb
 public/uploads
+public/javascripts
+public/sitemaps
+public/uploads
