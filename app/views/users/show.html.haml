@@ -51,7 +51,7 @@
             = @user.name 
             hasn't found the time between masturbating and cleaning it up 
             to write a bio.
-    - if @user.articles.count > 0
+    - if @user.public_articles.count > 0
       #user_articles
         #user_articles_header= 'Shit Written By ' + @user.name
         #article_summaries
