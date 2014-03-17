@@ -19,7 +19,7 @@ class User < ActiveRecord::Base
   validates :bio, uniqueness: true, allow_blank: true
   validates :avatar, presence: true, if: 'role?(:reviewer)'
 
-  has_paper_trail
+  has_paper_trail 
   has_many :tips, foreign_key: 'creator_id'
   has_many :events, foreign_key: 'creator_id'
   has_many :daily_videos, foreign_key: 'creator_id'
