@@ -97,7 +97,7 @@ class User < ActiveRecord::Base
         fit_image true
       end
       field :titles
-      field :bio, :ck_editor
+      field :bio
       field :role do
         visible do
           User.current.role? :admin
