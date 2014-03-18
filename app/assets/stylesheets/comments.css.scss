@@ -2,8 +2,7 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 #comments {
-  margin-bottom: 80px;
-  margin-top: 40px;
+  margin-top: 25px;
 }
 
 .comment_field {
@@ -13,7 +12,7 @@
   textarea {
     max-width: 625px;
     width: 625px;
-    font-size: 1em;
+    font-size: .9em;
     padding: 10px;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     background-color: #EEEEEE;
@@ -24,6 +23,7 @@
 .comment_count_submit {
   position: relative;
   margin-left: 10px;
+  padding-bottom: 25px;
 
   .comment_count {
     display: inline-block;
@@ -31,6 +31,8 @@
     font-size: 1.25em;
     padding-top: 7px;
     padding-left: 5px;
+    position: relative;
+    bottom: 0px;
   }
 
   .comment_actions {
@@ -43,10 +45,8 @@
 }
 
 #comment_list {
-  margin-top: 25px;
-
   .comment {
-    margin: 25px 10px 10px;
+    margin: 15px 10px 10px;
 
     .comment_info {
       padding: 7px 15px;
@@ -74,6 +74,43 @@
     .comment_body {
       padding: 10px 15px;
       font-size: .85em;
+    }
+
+    .comment_reply_link {
+      text-align: right;
+
+      a { padding: 5px 15px; }
+    }
+
+    .comment_reply { 
+      width: 100%;
+      background-color: #CCCCCC;
+      display: none;
+
+      .comment_reply_field {
+        textarea {
+          width: 600px;
+          max-width: 600px;
+          margin: 15px 15px 0px;
+          font-size: .9em;
+          padding: 10px;
+          font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+          background-color: #EEEEEE;
+          color: #333333;
+        }
+      }
+
+      .comment_reply_actions {
+        text-align: right;
+        margin: 5px 12px 10px 0px;
+        padding-bottom: 10px;
+        font-size: .9em;
+      }
+    }
+
+    .child_comments {
+      margin-left: 60px;
+      margin-right: -10px;
     }
   }
 }

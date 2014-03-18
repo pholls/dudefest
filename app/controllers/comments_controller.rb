@@ -12,6 +12,9 @@ class CommentsController < ApplicationController
   def create
     @comment = Comment.build_from(@commentable, current_user, 
                                   params[:comment][:body])
+    if params[:comment][:parent_id].present?
+      @comment.parent_id = params[:comment][:parent_id].to_i
+    end
     if @comment.save 
       redirect_to @commentable, notice: 'Comment created.'
     else

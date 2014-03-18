@@ -6,3 +6,21 @@
         = link_to (image_tag '/DudefestSymbol.png'), users_path
     .comment_datetime= display_datetime(comment.created_at)
   .comment_body.text= comment.body_html
+  - if user_signed_in? && comment.parent.blank?
+    .comment_reply_link= link_to 'Reply', 'javascript:void(0)'
+    .comment_reply
+      = form_for [@commentable, comment.children.build] do |c|
+        .comment_reply_field.field
+          = c.text_area :body, rows: 4, 
+                               placeholder: 'This is where your response goes'
+        = c.hidden_field :parent_id, value: comment.id
+        .comment_count_submit
+          .comment_count
+            Reply to 
+            = link_to comment.user.name, user_path(comment.user)
+          .comment_actions.comment_reply_actions.actions
+            = c.submit 'SUBMIT REPLY'
+  .child_comments
+    - comment.children.order(:created_at).each do |child|
+      - if child.persisted?
+        = render partial: '/comments/comment', locals: { comment: child }
