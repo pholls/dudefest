@@ -11,7 +11,7 @@ class Comment < ActiveRecord::Base
   belongs_to :commentable, polymorphic: true
 
   # NOTE: Comments belong to a user
-  belongs_to :user
+  belongs_to :user, inverse_of: :comments, counter_cache: true
 
   auto_html_for :body do
     html_escape

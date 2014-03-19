@@ -34,7 +34,7 @@ class User < ActiveRecord::Base
   has_many :taglines, foreign_key: 'creator_id'
   has_many :titles, inverse_of: :user
   has_many :movies, foreign_key: 'creator_id', inverse_of: :creator
-  has_many :comments, dependent: :destroy
+  has_many :comments, inverse_of: :user, dependent: :destroy
 
   rails_admin do
     object_label_method :username
