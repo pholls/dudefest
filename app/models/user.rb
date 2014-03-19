@@ -43,45 +43,33 @@ class User < ActiveRecord::Base
 
     list do
       sort_by :username
-      include_fields :username, :role, :tips_count, :daily_videos_count
-      include_fields :events_count, :things_count, :quotes_count
-      include_fields :articles_count, :ratings_count, :movies_count
-      configure :role do
+      field :username
+      field :role do
         visible do
           User.current.role?(:admin)
         end
       end
-      configure :tips_count do
-        label 'Tip'
+
+      field :tips_count do label 'Tip'; end
+      field :daily_videos_count do label 'Vid'; end
+      field :events_count do label 'His'; end
+      field :things_count do label 'Thi'; end
+      field :quotes_count do label 'Quo'; end
+      field :articles_count do label 'Art'; end
+      field :ratings_count do label 'Rat'; end
+      field :movies_count do label 'Mov'; end
+      field :comments_count do label 'Com'; end
+      field :taglines_count do label 'Tag'; end
+
+      include_fields :tips_count, :daily_videos_count, :events_count, 
+                     :things_count, :articles_count do
         column_width 30
       end
-      configure :daily_videos_count do
-        label 'Vid'
-        column_width 30
-      end
-      configure :events_count do
-        label 'Event'
-        column_width 50
-      end
-      configure :things_count do
-        label 'Thing'
-        column_width 50
-      end
-      configure :quotes_count do
-        label 'Quote'
-        column_width 50
-      end
-      configure :articles_count do
-        label 'Article'
-        column_width 55
-      end
-      configure :ratings_count do
-        label 'Rate'
+      include_fields :quotes_count, :movies_count, :comments_count do
         column_width 40
       end
-      configure :movies_count do
-        label 'Movie'
-        column_width 50
+      include_fields :ratings_count, :taglines_count do
+        column_width 35
       end
     end
 
