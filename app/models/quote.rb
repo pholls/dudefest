@@ -70,11 +70,7 @@ class Quote < ActiveRecord::Base
   end
 
   def display_attribution
-    display = ''
-    display += self.dude.name + ', ' if self.dude.present?
-    display += self.context + ', ' if self.context.present?
-    display += self.year.to_s if self.year.present?
-    display
+    [self.dude.name, self.context, self.year.to_s].reject(&:blank?).join(', ')
   end
 
   private
