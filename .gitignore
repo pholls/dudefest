@@ -19,3 +19,4 @@ public/uploads
 public/javascripts
 public/sitemaps
 public/uploads
+public/#{Rails.root}
