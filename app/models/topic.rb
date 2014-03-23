@@ -1,6 +1,6 @@
 class Topic < ActiveRecord::Base
   has_paper_trail
-  has_many :articles, inverse_of: :column
+  has_many :articles, inverse_of: :topic
 
   validates :topic, presence: true, uniqueness: true, length: { in: 3..30 }
 
@@ -17,6 +17,14 @@ class Topic < ActiveRecord::Base
     edit do
       include_fields :topic, :description
     end
+  end
+
+  def public_articles
+    self.articles.order(date: :desc).select { |article| article.public? }
+  end
+
+  def public_related(column)
+    self.public_articles.select { |article| article.column != column }
   end
 
   def self.live

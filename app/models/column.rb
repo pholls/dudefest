@@ -72,6 +72,10 @@ class Column < ActiveRecord::Base
       self.articles.order(date: :desc).select { |article| article.public? }
     end
 
+    def public_related(article)
+      self.public_articles.select { |a| a != article }
+    end
+
     def self.live
       self.where.not(short_name: 'Cinema').where('start_date <= ?', Date.today)
           .order(:column)

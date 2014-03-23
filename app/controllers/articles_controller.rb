@@ -19,6 +19,7 @@ class ArticlesController < ApplicationController
       redirect_to(@article.movie)
     end
 
+    @column = @article.column
     @comments = @commentable.root_comments.order(created_at: :desc)
     @comment = Comment.new
   end

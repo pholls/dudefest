@@ -1,0 +1,8 @@
+.related_article
+  = link_to image_tag(movie.review.display_image), movie_path(movie)
+  .article_type= link_to movie.review.type, movies_path()
+  .related_article_info
+    .related_article_title= link_to movie.title, movie_path(movie)
+    .related_article_authors
+      Review by
+      = link_to movie.review.creator.name, user_path(movie.review.creator)

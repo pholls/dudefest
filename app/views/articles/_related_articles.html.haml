@@ -1,0 +1,8 @@
+.related_article
+  = link_to image_tag(article.display_image), article_path(article)
+  .article_type= link_to article.type, column_path(article.column)
+  .related_article_info
+    .related_article_title= link_to article.display_title, article_path(article)
+    .related_article_authors
+      = article.authors.map { |a| link_to a.name, user_path(a) }. |
+                join(', ').html_safe                              |

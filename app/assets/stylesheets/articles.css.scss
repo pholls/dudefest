@@ -52,6 +52,43 @@
   }
 }
 
+#related {
+  margin-top: 15px;
+
+  .related_row {
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #888888;
+
+    .related_row_label {
+      font-size: 1.5em;
+      margin-bottom: 10px;
+    }
+
+    .related_article {
+      vertical-align: top;
+      width: 220px;
+      display: inline-block;
+      position: relative;
+
+      img {
+        max-width: 100%;
+      }
+
+      .related_article_info {
+        .related_article_title { 
+          min-height: 2.8em;
+          font-size: 1em;
+          a:hover { color: #333333 }
+        }
+        .related_article_authors { 
+          font-size: .8em;
+        }
+      }
+    }
+  }
+}
+
 nav.share {
   display:inline-block;
   margin: 0px auto;

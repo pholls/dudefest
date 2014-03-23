@@ -47,6 +47,16 @@
             .rating_info
               .rating_body.text>= rating.body
               .rater= link_to rating.creator.name, user_path(rating.creator)
+  #related
+    - @movie.genres.each do |genre|
+      - if !genre.movies_count.zero?
+        .related_row
+          .related_row_label
+            Recent
+            = link_to genre.genre, movies_path(genre.genre)
+            Reviews
+          - genre.public_related(@movie).first(3).each do |movie|
+            = render partial: 'related_movies', locals: { movie: movie }
   #comments
     = render partial: '/comments/form'
     #comment_list 

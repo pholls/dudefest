@@ -26,6 +26,16 @@ class Genre < ActiveRecord::Base
     end
   end
 
+  public
+    def public_reviews
+      self.movies.select { |movie| movie.review.public? }
+                 .sort_by { |movie| movie.review.date }.reverse
+    end
+
+    def public_related(movie)
+      self.public_reviews.select { |m| m != movie }
+    end
+
   private
     def sanitize
       Sanitize.clean!(self.genre)
