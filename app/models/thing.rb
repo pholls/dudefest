@@ -93,12 +93,10 @@ class Thing < ActiveRecord::Base
   end
   
   public
-    def category
-      self.thing_category.category
-    end
+    def category() self.thing_category.category; end
 
     def display_image
-      self.image.present? ? self.image_url(:display).to_s : self.image_old
+      self.image.present? ? self.image.url.to_s : self.image_old
     end
 
   private
