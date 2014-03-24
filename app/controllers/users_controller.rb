@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   def index
-    @users = User.where('role not in (?)', ['reader', 'writer'])
-                 .order(articles_count: :desc)
+    @users = User.where(role: 'writer')
+                 .select { |u| !u.public_articles.count.zero? }
   end
 
   def show
