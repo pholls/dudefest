@@ -11,6 +11,8 @@ class Column < ActiveRecord::Base
   validates_associated :columnist, allow_blank: true
   validates :column, presence: true, uniqueness: true, length: { in: 4..50 }
   validates :short_name, presence: true, uniqueness: true, length: { in: 3..10 }
+  validates :display_name, presence: true, uniqueness: true, 
+                           length: { in: 5..21 }
   validates :image, presence: true, if: :active?
   validates :start_date, presence: true, if: :active?
   validates :description, presence: true, uniqueness: true, if: :active?
@@ -79,7 +81,7 @@ class Column < ActiveRecord::Base
 
     def self.live
       self.where.not(short_name: 'Cinema').where('start_date <= ?', Date.today)
-          .order(:column)
+          .order(:display_name)
     end
 
     def self.movie

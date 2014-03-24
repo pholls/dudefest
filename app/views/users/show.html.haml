@@ -3,9 +3,8 @@
 - content_for :head do
   = tag :meta, property: 'og:title', content: @user.name
   = tag :meta, property: 'og:url', content: user_url(@user)
-  = tag :meta, property: 'og:image', 
-               content: image_url(@user.avatar.url(:display))
-  = tag :meta, property: 'og:description', content: @user.byline
+  = tag :meta, property: 'og:image', content: image_url(@user.display_avatar)
+  = tag :meta, property: 'og:description', content: @user.bio
 
 #main_column.home_column
   #shit_to_read= @user.name.upcase

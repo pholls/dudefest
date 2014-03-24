@@ -43,7 +43,7 @@
               = link_to 'COLUMNS &#x25BE;'.html_safe, articles_path
               %ul>
                 - @columns.each do |column|
-                  %li>= link_to column.short_name, column_path(column)
+                  %li>= link_to column.display_name, column_path(column)
             %li>
               = link_to 'TOPICS &#x25BE;'.html_safe, articles_path
               %ul.right_align>

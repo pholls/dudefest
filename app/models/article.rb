@@ -153,9 +153,7 @@ class Article < ActiveRecord::Base
   end
 
   public
-    def status?(base_status)
-      base_status.to_s == self.status
-    end
+    def status?(base_status) base_status.to_s == self.status; end
 
     def creatable?
       self.creator == User.current && self.status < '1'
@@ -174,24 +172,16 @@ class Article < ActiveRecord::Base
     end
 
     def display_title
-      if Column.guyde == self.column
-        self.column.column + ': ' + self.title
-      else
-        self.title
-      end
+      [self.column.article_append, self.title].reject(&:blank?).join(' ')
     end
 
     def is_movie_review?
       self.column.present? && self.column == Column.movie
     end
 
-    def display_date
-      self.date.strftime('%B %d, %Y')
-    end
+    def display_date; self.date.strftime('%B %d, %Y'); end
 
-    def type
-      self.column.short_name.upcase
-    end
+    def type; self.column.short_name.upcase; end
 
     def display_image
       if self.image.present?
@@ -203,9 +193,7 @@ class Article < ActiveRecord::Base
       end
     end
 
-    def display_authors
-      self.authors.map(&:name).join(', ')
-    end
+    def display_authors; self.authors.map(&:name).join(', '); end
 
     def author_and_date
       'By ' + self.display_authors + ' on ' + self.display_date
