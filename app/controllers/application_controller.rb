@@ -67,6 +67,7 @@ class ApplicationController < ActionController::Base
                      .order(movies_count: :desc).limit(8)
       @writers = User.order(articles_count: :desc).limit(8)
                      .sort_by { |u| u.public_articles.count }.reverse
+      @writers = User.where.not(role: 'reader').where.not(role: 'writer')
       @tagline = Tagline.where(reviewed: true).order('RANDOM()').first
     end
 end
