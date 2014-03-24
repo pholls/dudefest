@@ -519,6 +519,12 @@ td.daily_dose_close_quote {
   font-style: italic;
 }
 
+.simple_form img {
+  max-width: 50px;
+  max-height: 50px;
+  margin-left: 120px;
+}
+
 .actions input, .actions a {
   background-color: #333333;
   padding: 7px 25px;
