@@ -6,6 +6,7 @@ class ApplicationController < ActionController::Base
   before_filter :set_current_user
   before_filter :set_daily_dose
   before_filter :set_nav
+  after_filter :store_location
   rescue_from CanCan::AccessDenied do |exception|
     redirect_to main_app.root_path, :alert => exception.message
   end
@@ -22,6 +23,27 @@ class ApplicationController < ActionController::Base
         u.permit(:username, :email, :name, :password, :password_confirmation,
                  :current_password, :bio)
       }
+    end
+
+    def store_location
+      unless (request.fullpath == '/users/sign_in' || 
+              request.fullpath == '/users/sign_up' ||
+              request.fullpath == '/users/sign_out' ||
+              request.fullpath == '/users/password' || request.xhr?)
+        session[:previous_url] = request.fullpath
+      end
+    end
+
+    def after_sign_in_path_for(resource)
+      session[:previous_url] || root_path
+    end
+
+    def after_update_path_for(resource)
+      session[:previous_url] || root_path
+    end
+
+    def after_sign_out_path_for(resource)
+      session[:previous_url] || root_path
     end
 
   private
