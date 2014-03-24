@@ -12,8 +12,13 @@
   #writers
     - @writers.each_with_index do |user, index|
       .writer>
-        .writer_avatar>= link_to image_tag(user.avatar.url(:display)), 
-                                user_path(user)
+        .writer_avatar>= link_to image_tag(user.display_avatar), user_path(user)
+        .writer_name>= link_to user.name, user_path(user)
+  #contributers_label Dudefest Guest And Contributing Writers
+  #contributers 
+    - @users.each_with_index do |user, index|
+      .writer>
+        .writer_avatar>= link_to image_tag(user.display_avatar), user_path(user)
         .writer_name>= link_to user.name, user_path(user)
 
 = render '/home/daily_dose'

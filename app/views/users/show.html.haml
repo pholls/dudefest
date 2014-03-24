@@ -12,10 +12,7 @@
   #user
     #user_top
       #user_avatar>
-        - if @user.avatar.present?
-          = image_tag @user.avatar.url(:display)
-        - else
-          = image_tag '/mugshot.jpg'
+        = @user.display_avatar
       #user_info
         - if @user.role?(:reviewer)
           .user_info

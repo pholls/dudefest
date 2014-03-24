@@ -118,6 +118,10 @@ class User < ActiveRecord::Base
       self.name.split.last
     end
 
+    def display_avatar
+      self.avatar.present? ? self.avatar.url(:display) : '/mugshot.jpg'
+    end
+
     def self.current
       Thread.current[:current_user]
     end
