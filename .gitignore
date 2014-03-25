@@ -20,3 +20,4 @@ public/javascripts
 public/sitemaps
 public/uploads
 public/#{Rails.root}
+public/tunes
