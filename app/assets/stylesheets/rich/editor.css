@@ -24,12 +24,12 @@ img {
   max-height: 350px;
 }
 
-ol {
+ol, ul {
   margin: 0px;
   padding-left: 20px;
 }
 
-ol li {
+ol li, ul li {
   padding-left: 10px;
 }
 

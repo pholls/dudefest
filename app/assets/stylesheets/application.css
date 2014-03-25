@@ -443,12 +443,12 @@ td.daily_dose_close_quote {
   margin-right: 160px;
 }
 
-.text ol {
+.text ol, .text ul {
   margin: 0px;
   padding-left: 20px;
 }
 
-.text ol li {
+.text ol li, .text ul li {
   padding-left: 10px;
 }
 

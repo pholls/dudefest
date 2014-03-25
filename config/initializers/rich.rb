@@ -7,7 +7,7 @@ if Object.const_defined?("Rich")
     config.editor[:toolbar] = 
       [['Format', 'Styles'],
        ['Bold', 'Italic', 'Underline', 'Strike', 
-        '-', 'NumberedList', 'Blockquote', 
+        '-', 'NumberedList', 'BulletedList', 'Blockquote', 
         '-', 'richImage', 'MediaEmbed', 
         '-', 'Link', 'Unlink'],
        ['BGColor', 'RemoveFormat', 'Scayt', 'Preview', 'Maximize']]
