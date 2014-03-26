@@ -14,6 +14,7 @@ class Article < ActiveRecord::Base
   belongs_to :topic, inverse_of: :articles, counter_cache: true
   belongs_to :creator, class_name: 'User'
   belongs_to :editor, class_name: 'User'
+  belongs_to :reviewer, class_name: 'User'
   belongs_to :movie, inverse_of: :review
   has_many :article_authors, dependent: :destroy, inverse_of: :article,
                              autosave: true
@@ -82,12 +83,7 @@ class Article < ActiveRecord::Base
         jcrop_options aspectRatio: 400.0/300.0
         fit_image true
       end
-      field :remote_image_url do
-        label 'Or Image URL'
-      end
-      field :image_old do
-        read_only true
-      end
+      field :remote_image_url
       field :body, :rich_editor do
         config( { insert_many: true, allow_embed: true } )
         help 'Required. This is where your actual article goes dumbass.'
@@ -119,12 +115,24 @@ class Article < ActiveRecord::Base
               '1. Make sure grammar, spelling, etc. are all set.<br>'\
               '2. Make sure the article has no extra space at the end.<br>'\
               '3. Make sure movies are all caps & TV shows are in italics.<br>'\
-              '4. If it\'s a review, it needs to have >= 2 reviewed ratings.'
+              '4. If it\'s a review, it needs to have >= 2 reviewed ratings.'\
+              '<br>If those four conditions are not met, don\'t finalize the '\
+              'article, or if it is finalized, uncheck it!'
+             ).html_safe
+      end
+      field :reviewed do
+        visible do
+          bindings[:object].reviewable?
+        end
+        help ('Checklist for finalizing an article:<br>'\
+              '1. Make sure grammar, spelling, etc. are all set.<br>'\
+              '2. Make sure the article has no extra space at the end.<br>'\
+              '3. Make sure movies are all caps & TV shows are in italics.'
              ).html_safe
       end
       field :published do
         visible do
-          bindings[:object].finalized?
+          bindings[:object].reviewed?
         end
         help 'Schedule this article to be released. It best be good to go.'
       end
@@ -164,8 +172,12 @@ class Article < ActiveRecord::Base
     end
 
     def finalizable?
-      if self.status.present? && self.status > '2'
-        self.editor_or_admin? && !self.finalized?
+      !self.reviewed && self.edited && self.editor_or_admin?
+    end
+
+    def reviewable?
+      if self.finalized? && !self.reviewed? && User.current != self.creator
+        User.current != self.editor
       else
         false
       end
@@ -186,8 +198,6 @@ class Article < ActiveRecord::Base
     def display_image
       if self.image.present?
         self.image_url(:display).to_s
-      elsif self.image_old.present?
-        self.image_old 
       else
         self.column.image_url(:display).to_s
       end
@@ -259,10 +269,13 @@ class Article < ActiveRecord::Base
     end
 
     def determine_status
-      if self.published? # 5 - Published
+      if self.published? # 6 - Published
         self.published_at ||= Time.now
         self.date ||= self.assign_date()
-        self.status = '5 - Published'
+        self.status = '6 - Published'
+      elsif self.reviewed? # 5 - Reviewed
+        self.status = '5 - Reviewed'
+        self.reviewer ||= User.current
       elsif self.finalized? # 4 - Finalized
         self.finalized_at ||= Time.now
         self.status = '4 - Finalized'
@@ -272,8 +285,8 @@ class Article < ActiveRecord::Base
       elsif self.can_edit? && self.status > '1' # 2 - Edited
         self.edited_at = Time.now
         self.edited = true
-        self.status = '2 - Edited'
-      elsif self.edited? && creator == User.current # 3 - Responded
+        self.status = '2 - Edited'                              # 3 - Responded
+      elsif self.edited? && (self.creator == User.current || self.status > '4')
         self.responded_at = Time.now
         self.status = '3 - Responded'
       elsif self.created? && self.creator == User.current # 1 - Created
