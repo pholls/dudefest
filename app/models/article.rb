@@ -258,6 +258,7 @@ class Article < ActiveRecord::Base
         self.needs_rewrite = false if self.needs_rewrite.nil?
         self.finalized = false if self.finalized.nil?
         self.published = false if self.published.nil?
+        self.reviewed = false if self.reviewed.nil?
         if self.creator == self.class.owner
           self.editor ||= User.find(5)
         else
