@@ -20,9 +20,9 @@
           - @movie.genres.each do |genre|
             .genre.movie_info_item
               =link_to genre.genre, movies_path(genre: genre)
-        #average_rating 
+        .average_rating 
           DUDEFEST RATING
-          #dudefest_rating= @movie.average_rating
+          .dudefest_rating= @movie.average_rating
         #name_variants.movie_info_list 
           #name_variants_title.movie_info_title Dudes
           - @movie.name_variants.each do |name_variant|

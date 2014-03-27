@@ -14,11 +14,14 @@
         .article_image
           = link_to image_tag(movie.review.display_image), movie_path(movie)
           .article_type= link_to movie.review.type, movies_path
-        .article_info
+        .article_info.movie_info
           .article_title= link_to movie.title, movie_path(movie)
           .article_author
             Review by 
             = link_to movie.review.creator.name, user_path(movie.review.creator)
           .article_date= movie.review.display_date
+        .average_rating
+          DUDEFEST RATING
+          .dudefest_rating= movie.average_rating
 
 = render partial: 'home/daily_dose'

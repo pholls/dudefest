@@ -47,25 +47,29 @@
       vertical-align: top;
     }
 
-    #average_rating {
-      width: 160px;
-      margin-left: 6px;
-      display: inline-block;
-      vertical-align: top;
-      text-align: center;
-      font-size: 1em;
-      background-color: #CCCCCC;
-      border: 2px solid #333333;
-
-      #dudefest_rating {
-        font-size: 3em;
-      }
-    }
-
     #name_variants {
       margin-top: 10px;
       min-width: 100%;
     }
+  }
+}
+
+.movie_info {
+  width: 285px;
+}
+
+.average_rating {
+  width: 160px;
+  margin-left: 6px;
+  display: inline-block;
+  vertical-align: top;
+  text-align: center;
+  font-size: 1em;
+  background-color: #CCCCCC;
+  border: 2px solid #333333;
+
+  .dudefest_rating {
+    font-size: 3em;
   }
 }
 
