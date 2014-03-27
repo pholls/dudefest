@@ -19,7 +19,7 @@ gem 'ckeditor'
 gem 'bootstrap-wysihtml5-rails'
 gem 'rails_12factor', group: :production
 gem 'mini_magick'
-gem 'carrierwave'
+gem 'carrierwave', '0.9.0'
 gem 'rails_admin_jcrop'
 gem 'fog'
 gem 'unf'
