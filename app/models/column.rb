@@ -16,7 +16,7 @@ class Column < ActiveRecord::Base
   validates :image, presence: true, if: :active?
   validates :start_date, presence: true, if: :active?
   validates :description, presence: true, uniqueness: true, if: :active?
-  validates :publish_days, presence: true, if: :active?, uniqueness: true, 
+  validates :publish_days, presence: true, if: :active?,
                            length: { in: 1..7 }, 
                            format: { with: /\A[1-7]+\z/,
                                      message: 'must be days of the week' }
