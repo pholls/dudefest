@@ -31,6 +31,7 @@ class Article < ActiveRecord::Base
   validates :image, presence: true, if: :created?
   validates :byline, presence: true
   validate :creator_is_author
+  validate :review_has_enough_ratings
 
   accepts_nested_attributes_for :article_authors
 
@@ -315,6 +316,14 @@ class Article < ActiveRecord::Base
       unless article_authors.select { |aa| !aa.marked_for_destruction? }
                             .select { |aa| aa.author == self.creator }.present?
         errors.add(:authors, 'need to include the original author')
+      end
+    end
+
+    def review_has_enough_ratings
+      if self.is_movie_review? && self.movie.reviewed_ratings < 2
+        if self.published?
+          errors.add(:column, 'needs at least 2 reviewed ratings')
+        end
       end
     end
 
