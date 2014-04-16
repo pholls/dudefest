@@ -462,6 +462,15 @@ td.daily_dose_close_quote {
   text-decoration: underline;
 }
 
+#history_otd a {
+  color: #000000;
+}
+
+#history_otd a:hover {
+  color: #666666;
+  text-decoration: underline;
+}
+
 .text iframe, .text embed, .text object {
   width: 350px;
   height: 250px;
