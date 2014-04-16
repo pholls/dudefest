@@ -79,6 +79,9 @@ class Article < ActiveRecord::Base
       end
       field :authors do
         orderable true
+        associated_collection_scope do
+          Proc.new { |scope| scope.where.not(role: 'reader') }
+        end
       end
       field :image do
         jcrop_options aspectRatio: 400.0/300.0
