@@ -416,6 +416,7 @@ td.daily_dose_close_quote {
 .text {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   line-height: 140%;
+  color: #000000;
 }
 
 .text img {
@@ -454,7 +455,7 @@ td.daily_dose_close_quote {
 
 .text a {
   text-decoration: none;
-  color: #666666;
+  color: #0099FF;
 }
 
 .text a:hover {
