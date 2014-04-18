@@ -1,4 +1,11 @@
 class ColumnsController < ApplicationController
+  def index
+    # columns are set in application controller
+    @meta_description = 'The Dudefest.com dudes write articles that follow '\
+                        'one of a few specific formats. These are those '\
+                        'formats'
+  end
+  
   def show
     @column = Column.where('lower(short_name) = ?', params[:id]).first
 

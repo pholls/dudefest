@@ -61,7 +61,7 @@ class ApplicationController < ActionController::Base
     end
 
     def set_nav
-      @columns = Column.order(:column).live
+      @columns = Column.live.order(:display_name)
       @topics = Topic.order(:topic).live.limit(5)
       @genres = Genre.unscoped.order(movies_count: :desc).limit(8)
       @writers = User.where.not(role: 'reader').where.not(role: 'writer')

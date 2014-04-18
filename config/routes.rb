@@ -17,6 +17,7 @@ Dudefest::Application.routes.draw do
 
   get "home/index"
 
+  get 'columns', to: 'columns#index'
   get '/:id', to: 'columns#show', as: 'column'
 
   root "home#index"

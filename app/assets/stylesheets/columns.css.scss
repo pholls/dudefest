@@ -1,3 +1,66 @@
 // Place all the styles related to the columns controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+#columns {
+  .column {
+    margin-bottom: 30px;
+
+    .column_name a {
+      display: block;
+      background-color: #333333;
+      color: #DDDDDD;
+      padding: 5px;
+      font-size: 1.65em;
+      text-align: center;
+      border: 1px solid #333333;
+      margin-bottom: 10px;
+    }
+
+    .column_name a:hover {
+      background-color: #CCCCCC;
+      color: #333333;
+    }
+
+    .column_image {
+      width: 300px;
+      display: inline-block;
+
+      img {
+        max-width: 100%;
+      }
+    }
+    .column_info {
+      margin-left: 10px;
+      vertical-align: top;
+      display: inline-block;
+      width: 360px;
+      
+      .column_desc {
+        padding: 5px;
+        background-color: #CCCCCC;
+        min-height: 108px;
+      }
+    }
+  }
+}
+
+.short_info {
+  margin-bottom: 5px;
+}
+
+.short_label, .short_value {
+  display: inline-block;
+  padding: 5px;
+  font-size: 1em;
+}
+
+.short_label { 
+  width: 100px;
+  background-color: #333333;
+  color: #DDDDDD;
+}
+
+.short_value {
+  width: 240px;
+  background-color: #CCCCCC;
+}

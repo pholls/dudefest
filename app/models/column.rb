@@ -79,6 +79,11 @@ class Column < ActiveRecord::Base
       self.public_articles.select { |a| a != article }
     end
 
+    def display_days
+      self.publish_days.split('').map { |d| Date::DAYNAMES[d.to_i - 1] }
+                       .join(', ')
+    end
+
     def self.live
       self.where.not(short_name: 'Cinema').where('start_date <= ?', Date.today)
           .order(:display_name)

@@ -40,7 +40,7 @@
                 - @genres.each do |genre|
                   %li>= link_to genre.genre, movies_path(genre: genre)
             %li>
-              = link_to 'COLUMNS &#x25BE;'.html_safe, articles_path
+              = link_to 'COLUMNS &#x25BE;'.html_safe, columns_path
               %ul>
                 - @columns.each do |column|
                   %li>= link_to column.display_name, column_path(column)
