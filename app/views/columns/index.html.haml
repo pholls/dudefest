@@ -8,10 +8,11 @@
 
 #main_column.home_column
   #columns
-    - @columns.sort { |col| col.public_articles.count }.each do |column|
+    - @columns.sort_by { |col| col.public_articles.count }.each do |column|
       .column
         .column_name>= link_to column.column.upcase, column_path(column)
-        .column_image>= link_to image_tag(column.image), column_path(column)
+        .column_image>
+          = link_to image_tag(column.image_url(:display)), column_path(column)
         .column_info>
           .short_info
             .short_label> Published on
