@@ -1,0 +1,27 @@
+- content_for(:title, 'Dudefest.com Columns')
+- meta_description @meta_description
+- content_for :head do
+  = tag :meta, property: 'og:title', content: 'Dudefest.com Columns'
+  = tag :meta, property: 'og:url', content: columns_url
+  = tag :meta, property: 'og:image', content: image_url('DudefestSymbol.png')
+  = tag :meta, property: 'og:description', content: @meta_description
+
+#main_column.home_column
+  #columns
+    - @columns.sort { |col| col.public_articles.count }.each do |column|
+      .column
+        .column_name>= link_to column.column.upcase, column_path(column)
+        .column_image>= link_to image_tag(column.image), column_path(column)
+        .column_info>
+          .short_info
+            .short_label> Published on
+            .short_value>= column.display_days
+          .short_info
+            .short_label> First Article
+            .short_value>= column.start_date.strftime('%B %d, %Y')
+          .short_info
+            .short_label> Articles
+            .short_value>= column.public_articles.count.to_s
+          .column_desc= column.description
+
+= render partial: 'home/daily_dose'
