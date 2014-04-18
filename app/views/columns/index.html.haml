@@ -8,7 +8,7 @@
 
 #main_column.home_column
   #columns
-    - @columns.sort_by { |col| col.public_articles.count }.each do |column|
+    - @columns.sort_by { |c| c.public_articles.count }.reverse_each do |column|
       .column
         .column_name>= link_to column.column.upcase, column_path(column)
         .column_image>
