@@ -15,7 +15,8 @@
         .column_info>
           .short_info
             .short_label> Published on
-            .short_value>= column.display_days
+            .short_value>
+              = column.publish_days.present? ? column.display_days : 'RETIRED'
           .short_info
             .short_label> First Article
             .short_value>= column.start_date.strftime('%B %d, %Y')
