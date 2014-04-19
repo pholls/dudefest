@@ -56,8 +56,6 @@
   margin-top: 15px;
 
   .related_row {
-    padding-bottom: 15px;
-    margin-bottom: 15px;
     border-bottom: 1px solid #888888;
 
     .related_row_label {
@@ -66,6 +64,7 @@
     }
 
     .related_article {
+      margin-bottom: 15px;
       vertical-align: top;
       width: 220px;
       display: inline-block;
@@ -87,6 +86,46 @@
       }
     }
   }
+}
+
+.right_article {
+  border-bottom: 1px solid #888888;
+  padding: 10px 0px 7px;
+
+  .right_article_image {
+    width: 90px;
+    display: inline-block;
+
+    img { width: 100%; }
+  }
+
+  .right_article_info {
+    display: inline-block;
+    width: 200px;
+    margin-left: 10px;
+    vertical-align: top;
+
+    .right_article_title { font-size: .9em; }
+    .right_article_authors {
+      font-size: .7em; 
+      margin-top: 2px;
+    }
+  }
+}
+
+.right_article:last-child {
+  border: 0px;
+}
+
+.short_desc { background-color: #CCCCCC; padding: 5px; }
+
+.daily_dose_item {
+  .column_info { margin-top: 5px; }
+  .short_value { width: 180px; }
+}
+
+.recent_articles {
+  margin-top: 10px;
 }
 
 nav.share {

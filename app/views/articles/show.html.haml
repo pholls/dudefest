@@ -26,15 +26,9 @@
     .related_row
       .related_row_label
         Recent
-        = link_to @article.column.column, column_path(@article.column)
-      - @article.column.public_related(@article).first(3).each do |article|
-        = render partial: 'related_articles', locals: { article: article }
-    .related_row
-      .related_row_label
-        Recent
         = link_to @article.topic.topic, articles_path(topic: @article.topic)
         Articles
-      - @article.topic.public_related(@column).first(3).each do |article|
+      - @article.topic.public_related(@column).first(6).each do |article|
         = render partial: 'related_articles', locals: { article: article }
   #comments
     = render partial: '/comments/form'
@@ -42,4 +36,28 @@
       - @comments.each do |comment|
         = render partial: '/comments/comment', locals: { comment: comment }
 
-= render partial: 'home/daily_dose'
+#right_column.home_column
+  #right_content
+    #daily_dose
+      = link_to @column.display_name, column_path(@column)
+    .daily_dose_item
+      .daily_dose_image
+        = link_to image_tag(@column.image_url(:display)), 
+                  column_path(@column)
+      = render partial: 'columns/column_info', locals: { column: @column }
+    .right_label.recent_articles= 'RECENT ' + @column.display_name.upcase
+    .right_column_list
+      - @column.public_related(@article).first(10).each do |article|
+        .right_article
+          .right_article_image>
+            = link_to image_tag(article.display_image), article_path(article)
+          .right_article_info>
+            .right_article_title>
+              = link_to article.title, article_path(article)
+            .right_article_authors>
+              By
+              - if article.authors.count > 2
+                = link_to 'the Dudefest Dudes', users_path
+              - else
+                = article.authors.map { |a| link_to a.name, user_path(a) }. |
+                          join(', ').html_safe                              |

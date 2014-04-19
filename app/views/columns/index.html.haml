@@ -13,17 +13,6 @@
         .column_name>= link_to column.column.upcase, column_path(column)
         .column_image>
           = link_to image_tag(column.image_url(:display)), column_path(column)
-        .column_info>
-          .short_info
-            .short_label> Published on
-            .short_value>
-              = column.publish_days.present? ? column.display_days : 'RETIRED'
-          .short_info
-            .short_label> First Article
-            .short_value>= column.start_date.strftime('%B %d, %Y')
-          .short_info
-            .short_label> Articles
-            .short_value>= column.public_articles.count.to_s
-          .column_desc= column.description
+        = render partial: 'column_info', locals: { column: column }
 
 = render partial: 'home/daily_dose'

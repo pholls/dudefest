@@ -34,12 +34,6 @@
       vertical-align: top;
       display: inline-block;
       width: 360px;
-      
-      .column_desc {
-        padding: 5px;
-        background-color: #CCCCCC;
-        min-height: 108px;
-      }
     }
   }
 }
@@ -63,4 +57,10 @@
 .short_value {
   width: 240px;
   background-color: #CCCCCC;
+}
+    
+.column_desc {
+  padding: 5px;
+  background-color: #CCCCCC;
+  min-height: 108px;
 }
