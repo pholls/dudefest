@@ -1,0 +1,8 @@
+.right_article
+  .right_article_image>
+    = link_to image_tag(movie.review.display_image), movie_path(movie)
+  .right_article_info
+    .right_article_title>= link_to movie.title, movie_path(movie)
+    .right_article_rating.text>
+      Dudefest Rating:
+      %b= movie.average_rating

@@ -63,4 +63,16 @@
       - @comments.each do |comment|
         = render partial: '/comments/comment', locals: { comment: comment }
 
-= render partial: 'home/daily_dose'
+#right_column.home_column
+  #right_content
+    #daily_dose= link_to 'Dudefest Movies', movies_path
+    .daily_dose_item
+      .right_label= @count.to_s + '  MOST DUDEFEST MOVIES'
+      .right_column_list
+        - Movie.top(@count).each do |movie|
+          = render partial: 'movies/right_movie', locals: { movie: movie }
+    .daily_dose_item
+      .right_label= @count.to_s + ' LEAST DUDEFEST MOVIES'
+      .right_column_list
+        - Movie.bottom(@count).each do |movie|
+          = render partial: 'movies/right_movie', locals: { movie: movie }

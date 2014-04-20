@@ -16,6 +16,7 @@ class MoviesController < ApplicationController
     @commentable = @movie.review
     @comments = @commentable.root_comments
     @comment = Comment.new
+    @count = 10
       
     redirect_to root_path unless @commentable.public? 
   end

@@ -137,6 +137,18 @@ class Movie < ActiveRecord::Base
                             .select { |m| m.review.public? }
     end
 
+    def self.top(x)
+      self.where.not(reviewed_ratings: 0)
+          .order('total_rating / reviewed_ratings desc')
+          .select { |m| m.review.public? }.first(x)
+    end
+
+    def self.bottom(x)
+      self.where.not(reviewed_ratings: 0)
+          .order('total_rating / reviewed_ratings')
+          .select { |m| m.review.public? }.first(x)
+    end
+
   private
     def initialize_ratings
       self.reviewed_ratings ||= self.total_rating ||= 0 if self.new_record?
