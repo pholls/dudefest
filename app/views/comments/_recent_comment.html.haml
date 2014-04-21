@@ -1,0 +1,12 @@
+.recent_comment
+  .recent_comment_info
+    .recent_commenter
+      = link_to comment.user.name, user_path(comment.user)
+      - if comment.user.role?(:reviewer) 
+        = link_to (image_tag '/DudefestSymbol.png'), users_path
+    .recent_comment_datetime= time_ago_in_words(comment.created_at) + ' ago'
+  .recent_comment_body.text= truncate(comment.body, length: 150, separator: ' ')
+  .recent_comment_article
+    on
+    = link_to comment.find_commentable.title, 
+              article_path(comment.find_commentable)

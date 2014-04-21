@@ -76,3 +76,9 @@
       .right_column_list
         - Movie.bottom(@count).each do |movie|
           = render partial: 'movies/right_movie', locals: { movie: movie }
+    .daily_dose_item
+      .right_label RECENT COMMENTS
+      .recent_comments
+        - Comment.order(created_at: :desc).first(10).each do |comment|
+          = render partial: 'comments/recent_comment', 
+                   locals: { comment: comment }

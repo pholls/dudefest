@@ -61,3 +61,9 @@
               - else
                 = article.authors.map { |a| link_to a.name, user_path(a) }. |
                           join(', ').html_safe                              |
+    .daily_dose_item
+      .right_label RECENT COMMENTS
+      .recent_comments
+        - Comment.order(created_at: :desc).first(10).each do |comment|
+          = render partial: 'comments/recent_comment', 
+                   locals: { comment: comment }
