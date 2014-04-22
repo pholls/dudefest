@@ -102,6 +102,8 @@ class User < ActiveRecord::Base
   end
 
   public
+    def to_param; self.username; end
+
     def role?(base_role)
       ROLES.index(base_role.to_s) >= ROLES.index(role)
     end

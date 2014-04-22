@@ -5,6 +5,15 @@ class UsersController < ApplicationController
   end
 
   def show
-    @user = User.find(params[:id])
+    if is_number? params[:id]
+      redirect_to user_path User.find(params[:id])
+    else
+      @user = User.find_by username: params[:id]
+    end
   end
+
+  private
+    def is_number?(string)
+      true if Float(string) rescue false
+    end
 end
