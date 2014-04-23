@@ -140,6 +140,11 @@ class Article < ActiveRecord::Base
         end
         help 'Schedule this article to be released. It best be good to go.'
       end
+      field :date do
+        visible do
+          bindings[:object].published? && bindings[:object].editor_or_admin?
+        end
+      end
     end
 
     nested do
