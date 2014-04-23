@@ -142,7 +142,7 @@ class Article < ActiveRecord::Base
       end
       field :date do
         visible do
-          bindings[:object].published? && bindings[:object].editor_or_admin?
+          bindings[:object].published? && User.current.role?(:admin)
         end
       end
     end
