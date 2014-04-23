@@ -275,6 +275,7 @@ class Article < ActiveRecord::Base
         end
         self.status ||= '0 - Drafting'
         self.byline = self.creator.byline
+        self.movie.creator ||= User.current if self.is_movie_review?
       end
     end
 
