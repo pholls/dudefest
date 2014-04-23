@@ -126,6 +126,7 @@ class Movie < ActiveRecord::Base
     def finalizable?; self.review.nil? ? false : self.review.finalizable? end
     def finalized?; self.review.present? ? self.review.finalized? : false end
     def reviewed?; self.review.present? ? self.review.reviewed? : false end
+    def published?; self.review.present? ? self.review.published? : false end
 
     # Necessary for rails_admin ratings boolean
     def reviewable?
