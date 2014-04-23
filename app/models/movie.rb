@@ -17,9 +17,11 @@ class Movie < ActiveRecord::Base
   validates_associated :genres
   validates_associated :ratings
   validates_associated :name_variants
+  validates :genres, presence: true
   validates :title, presence: true, uniqueness: true, length: { in: 3..60 }
   validates :release_date, :review, :genres, :ratings, presence: true
   validate :at_least_two_ratings
+  validate :at_least_one_name_variant
 
   accepts_nested_attributes_for :review, :ratings, :credits
 
@@ -165,6 +167,12 @@ class Movie < ActiveRecord::Base
     def at_least_two_ratings
       if self.review.published? && self.reviewed_ratings < 2
         errors.add(:review, 'needs at least 2 reviewed ratings')
+      end
+    end
+
+    def at_least_one_name_variant
+      if self.credits.select { |c| !c.marked_for_destruction? }.size < 1
+        errors.add(:name_variants, 'need to have least 1')
       end
     end
 
