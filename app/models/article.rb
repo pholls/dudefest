@@ -311,9 +311,9 @@ class Article < ActiveRecord::Base
       writers = User.where.not(role: 'reader')
       writers.find_each do |w|
         self.body.gsub!("[[#{w.name}]]",
-                        create_link("/users/#{w.username}", w.name))
+                        create_link("/users/#{w.id}", w.name))
         self.body.gsub!("[[#{w.last_name}]]", 
-                        create_link("/users/#{w.username}", w.last_name))
+                        create_link("/users/#{w.id}", w.last_name))
       end
     end
 
