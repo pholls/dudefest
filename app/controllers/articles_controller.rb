@@ -19,7 +19,9 @@ class ArticlesController < ApplicationController
       redirect_to(@article.movie)
     end
 
-    @fake_users = User.fake_or(current_user)
+    if user_signed_in? && current_user.role?(:writer)
+      @fake_users = User.fake_or(current_user)
+    end
     @column = @article.column
     @comments = @commentable.root_comments.order(created_at: :desc)
     @comment = Comment.new

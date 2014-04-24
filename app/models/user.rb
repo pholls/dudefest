@@ -133,7 +133,9 @@ class User < ActiveRecord::Base
     end
 
     def self.fake_or(user)
-      self.where('role = ? or id = ?', 'fake', user.id).order(:id)
+      if user.present?
+        self.where('role = ? or id = ?', 'fake', user.id).order(:id)
+      end
     end
 
   private
