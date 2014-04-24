@@ -9,9 +9,12 @@
   - if user_signed_in? && comment.parent.blank?
     .comment_reply_link= link_to 'Reply', 'javascript:void(0)'
     .comment_reply
-      = form_for [@commentable, comment.children.build] do |c|
+      = simple_form_for [@commentable, comment.children.build] do |c|
         .comment_reply_field.field
-          = c.text_area :body, rows: 4, 
+          - if current_user.role?(:writer)
+            = c.association :user, collection: @fake_users, required: false, 
+                                   default: current_user, label: 'Reply as:'
+          = c.text_area :body, rows: 4,
                                placeholder: 'This is where your response goes'
         = c.hidden_field :parent_id, value: comment.id
         .comment_count_submit

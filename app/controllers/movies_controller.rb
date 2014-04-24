@@ -17,6 +17,7 @@ class MoviesController < ApplicationController
     @comments = @commentable.root_comments
     @comment = Comment.new
     @count = 10
+    @fake_users = User.fake_or(current_user)
       
     redirect_to root_path unless @commentable.public? 
   end

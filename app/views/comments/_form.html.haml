@@ -1,6 +1,9 @@
-= form_for [@commentable, @comment] do |c|
+= simple_form_for [@commentable, @comment] do |c|
   - if user_signed_in?
     .comment_field.field
+      - if current_user.role?(:writer)
+        = c.association :user, collection: @fake_users, required: false, 
+                               default: current_user, label: 'Comment as:'
       = c.text_area :body, rows: 6, placeholder: 'This is where comments go'
     .comment_count_submit
       .comment_count= @commentable.comment_threads.count.to_s + ' Comments'

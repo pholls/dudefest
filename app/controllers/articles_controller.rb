@@ -19,6 +19,7 @@ class ArticlesController < ApplicationController
       redirect_to(@article.movie)
     end
 
+    @fake_users = User.fake_or(current_user)
     @column = @article.column
     @comments = @commentable.root_comments.order(created_at: :desc)
     @comment = Comment.new

@@ -10,7 +10,12 @@ class CommentsController < ApplicationController
   end
 
   def create
-    @comment = Comment.build_from(@commentable, current_user, 
+    if params[:comment][:user_id].nil? 
+      @user = current_user
+    else 
+      @user = User.find(params[:comment][:user_id])
+    end
+    @comment = Comment.build_from(@commentable, @user, 
                                   params[:comment][:body])
     if params[:comment][:parent_id].present?
       @comment.parent_id = params[:comment][:parent_id].to_i

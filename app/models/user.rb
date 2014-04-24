@@ -1,7 +1,7 @@
 class User < ActiveRecord::Base
   mount_uploader :avatar, AvatarUploader
   process_in_background :avatar
-  ROLES = %w[admin editor reviewer writer reader]
+  ROLES = %w[admin editor reviewer writer reader fake]
 
   after_initialize :set_user
   before_validation :sanitize
@@ -132,9 +132,13 @@ class User < ActiveRecord::Base
       Thread.current[:current_user] = user
     end
 
+    def self.fake_or(user)
+      self.where('role = ? or id = ?', 'fake', user.id).order(:id)
+    end
+
   private
     def set_user
-      self.role = 'reader' if self.new_record?
+      self.role ||= 'fake' if self.new_record?
     end
 
     def sanitize
