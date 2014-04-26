@@ -136,7 +136,7 @@ class Article < ActiveRecord::Base
       end
       field :published do
         visible do
-          bindings[:object].reviewed?
+          bindings[:object].reviewed? && User.current.role?(:admin)
         end
         help 'Schedule this article to be released. It best be good to go.'
       end
