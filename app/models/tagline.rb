@@ -9,7 +9,7 @@ class Tagline < ActiveRecord::Base
     navigation_label 'Daily Items'
     object_label_method :tagline
     list do
-      sort_by :tagline
+      sort_by 'reviewed, tagline'
       include_fields :tagline, :creator, :reviewed
       configure :reviewed do
         column_width 75

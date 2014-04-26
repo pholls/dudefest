@@ -30,10 +30,14 @@ class Comment < ActiveRecord::Base
     end
 
     list do
-      sort_by :body
+      sort_by :created_at
       include_fields :commentable, :user, :body, :created_at
+      configure :user do
+        column_width 85
+      end
       configure :created_at do
         strftime_format '%Y-%m-%d %H:%M'
+        column_width 115
       end
     end
 

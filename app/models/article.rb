@@ -44,7 +44,10 @@ class Article < ActiveRecord::Base
     end
 
     list do
-      sort_by 'status_order_by, date desc, column_id, creator_id, created_at'
+      filters [:creator, :column]
+      sort_by do
+        'status_order_by, date desc, column_id, creator_id, articles.created_at'
+      end
       include_fields :date, :column, :title, :creator, :status
       configure :date do
         strftime_format '%Y-%m-%d'
@@ -52,9 +55,6 @@ class Article < ActiveRecord::Base
       end
       configure :column do
         column_width 60
-      end
-      configure :topic do
-        column_width 80
       end
       configure :status do
         column_width 95

@@ -42,24 +42,28 @@ class User < ActiveRecord::Base
     configure :avatar, :jcrop
 
     list do
-      sort_by :username
+      sort_by :id
       field :username
       field :role do
         visible do
           User.current.role?(:admin)
         end
       end
+      field :id do
+        visible false
+        sort_reverse false
+      end
 
-      field :tips_count do label 'Tip'; end
-      field :daily_videos_count do label 'Vid'; end
-      field :events_count do label 'His'; end
-      field :things_count do label 'Thi'; end
-      field :quotes_count do label 'Quo'; end
-      field :articles_count do label 'Art'; end
-      field :ratings_count do label 'Rat'; end
-      field :movies_count do label 'Mov'; end
-      field :comments_count do label 'Com'; end
-      field :taglines_count do label 'Tag'; end
+      field :tips_count do label 'Tip'; sort_reverse true; end
+      field :daily_videos_count do label 'Vid'; sort_reverse true; end
+      field :events_count do label 'His'; sort_reverse true; end
+      field :things_count do label 'Thi'; sort_reverse true; end
+      field :quotes_count do label 'Quo'; sort_reverse true; end
+      field :articles_count do label 'Art'; sort_reverse true; end
+      field :ratings_count do label 'Rat'; sort_reverse true; end
+      field :movies_count do label 'Mov'; sort_reverse true; end
+      field :comments_count do label 'Com'; sort_reverse true; end
+      field :taglines_count do label 'Tag'; sort_reverse true; end
 
       include_fields :tips_count, :daily_videos_count, :events_count, 
                      :things_count, :articles_count do
