@@ -80,7 +80,7 @@ class Article < ActiveRecord::Base
       field :authors do
         orderable true
         associated_collection_scope do
-          Proc.new { |scope| scope.where.not(role: 'reader') }
+          Proc.new { |scope| scope.where.not(role: ['reader', 'fake']) }
         end
       end
       field :image do
