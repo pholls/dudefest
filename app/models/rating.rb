@@ -28,7 +28,7 @@ class Rating < ActiveRecord::Base
     end
 
     list do
-      sort_by 'reviewed, movie_id desc'
+      sort_by 'reviewed, movie_id desc, created_at asc, creator_id'
       include_fields :movie, :rating, :creator, :reviewed
     end
 
