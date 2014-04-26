@@ -17,7 +17,7 @@ class MoviesController < ApplicationController
     @comments = @commentable.root_comments
     @comment = Comment.new
     @count = 10
-    if current_user.present? && current_user.role?(:writer)
+    if user_signed_in? && current_user.role?(:writer)
       @fake_users = User.fake_or(current_user)
     end
       
