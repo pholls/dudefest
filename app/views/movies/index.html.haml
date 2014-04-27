@@ -24,4 +24,24 @@
           DUDEFEST RATING
           .dudefest_rating= movie.average_rating
 
-= render partial: 'home/daily_dose'
+- if @show_daily_dose
+  = render 'home/daily_dose'
+- else
+  #right_column.home_column
+    #right_content
+      #daily_dose Dudefest Movie Genres
+      .daily_dose_item
+        - Genre.order(:genre).each do |genre|
+          .genre= link_to genre.genre, movies_path(genre: genre)
+      .daily_dose_item
+        .right_label RECENT RATINGS
+        .recent_comments
+          - Rating.recent(10).each do |rating|
+            = render partial: 'ratings/recent_ratings', 
+                     locals: { rating: rating }
+      .daily_dose_item
+        .right_label RECENT COMMENTS
+        .recent_comments
+          - Comment.order(created_at: :desc).first(10).each do |comment|
+            = render partial: 'comments/recent_comment', 
+                     locals: { comment: comment }

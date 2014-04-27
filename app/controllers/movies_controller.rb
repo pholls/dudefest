@@ -5,7 +5,9 @@ class MoviesController < ApplicationController
       @genre = Genre.find(params[:genre])
       @movies = @movies.select { |m| m.genres.include?(@genre) }
       @header = @genre.genre
+      @show_daily_dose = true
     else
+      @show_daily_dose = false
       @header = 'ALL'
     end
     @column = Column.movie

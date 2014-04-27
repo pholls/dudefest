@@ -1,0 +1,13 @@
+.recent_comment
+  .recent_comment_info
+    .recent_commenter
+      = link_to rating.creator.name, user_path(rating.creator)
+      - if rating.creator.role?(:reviewer) 
+        = link_to (image_tag '/DudefestSymbol.png'), users_path
+    .recent_comment_datetime= time_ago_in_words(rating.created_at) + ' ago'
+  .recent_comment_body.text= truncate(rating.body, length: 150, separator: ' ')
+  .recent_comment_article
+    %b= rating.display_rating.to_s
+    for
+    = link_to rating.movie.title, 
+              movie_path(rating.movie)

@@ -150,3 +150,16 @@
   }
 }
 
+.genre {
+  font-size: 1.2em;
+  text-align: center;
+  margin: 0px 2px 5px 0px;
+  display: inline-block;
+
+  a { 
+    padding: 5px; 
+    border: 1px solid #333333;
+    display: inline-block;
+    background-color: #CCCCCC; 
+  }
+}

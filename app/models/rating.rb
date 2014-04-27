@@ -10,6 +10,7 @@ class Rating < ActiveRecord::Base
 
   has_paper_trail
   belongs_to :movie, inverse_of: :ratings, counter_cache: true
+  has_one :review, through: :movie
 
   validates :body, presence: true, uniqueness: true, length: { in: 10..500 }
   validates :rating, presence: true, inclusion: { in: POSSIBLE_RATINGS }
@@ -86,6 +87,14 @@ class Rating < ActiveRecord::Base
       else
         'New Rating'
       end
+    end
+
+    def self.recent(x)
+      tz = 'Eastern Time (US & Canada)'
+      self.unscoped.joins(:movie, :review)
+          .where('ratings.reviewed = ? and articles.published = ?', true, true)
+          .where('articles.date <= ?', DateTime.now.in_time_zone(tz).to_date)
+          .order(reviewed_at: :desc).first(x)
     end
 
   private
