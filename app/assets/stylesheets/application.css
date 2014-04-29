@@ -579,14 +579,14 @@ td.daily_dose_close_quote {
 
 .sitemap_list {
   margin: 0px;
-  padding: 0px 55px;
+  padding: 0px 50px;
   list-style-type: none;
   vertical-align: top;
   display: inline-block;
   border-right: 1px solid #DDDDDD;
 }
 
-.sitemap_list:first-child { padding-left: 40px; }
+.sitemap_list:first-child { padding-left: 35px; }
 
 .sitemap_list:last-child { padding-right: 0px; border-right: 0px; }
 
