@@ -32,7 +32,7 @@
       #daily_dose Dudefest Movie Genres
       .daily_dose_item
         - Genre.order(:genre).each do |genre|
-          .genre= link_to genre.genre, movies_path(genre: genre)
+          .genre_tag= link_to genre.genre, movies_path(genre: genre)
       .daily_dose_item
         .right_label RECENT RATINGS
         .recent_comments
