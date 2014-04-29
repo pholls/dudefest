@@ -12,7 +12,8 @@
       %li>= link_to topic.topic, articles_path(topic: topic)
   %ul.sitemap_list
     %li.sitemap_title>= link_to 'Columns', columns_path
-    - @columns.sort_by { |c| c.public_articles.count }.reverse_each do |column|
+    - @columns.sort_by { |c| c.public_articles.count }.first(5) |
+              .reverse_each do |column|                         |
       %li>= link_to column.display_name, column
   %ul.sitemap_list
     %li.sitemap_title>= link_to 'Movies', movies_path
