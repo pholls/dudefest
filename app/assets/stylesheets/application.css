@@ -571,3 +571,9 @@ td.daily_dose_close_quote {
 #sign_up h3 {
   font-weight: normal;
 }
+
+#flash_error, #flash_notice, #flash_alert {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
