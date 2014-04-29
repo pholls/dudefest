@@ -37,10 +37,10 @@
             .title_item.user_info_value>= title.title
           - if @user.titles.count.zero?
             .title_item.user_info_value>
-            - if @user.role?(:fake)
-              Reader Of Words
-            - else
-              = @user.role.capitalize + ' Of Words'
+              - if @user.role?(:fake)
+                Reader Of Words
+              - else
+                = @user.role.capitalize + ' Of Words'
     #ratings
       #ratings_title> B I O
       #ratings_list
