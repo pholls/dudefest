@@ -16,7 +16,7 @@
       %li>= link_to column.display_name, column
   %ul.sitemap_list
     %li.sitemap_title>= link_to 'Movies', movies_path
-    - Genre.unscoped.order('RANDOM()').limit(5).each do |genre|
+    - @genres.first(5).each do |genre|
       %li>= link_to genre.genre, movies_path(genre: genre)
   %ul.sitemap_list
     %li.sitemap_title>= link_to 'Writers', users_path
