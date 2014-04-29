@@ -1,7 +1,6 @@
 class Rating < ActiveRecord::Base
   include ModelConfig, ItemReview
 
-  after_find :recall_old_state
   around_save :set_movie_total_rating
   after_initialize :initialize_creator
   before_validation :sanitize
@@ -98,19 +97,14 @@ class Rating < ActiveRecord::Base
     end
 
   private
-    def recall_old_state
-      @old_rating = self.rating
-      @was_reviewed = self.reviewed
-    end
-
     def set_movie_total_rating
       yield
       if self.reviewed?
         self.movie.increment!(:total_rating, self.rating)
         self.movie.increment!(:reviewed_ratings)
       end
-      if @was_reviewed || self.marked_for_destruction?
-        self.movie.decrement!(:total_rating, @old_rating)
+      if self.reviewed_was || self.marked_for_destruction?
+        self.movie.decrement!(:total_rating, rating_was)
         self.movie.decrement!(:reviewed_ratings)
       end
     end

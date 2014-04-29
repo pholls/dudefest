@@ -33,17 +33,18 @@ a {
 
 a:hover { color: #888888; }
 
-#header {
+#header, #footer {
   width: 100%;
   background-color: #333333;
+  color: #DDDDDD;
 }
 
-#top, #content {
+#top, #content, #sitemap {
   width: 1000px;
+  margin: 0px auto;
 }
 
 #top {
-  margin: 0px auto;
   color: #DDDDDD;
   position: relative;
 }
@@ -158,10 +159,9 @@ ul#nav {
 }
 
 #content {
-  margin: 5px auto 0px;
+  margin: 5px auto 30px;
   padding: 0px;
   border: 1px solid #AAAAAA;
-  border-bottom: 0px;
   box-shadow: 0px 0px 5px #888888;
   background-color: #E0E0E0;
   z-index: 100;
@@ -478,10 +478,6 @@ td.daily_dose_close_quote {
   margin: 0px auto;
 }
 
-#footer {
-  text-align: center;
-}
-
 .simple_form label {
   width: 110px;
   display: inline-block;
@@ -577,3 +573,32 @@ td.daily_dose_close_quote {
   margin-bottom: 20px;
 }
 
+#sitemap {
+  padding: 20px 0px 60px;
+}
+
+.sitemap_list {
+  margin: 0px;
+  padding: 0px 55px;
+  list-style-type: none;
+  vertical-align: top;
+  display: inline-block;
+  border-right: 1px solid #DDDDDD;
+}
+
+.sitemap_list:first-child { padding-left: 40px; }
+
+.sitemap_list:last-child { padding-right: 0px; border-right: 0px; }
+
+.sitemap_list li {
+  margin-top: 10px;
+}
+
+.sitemap_list li:first-child {
+  margin-top: 0px;
+  font-size: 1.5em;
+}
+
+.sitemap_list a {
+  color: #DDDDDD;
+}
