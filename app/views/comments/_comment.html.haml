@@ -4,6 +4,11 @@
       = link_to comment.user.name, user_path(comment.user)
       - if comment.user.role?(:reviewer) 
         = link_to (image_tag '/DudefestSymbol.png'), users_path
+      - if user_signed_in? && current_user.role?(:writer) 
+        - if comment.user != comment.creator
+          (actually by 
+          %span= link_to comment.creator.name, user_path(comment.creator)
+          %span> )
     .comment_datetime= display_datetime(comment.created_at)
   .comment_body.text= comment.body_html
   - if user_signed_in? && comment.parent.blank?

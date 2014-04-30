@@ -1,8 +1,8 @@
 class Comment < ActiveRecord::Base
-  acts_as_nested_set :scope => [:commentable_id, :commentable_type]
+  acts_as_nested_set scope: [:commentable_id, :commentable_type]
 
-  validates :body, :presence => true
-  validates :user, :presence => true
+  validates :body, presence: true
+  validates :user, presence: true
 
   # NOTE: install the acts_as_votable plugin if you
   # want user to vote on the quality of comments.
@@ -12,6 +12,7 @@ class Comment < ActiveRecord::Base
 
   # NOTE: Comments belong to a user
   belongs_to :user, inverse_of: :comments, counter_cache: true
+  belongs_to :creator, class_name: User, inverse_of: :comments
 
   auto_html_for :body do
     html_escape

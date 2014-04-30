@@ -20,6 +20,7 @@ class CommentsController < ApplicationController
     if params[:comment][:parent_id].present?
       @comment.parent_id = params[:comment][:parent_id].to_i
     end
+    @comment.creator = current_user
     if @comment.save 
       redirect_to @commentable, notice: 'Comment created.'
     else
