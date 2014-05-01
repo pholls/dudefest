@@ -1,5 +1,5 @@
 class Article < ActiveRecord::Base
-  include ModelConfig, ColumnSchedule
+  include ModelConfig, ColumnSchedule, WeeklyOutput
   mount_uploader :image, ImageUploader
   process_in_background :image
   acts_as_commentable
@@ -145,10 +145,15 @@ class Article < ActiveRecord::Base
           bindings[:object].published? && User.current.role?(:admin)
         end
       end
+      field :weekly_output do
+        read_only true
+        help 'Only mark it on your weekly output when you\'ve checked the '\
+             'submit box. Always mark it when you\'ve check the submit box.'
+      end
     end
 
     nested do
-      include_fields :column, :title, :topic, :authors do
+      include_fields :column, :title, :topic, :authors, :weekly_output do
         visible false
       end
     end

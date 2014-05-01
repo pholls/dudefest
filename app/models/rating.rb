@@ -1,5 +1,5 @@
 class Rating < ActiveRecord::Base
-  include ModelConfig, ItemReview
+  include ModelConfig, ItemReview, WeeklyOutput
 
   around_save :set_movie_total_rating
   after_initialize :initialize_creator
@@ -56,10 +56,14 @@ class Rating < ActiveRecord::Base
           bindings[:object].reviewable?
         end
       end
+      field :weekly_output do
+        read_only true
+        help 'Rate your weekly ratings output on a scale of 1 to 2.'
+      end
     end
 
     nested do
-      configure :movie do
+      include_fields :movie, :weekly_output do
         visible false
       end
     end

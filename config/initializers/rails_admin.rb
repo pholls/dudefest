@@ -6,6 +6,13 @@ RailsAdmin.config do |config|
     warden.authenticate! scope: :user
   end
   config.authorize_with :cancan
+  docs = 'https://docs.google.com/'
+  wo = docs + 'spreadsheet/ccc?key=0AvXIsPBDZM-VdFNscld1YVBGTjdORG1pNTNFbFkxc1E'
+  ideas = docs + 'document/d/1AH0SZQJH2QzwfZFcGCBbdTiZHUSCGvRTvUbCp_XC1WU'
+  config.navigation_static_links = { 
+    'Weekly Output' => wo, 'Article Ideas' => (wo + '#gid=7'),
+    'Dudefest Ideas' => ideas
+  }
 
   INCLUDED = %w(User Tip Event Position ThingCategory Thing DailyVideo Article
                 Column Genre NameVariant Movie Rating Model Quote Dude Tagline

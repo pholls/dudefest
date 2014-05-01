@@ -1,5 +1,5 @@
 class Event < ActiveRecord::Base
-  include EasternTime, ModelConfig, ItemReview
+  include EasternTime, ModelConfig, ItemReview, WeeklyOutput
 
   before_validation :set_month_day
   before_validation :sanitize
@@ -71,6 +71,11 @@ class Event < ActiveRecord::Base
         visible do
           bindings[:object].reviewable?
         end
+      end
+      field :weekly_output do
+        read_only true
+        help 'Logging your historical event entry here makes it an historical '\
+             'event in and of itself. Word.'
       end
     end
 

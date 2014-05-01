@@ -1,4 +1,6 @@
 class Comment < ActiveRecord::Base
+  include WeeklyOutput
+  
   acts_as_nested_set scope: [:commentable_id, :commentable_type]
 
   validates :body, presence: true
@@ -44,6 +46,10 @@ class Comment < ActiveRecord::Base
 
     edit do
       include_fields :commentable, :body
+      field :weekly_output do
+        read_only true
+        help 'Even comments deserve to be in weekly output'
+      end
     end
     
     show do

@@ -1,5 +1,5 @@
 class Tip < ActiveRecord::Base
-  include EasternTime, ModelConfig, ItemReview, DailyItem
+  include EasternTime, ModelConfig, ItemReview, DailyItem, WeeklyOutput
 
   before_validation :sanitize
 
@@ -37,11 +37,11 @@ class Tip < ActiveRecord::Base
       include_fields :notes
       configure :tip do
         label 'Put your tip in'
-        help 'Required. Between 10 and 200 characters. '\
-             'Keep the tips short and sweet. A piece of advice or a '\
-             'question leading off makes them very strong, followed '\
-             'by no more than two sentences to '\
-             'explain how to achieve the desired outcome.'
+        help ('Required. Between 10 and 200 characters.<br>'\
+              'Keep the tips short and sweet.<br>A piece of advice or a '\
+              'question leading off makes them very strong.<br>Follow it '\
+              'with no more than two sentences to '\
+              'explain how to achieve the desired outcome.').html_safe
       end
       configure :reviewed do
         visible do
@@ -52,6 +52,10 @@ class Tip < ActiveRecord::Base
         visible do
           bindings[:object].reviewed?
         end
+      end
+      field :weekly_output do
+        read_only true
+        help 'It\'s another place to put your tip in.'
       end
     end
   end

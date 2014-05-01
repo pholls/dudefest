@@ -1,5 +1,5 @@
 class Thing < ActiveRecord::Base
-  include EasternTime, ModelConfig, ItemReview, DailyItem
+  include EasternTime, ModelConfig, ItemReview, DailyItem, WeeklyOutput
   mount_uploader :image, ImageUploader
   process_in_background :image
 
@@ -85,6 +85,10 @@ class Thing < ActiveRecord::Base
         end
       end
       include_fields :notes
+      field :weekly_output do
+        read_only true
+        help 'Make sure everyone knows how awesome your thing is.'
+      end
     end
 
     show do

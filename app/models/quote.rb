@@ -1,5 +1,5 @@
 class Quote < ActiveRecord::Base
-  include EasternTime, ModelConfig, ItemReview, DailyItem
+  include EasternTime, ModelConfig, ItemReview, DailyItem, WeeklyOutput
 
   before_validation :sanitize
 
@@ -65,6 +65,10 @@ class Quote < ActiveRecord::Base
         visible do
           bindings[:object].reviewed? 
         end
+      end
+      field :weekly_output do
+        read_only true
+        help 'Just do it. Ya dick.'
       end
     end
   end

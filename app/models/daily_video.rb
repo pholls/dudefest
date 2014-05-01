@@ -1,5 +1,5 @@
 class DailyVideo < ActiveRecord::Base
-  include EasternTime, ModelConfig, ItemReview, DailyItem
+  include EasternTime, ModelConfig, ItemReview, DailyItem, WeeklyOutput
 
   before_validation :sanitize
 
@@ -9,7 +9,7 @@ class DailyVideo < ActiveRecord::Base
   validates :source, presence: true, uniqueness: true
   validates_formatting_of :source, using: :url
   validates :source, format: { with: /(youtube|metacafe|vimeo).com/, 
-                               message: 'must be youtube, metacafe, or vimeo url' }
+                            message: 'must be youtube, metacafe, or vimeo url' }
 
   auto_html_for :source do
     html_escape
@@ -59,6 +59,10 @@ class DailyVideo < ActiveRecord::Base
         visible do
           bindings[:object].reviewed?
         end
+      end
+      field :weekly_output do
+        read_only true
+        help 'Do it. You will.'
       end
     end
 

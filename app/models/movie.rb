@@ -1,4 +1,6 @@
 class Movie < ActiveRecord::Base
+  include WeeklyOutput
+
   after_initialize :initialize_ratings
   before_validation :set_review
   before_validation :sanitize
@@ -74,6 +76,11 @@ class Movie < ActiveRecord::Base
       end
       configure :ratings do
         active true
+      end
+      field :weekly_output do
+        read_only true
+        help 'Remember to add one to your ratings output, even if you\'re '\
+             'the one who reviewed the movie!'
       end
     end
   end
