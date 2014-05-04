@@ -125,7 +125,11 @@ class User < ActiveRecord::Base
     end
 
     def display_avatar
-      self.avatar.present? ? self.avatar.url(:display) : '/mugshot.jpg'
+      if self.avatar.present? 
+        self.avatar.url(:display) 
+      else
+        "/mugshot#{(self.id % 5) + 1}.jpg"
+      end
     end
 
     def self.current
