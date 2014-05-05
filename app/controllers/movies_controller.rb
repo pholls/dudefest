@@ -1,11 +1,14 @@
 class MoviesController < ApplicationController
   def index
     @movies = Movie.finalized
+    @show_daily_dose = true
     if params[:genre].present?
       @genre = Genre.find(params[:genre])
       @movies = @movies.select { |m| m.genres.include?(@genre) }
       @header = @genre.genre
-      @show_daily_dose = true
+    elsif params[:title].present?
+      @movies = @movies.select { |m| m.title.include?(params[:title].upcase) }
+      @header = params[:title]
     else
       @show_daily_dose = false
       @header = 'ALL'

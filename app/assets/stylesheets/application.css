@@ -74,7 +74,25 @@ a:hover { color: #888888; }
   width: 655px;
 }
 
+#top_nav {
+  vertical-align: top;
+}
+
+#movie_week {
+  display: inline-block;
+  width: 310px;
+  text-align: center;
+  font-size: 1.3em;
+}
+
+#movie_week a {
+  color: #DDDDDD;
+}
+
 #user_nav {
+  display: inline-block;
+  vertical-align: top;
+  width: 335px;
   text-align: right;
   margin: 0px 10px 10px 0px;
 }

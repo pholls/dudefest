@@ -21,19 +21,24 @@
     #header
       #top
         #logo>= link_to image_tag('/Dudefest.png'), root_path
-        #site_nav
-          #user_nav>
-            - if user_signed_in?
-              Waddup,
-              = link_to current_user.name, edit_user_registration_path
-              |
-              = link_to 'Sign Out', destroy_user_session_path, method: :delete,
-                         data: { confirm: 'Are you sure you want to sign out?' }
-            - else
-              = link_to 'Sign In', new_user_session_path
-              |
-              = link_to 'Sign Up', new_user_registration_path
-          %ul#nav
+        #site_nav>
+          #top_nav>
+            #movie_week>
+              = link_to 'Star Wars Movie Week',
+                        movies_path(title: 'Star Wars')
+            #user_nav>
+              - if user_signed_in?
+                Waddup,
+                = link_to current_user.name, edit_user_registration_path
+                |
+                = link_to 'Sign Out', destroy_user_session_path, 
+                           method: :delete,
+                           data: { confirm: 'You sure you want to sign out?' }
+              - else
+                = link_to 'Sign In', new_user_session_path
+                |
+                = link_to 'Sign Up', new_user_registration_path
+          %ul#nav>
             %li>
               = link_to 'MOVIES &#x25BE;'.html_safe, movies_path
               %ul>
