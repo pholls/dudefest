@@ -117,7 +117,7 @@ class User < ActiveRecord::Base
     end
 
     def public_articles
-      self.articles.order(date: :desc).select { |article| article.public? }
+      self.articles.select { |a| a.public? }.sort_by { |a| a.date }
     end
 
     def last_name
