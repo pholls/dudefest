@@ -46,7 +46,7 @@
       #ratings_list
         #user_bio.text
           - if @user.bio.present?
-            = @user.bio.gsub(/\n/, '<br/>').html_safe
+            = @user.bio.gsub(/\n/, '<br>').html_safe
           - else
             = @user.name 
             hasn't found the time between masturbating and cleaning it up 
