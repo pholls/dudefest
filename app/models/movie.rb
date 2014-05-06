@@ -1,7 +1,7 @@
 class Movie < ActiveRecord::Base
   include WeeklyOutput
 
-  after_initialize :initialize_ratings
+  after_initialize :initialize_movie
   before_validation :set_review
   before_validation :sanitize
 
@@ -160,8 +160,11 @@ class Movie < ActiveRecord::Base
     end
 
   private
-    def initialize_ratings
-      self.reviewed_ratings ||= self.total_rating ||= 0 if self.new_record?
+    def initialize_movie
+      if self.new_record?
+        self.reviewed_ratings ||= self.total_rating ||= 0 
+        self.creator = User.current
+      end
     end
 
     def set_review
