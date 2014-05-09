@@ -17,7 +17,6 @@ class User < ActiveRecord::Base
   validates :role, presence: true
   validates :email, presence: true, uniqueness: :true, length: { in: 6..35 }
   validates :bio, uniqueness: true, allow_blank: true
-  validates :avatar, presence: true, if: 'role?(:reviewer)'
 
   has_paper_trail
   has_many :tips, foreign_key: 'creator_id'
