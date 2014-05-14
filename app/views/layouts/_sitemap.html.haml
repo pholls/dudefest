@@ -8,7 +8,7 @@
     %li>= link_to 'About', about_path
   %ul.sitemap_list
     %li.sitemap_title>= link_to 'Topics', articles_path
-    - @topics.each do |topic|
+    - @topics.first(5).each do |topic|
       %li>= link_to topic.topic, articles_path(topic: topic)
   %ul.sitemap_list
     %li.sitemap_title>= link_to 'Columns', columns_path
