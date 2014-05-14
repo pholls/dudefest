@@ -62,7 +62,7 @@ class ApplicationController < ActionController::Base
 
     def set_nav
       @columns = Column.live.order(:display_name)
-      @topics = Topic.order(:topic).live.limit(5)
+      @topics = Topic.live.sort_by { |t| t.public_articles.count }.reverse
       @genres = Genre.unscoped.order(movies_count: :desc).limit(8)
       @writers = User.where.not(role: ['reader', 'fake', 'writer'])
                      .sort_by { |u| u.public_articles.count }.reverse
