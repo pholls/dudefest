@@ -44,11 +44,11 @@ class Article < ActiveRecord::Base
     end
 
     list do
-      filters [:creator, :column]
+      filters [:creator, :column, :editor]
       sort_by do
         'status_order_by, date desc, column_id, creator_id, articles.created_at'
       end
-      include_fields :date, :column, :title, :creator, :status
+      include_fields :date, :column, :title, :creator, :status, :editor
       configure :date do
         strftime_format '%Y-%m-%d'
         column_width 75
@@ -60,6 +60,9 @@ class Article < ActiveRecord::Base
         column_width 95
       end
       configure :creator do
+        column_width 85
+      end
+      configure :editor do
         column_width 85
       end
     end
@@ -79,6 +82,11 @@ class Article < ActiveRecord::Base
       end
       field :authors do
         orderable true
+        associated_collection_scope do
+          Proc.new { |scope| scope.where.not(role: ['reader', 'fake']) }
+        end
+      end
+      field :editor do
         associated_collection_scope do
           Proc.new { |scope| scope.where.not(role: ['reader', 'fake']) }
         end
