@@ -10,12 +10,15 @@ class Fact < ActiveRecord::Base
   validates :type, presence: true, inclusion: { in: TYPES }
 
   rails_admin do
-    navigation_label 'Kennedy Recent Center'
+    navigation_label 'Kennedy Research Center'
     list do
       sort_by 'reviewed_at desc, reviewed, created_at, fact'
-      include_fields :fact, :nickname, :reviewed
+      include_fields :fact, :nickname, :type, :reviewed
       configure :reviewed do
         column_width 75
+      end
+      configure :type do
+        column_width 100
       end
       configure :nickname do
         column_width 110
@@ -23,7 +26,7 @@ class Fact < ActiveRecord::Base
     end
 
     edit do
-      include_fields :fact, :nickname, :reviewed do
+      include_fields :fact, :nickname, :type, :reviewed do
         read_only do
           bindings[:object].is_read_only?
         end
@@ -35,5 +38,9 @@ class Fact < ActiveRecord::Base
         end
       end
     end
+  end
+
+  def type_enum
+    ['statistic', 'fact']
   end
 end
