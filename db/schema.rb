@@ -155,6 +155,19 @@ ActiveRecord::Schema.define(version: 20140430034040) do
     t.integer  "month_day"
   end
 
+  create_table "facts", force: true do |t|
+    t.text     "fact"
+    t.integer  "creator_id"
+    t.string   "nickname"
+    t.integer  "reviewer_id"
+    t.boolean  "reviewed"
+    t.datetime "reviewed_at"
+    t.text     "notes"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "type"
+  end
+
   create_table "genres", force: true do |t|
     t.string   "genre"
     t.text     "description"

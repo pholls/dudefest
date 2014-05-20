@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  fact: MyText
+  creator_id: 1
+  nickname: MyString
+  reviewer_id: 1
+  reviewed: false
+  reviewed_at: 2014-05-07 22:06:05
+  notes: MyText
+
+two:
+  fact: MyText
+  creator_id: 1
+  nickname: MyString
+  reviewer_id: 1
+  reviewed: false
+  reviewed_at: 2014-05-07 22:06:05
+  notes: MyText
