@@ -40,7 +40,5 @@ class Fact < ActiveRecord::Base
     end
   end
 
-  def type_enum
-    ['statistic', 'fact']
-  end
+  def type_enum; TYPES; end
 end
