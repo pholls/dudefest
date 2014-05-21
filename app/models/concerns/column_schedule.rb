@@ -6,7 +6,7 @@ module ColumnSchedule
 
   public
     def set_editor
-      User.with_role(:editor)
+      User.with_role(:editor).where.not(id: User.current.id)
           .min_by { |u| u.edited_articles.where(status_order_by: [1, 3]).count }
     end
 

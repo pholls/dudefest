@@ -88,7 +88,11 @@ class Article < ActiveRecord::Base
       end
       field :editor do
         visible do
-          User.current.has_role? :editor
+          if User.current.has_role? :editor
+            bindings[:object].class == Article && bindings[:object].created?
+          else
+            false
+          end
         end
         associated_collection_scope do
           Proc.new { |scope| scope.with_role(:editor) }
