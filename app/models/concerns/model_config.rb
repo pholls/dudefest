@@ -1,10 +1,14 @@
 module ModelConfig
   extend ActiveSupport::Concern
 
+  included do
+    resourcify
+  end
+
   public
     # Should this be public or private?
     def owner_or_admin?
-      self.class.owner == User.current || User.current.role?(:admin)
+      self.class.owner == User.current || User.current.has_role?(:admin)
     end
 
   module ClassMethods

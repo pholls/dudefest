@@ -1,7 +1,7 @@
 class User < ActiveRecord::Base
+  rolify
   mount_uploader :avatar, AvatarUploader
   process_in_background :avatar
-  ROLES = %w[admin editor reviewer writer reader fake]
 
   after_initialize :set_user
   before_validation :sanitize
@@ -14,11 +14,11 @@ class User < ActiveRecord::Base
   validates :username, presence: true, length: { in: 4..28 }, uniqueness: true
   validates :name, presence: true, length: { in: 4..35 }
   validates :byline, uniqueness: true, allow_blank: true
-  validates :role, presence: true
   validates :email, presence: true, uniqueness: :true, length: { in: 6..35 }
   validates :bio, uniqueness: true, allow_blank: true
 
   has_paper_trail
+  has_and_belongs_to_many :roles, join_table: :users_roles
   has_many :tips, foreign_key: 'creator_id'
   has_many :events, foreign_key: 'creator_id'
   has_many :daily_videos, foreign_key: 'creator_id'
@@ -27,6 +27,7 @@ class User < ActiveRecord::Base
   has_many :article_authors, foreign_key: 'author_id', dependent: :destroy,
                              inverse_of: :author
   has_many :articles, through: :article_authors
+  has_many :edited_articles, foreign_key: 'editor_id', class_name: 'Article'
   has_many :created_articles, foreign_key: 'creator_id', class_name: 'Article'
   has_many :ratings, foreign_key: 'creator_id'
   has_many :quotes, foreign_key: 'creator_id'
@@ -43,11 +44,6 @@ class User < ActiveRecord::Base
     list do
       sort_by :id
       field :username
-      field :role do
-        visible do
-          User.current.role?(:admin)
-        end
-      end
       field :id do
         visible false
         sort_reverse false
@@ -89,9 +85,9 @@ class User < ActiveRecord::Base
       end
       field :titles
       field :bio
-      field :role do
+      field :roles do
         visible do
-          User.current.role? :admin
+          User.current.has_role? :admin
         end
       end
       field :byline, :ck_editor do
@@ -106,14 +102,6 @@ class User < ActiveRecord::Base
 
   public
     def to_param; self.username; end
-
-    def role?(base_role)
-      ROLES.index(base_role.to_s) >= ROLES.index(role)
-    end
-
-    def role_enum
-      ROLES
-    end
 
     def public_articles
       self.articles.select { |a| a.public? }.sort_by { |a| a.date }.reverse
@@ -140,14 +128,12 @@ class User < ActiveRecord::Base
     end
 
     def self.fake_or(user)
-      if user.present?
-        self.where('role = ? or id = ?', 'fake', user.id).order(:id)
-      end
+      self.with_role(:fake).order(:id).unshift(user) if user.present?
     end
 
   private
     def set_user
-      self.role ||= 'fake' if self.new_record?
+      self.add_role :fake if self.new_record?
     end
 
     def sanitize

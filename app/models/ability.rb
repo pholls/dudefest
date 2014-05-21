@@ -2,9 +2,9 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
-    # user ||= User.new(role: 'reader')
+    # user ||= User.new
 
-    if user && user.role?(:writer)
+    if user && user.has_role?(:writer)
       can :access, :rails_admin
       can :dashboard
 
@@ -29,13 +29,13 @@ class Ability
         item == user
       end
 
-      if user.role? :editor
+      if user.has_role?(:editor)
         can :edit, Article do |article|
           !article.finalized? && !article.edited_at.nil? ? article.editor == user : false
         end
       end
 
-      if user.role? :admin
+      if user.has_role?(:admin)
         can :manage, :all
       end
     end

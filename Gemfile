@@ -33,6 +33,7 @@ gem 'shareable'
 gem 'paper_trail'
 gem 'kaminari', git: 'https://github.com/musicglue/kaminari.git'
 gem 'acts_as_commentable_with_threading'
+gem 'rolify'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0'

@@ -2,7 +2,7 @@
   .recent_comment_info
     .recent_commenter
       = link_to rating.creator.name, user_path(rating.creator)
-      - if rating.creator.role?(:reviewer) 
+      - if rating.creator.has_role?(:dude) 
         = link_to (image_tag '/DudefestSymbol.png'), users_path
     .recent_comment_datetime= time_ago_in_words(rating.reviewed_at) + ' ago'
   .recent_comment_body.text= truncate(rating.body, length: 150, separator: ' ')

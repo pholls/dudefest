@@ -5,6 +5,11 @@ module ColumnSchedule
   end
 
   public
+    def set_editor
+      User.with_role(:editor)
+          .min_by { |u| u.edited_articles.where(status_order_by: [1, 3]).count }
+    end
+
     def assign_date
       max_date = self.class.where(column: self.column).maximum(:date)
       if max_date.nil?

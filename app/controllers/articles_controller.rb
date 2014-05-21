@@ -19,7 +19,7 @@ class ArticlesController < ApplicationController
       redirect_to(@article.movie)
     end
 
-    if user_signed_in? && current_user.role?(:writer)
+    if user_signed_in? && current_user.has_role?(:writer)
       @fake_users = User.fake_or(current_user)
     end
     @column = @article.column

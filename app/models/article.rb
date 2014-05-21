@@ -5,9 +5,9 @@ class Article < ActiveRecord::Base
   acts_as_commentable
 
   after_initialize :initialize_article, on: :new
-  before_validation :determine_status
   before_validation :sanitize
   before_validation :substitute_references
+  before_save :determine_status
 
   has_paper_trail
   belongs_to :column, inverse_of: :articles, counter_cache: true
@@ -21,7 +21,7 @@ class Article < ActiveRecord::Base
   has_many :authors, through: :article_authors
 
   validates_associated :creator
-  validates_associated :editor, allow_blank: true
+  validates_associated :editor, if: :created?
   validates_associated :authors
   validates :title, presence: true, uniqueness: true, length: { in: 8..70 }
   validates :body, presence: true, uniqueness: true
@@ -83,12 +83,15 @@ class Article < ActiveRecord::Base
       field :authors do
         orderable true
         associated_collection_scope do
-          Proc.new { |scope| scope.where.not(role: ['reader', 'fake']) }
+          Proc.new { |scope| scope.with_role(:writer) }
         end
       end
       field :editor do
+        visible do
+          User.current.has_role? :editor
+        end
         associated_collection_scope do
-          Proc.new { |scope| scope.where.not(role: ['reader', 'fake']) }
+          Proc.new { |scope| scope.with_role(:editor) }
         end
       end
       field :image do
@@ -144,13 +147,13 @@ class Article < ActiveRecord::Base
       end
       field :published do
         visible do
-          bindings[:object].reviewed? && User.current.role?(:admin)
+          bindings[:object].reviewed? && User.current.has_role?(:admin)
         end
         help 'Schedule this article to be released. It best be good to go.'
       end
       field :date do
         visible do
-          bindings[:object].published? && User.current.role?(:admin)
+          bindings[:object].published? && User.current.has_role?(:admin)
         end
       end
       field :weekly_output do
@@ -232,11 +235,11 @@ class Article < ActiveRecord::Base
     end
 
     def can_edit?
-      self.editor == User.current || self.class.owner == User.current
+      self.editor == User.current
     end
 
     def editor_or_admin?
-      self.editor == User.current || User.current.role?(:admin)
+      self.editor == User.current || User.current.has_role?(:admin)
     end
 
     def public?
@@ -281,12 +284,8 @@ class Article < ActiveRecord::Base
         self.finalized = false if self.finalized.nil?
         self.published = false if self.published.nil?
         self.reviewed = false if self.reviewed.nil?
-        if self.creator == self.class.owner
-          self.editor ||= User.find(5)
-        else
-          self.editor ||= self.class.owner
-        end
         self.status ||= '0 - Drafting'
+        self.status_order_by = 0
         self.byline = self.creator.byline
       end
     end
@@ -314,6 +313,7 @@ class Article < ActiveRecord::Base
         self.status = '3 - Responded'
       elsif self.created? && self.creator == User.current # 1 - Created
         self.status = '1 - Created'
+        self.editor ||= set_editor()
       elsif self.creator == User.current # 0 - Drafting
         self.status = '0 - Drafting'
       end
@@ -321,7 +321,7 @@ class Article < ActiveRecord::Base
     end
 
     def substitute_references
-      writers = User.where.not(role: 'reader')
+      writers = User.with_role :writer
       writers.find_each do |w|
         self.body.gsub!("[[#{w.name}]]",
                         create_link("/users/#{w.id}", w.name))

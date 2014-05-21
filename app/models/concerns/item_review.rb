@@ -31,7 +31,7 @@ module ItemReview
 
     def is_read_only?
       if self.reviewed?
-        !User.current.role?(:admin)
+        !User.current.has_role?(:admin)
       else
         self.persisted? && !(self.is_creator? || self.owner_or_admin?)
       end

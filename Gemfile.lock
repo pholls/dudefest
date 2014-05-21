@@ -203,6 +203,7 @@ GEM
       redis (~> 3.0.4)
     remotipart (1.2.1)
     rinku (1.5.1)
+    rolify (3.4.0)
     safe_yaml (1.0.1)
     sanitize (2.1.0)
       nokogiri (>= 1.4.4)
@@ -295,6 +296,7 @@ DEPENDENCIES
   rails_admin
   rails_admin_jcrop
   rich!
+  rolify
   sanitize
   sass-rails (~> 4.0.0)
   sdoc

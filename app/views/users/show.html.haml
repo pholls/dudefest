@@ -13,7 +13,7 @@
       #user_avatar>
         = image_tag @user.display_avatar
       #user_info
-        - if @user.role?(:reviewer)
+        - if @user.has_role?(:dude)
           .user_info
             .user_info_label.short_label> Email
             .user_info_value.short_value>= mail_to @user.email
@@ -24,7 +24,7 @@
               = link_to '@' + @user.twitter_handle, 
                         'https://www.twitter.com/' + @user.twitter_handle
         .user_info
-          - if @user.role?(:writer)
+          - if @user.has_role?(:writer)
             .user_info_label.short_label> Articles
             .user_info_value.short_value>= @user.public_articles.count
           - else
@@ -37,10 +37,10 @@
             .title_item.user_info_value>= title.title
           - if @user.titles.count.zero?
             .title_item.user_info_value>
-              - if @user.role?(:fake)
+              - if @user.has_role?(:fake) || @user.roles.empty?
                 Reader Of Words
               - else
-                = @user.role.capitalize + ' Of Words'
+                Writer Of Words
     #ratings
       #ratings_title> B I O
       #ratings_list

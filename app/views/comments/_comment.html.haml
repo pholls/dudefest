@@ -2,9 +2,9 @@
   .comment_info
     .commenter
       = link_to comment.user.name, user_path(comment.user)
-      - if comment.user.role?(:reviewer) 
+      - if comment.user.has_role?(:dude) 
         = link_to (image_tag '/DudefestSymbol.png'), users_path
-      - if user_signed_in? && current_user.role?(:writer) 
+      - if user_signed_in? && current_user.has_role?(:dude) 
         - if comment.user != comment.creator
           (actually by 
           %span= link_to comment.creator.name, user_path(comment.creator)
@@ -16,7 +16,7 @@
     .comment_reply
       = simple_form_for [@commentable, comment.children.build] do |c|
         .comment_reply_field.field
-          - if current_user.role?(:writer)
+          - if current_user.has_role?(:dude)
             = c.association :user, collection: @fake_users, required: false, 
                                    default: current_user, label: 'Reply as:'
           = c.text_area :body, rows: 4,
