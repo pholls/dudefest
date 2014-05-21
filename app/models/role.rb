@@ -6,6 +6,8 @@ class Role < ActiveRecord::Base
 
   rails_admin do
     object_label_method :role_and_resource
+    navigation_label 'Admin'
+    parent 'User'
   end
 
   def role_and_resource
