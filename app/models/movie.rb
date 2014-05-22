@@ -4,11 +4,12 @@ class Movie < ActiveRecord::Base
   after_initialize :initialize_movie
   before_validation :set_review
   before_validation :sanitize
+  after_destroy :destroy_review
 
   has_paper_trail
   has_many :movie_genres, dependent: :destroy
   has_many :genres, through: :movie_genres
-  has_one :review, class_name: 'Article', inverse_of: :movie, dependent: :destroy
+  has_one :review, class_name: 'Article', inverse_of: :movie
   has_many :credits, dependent: :destroy, inverse_of: :movie, autosave: true
   has_many :name_variants, through: :credits
   has_many :ratings, inverse_of: :movie, dependent: :destroy
@@ -140,6 +141,10 @@ class Movie < ActiveRecord::Base
     # Necessary for rails_admin ratings boolean
     def reviewable?
       self.ratings.any? ? self.ratings.first.owner_or_admin? : false
+    end
+
+    def destroy_review  
+      self.review.destroy if self.review && !self.review.destroyed?
     end
 
     def self.finalized

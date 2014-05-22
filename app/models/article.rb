@@ -8,6 +8,7 @@ class Article < ActiveRecord::Base
   before_validation :sanitize
   before_validation :substitute_references
   before_save :determine_status
+  after_destroy :destroy_movie_if_review
 
   has_paper_trail
   belongs_to :column, inverse_of: :articles, counter_cache: true
@@ -322,6 +323,10 @@ class Article < ActiveRecord::Base
         self.status = '0 - Drafting'
       end
       self.status_order_by = self.status.to_i
+    end
+
+    def destroy_movie_if_review
+      self.movie.destroy if self.movie && !self.movie.destroyed?
     end
 
     def substitute_references
