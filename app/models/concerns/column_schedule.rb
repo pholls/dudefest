@@ -2,6 +2,7 @@ module ColumnSchedule
   extend ActiveSupport::Concern
 
   included do 
+    validate :can_be_published
   end
 
   public
@@ -27,6 +28,25 @@ module ColumnSchedule
         next_date(max_date, days[0].to_i - 1)
       end
     end 
+
+    def can_be_published
+      if self.published? && self.date_changed?
+        new_date = self.date || assign_date()
+        start_of_week = new_date.beginning_of_week(:sunday)
+
+        # make sure writer has no other articles coming out on that day
+        if Article.where(date: new_date, creator: self.creator)
+                  .where.not(id: self.id).count > 0
+          errors.add(:published, 'creator can\'t have > 1 article in a day')
+        end
+
+        # make sure writer has < 4 articles this week
+        if Article.where(date: start_of_week..new_date.end_of_week(:sunday))
+                  .where.not(id: self.id).count > 2
+          errors.add(:published, 'creator can\'t have > 3 articles in a week')
+        end
+      end
+    end
 
   private
     def next_date(a_date, day)
