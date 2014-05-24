@@ -362,5 +362,15 @@ class Article < ActiveRecord::Base
       # Sanitize.clean!(self.title)
       # Sanitize.clean!(self.body, Sanitize::Config::RELAXED)
       Sanitize.clean!(self.byline, Sanitize::Config::BASIC)
+
+      strip_paragraphs = self.body.split(/\<\/p\>\s*\<p\>/)
+
+      # if body has trailing whitespace, remove it
+      if strip_paragraphs[-1].gsub('&nbsp;', '').strip == '</p>'
+        begin
+          strip_paragraphs.delete_at(-1)
+        end while strip_paragraphs[-1].match(/[\s"&nbsp;"]*/)[0].present?
+        self.body = strip_paragraphs.join("</p>\r\n\r\n<p>") + "</p>\r\n"
+      end
     end
 end
