@@ -89,7 +89,7 @@ class Article < ActiveRecord::Base
       end
       field :editor do
         visible do
-          if User.current.has_role? :editor || User.current.has_role? :admin
+          if User.current.has_role?(:editor) || User.current.has_role?(:admin)
             bindings[:object].class == Article && bindings[:object].created?
           else
             false
