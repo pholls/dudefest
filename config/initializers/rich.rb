@@ -13,6 +13,7 @@ if Object.const_defined?("Rich")
        ['BGColor', 'RemoveFormat', 'Scayt', 'Preview', 'Maximize']]
     config.editor[:startupOutlineBlocks] = false
     config.editor[:forcePasteAsPlainText] = true
+    config.editor[:scayt_autoStartup] = true
     config.editor[:removePlugins] = 'menubutton,image,forms,elementspath'
     config.allow_embeds = true
     config.image_styles = {
