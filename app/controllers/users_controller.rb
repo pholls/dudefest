@@ -10,6 +10,8 @@ class UsersController < ApplicationController
     else
       @user = User.find_by username: params[:id]
     end
+    @recent_ratings = Rating.recent(10, @user)
+    @recent_comments = Comment.recent(10, @user)
   end
 
   private

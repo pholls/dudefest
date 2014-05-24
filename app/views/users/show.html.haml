@@ -58,4 +58,23 @@
           - @user.public_articles.each do |article|
             = render partial: '/articles/summary', locals: { article: article }
 
-= render 'home/daily_dose'
+- if @recent_comments.empty? && @recent_comments.empty?
+  = render 'home/daily_dose'
+- else
+  #right_column.home_column
+    #right_content
+      #daily_dose Recent Activity
+      - if @recent_ratings.present?
+        .daily_dose_item
+          .right_label RECENT RATINGS
+          .recent_comments
+            - @recent_ratings.each do |rating|
+              = render partial: 'ratings/recent_ratings', 
+                       locals: { rating: rating }
+      - if @recent_comments.present?
+        .daily_dose_item
+          .right_label RECENT COMMENTS
+          .recent_comments
+            - @recent_comments.each do |comment|
+              = render partial: 'comments/recent_comment', 
+                       locals: { comment: comment }

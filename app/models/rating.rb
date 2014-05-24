@@ -92,9 +92,10 @@ class Rating < ActiveRecord::Base
       end
     end
 
-    def self.recent(x)
+    def self.recent(x, user = nil)
       tz = 'Eastern Time (US & Canada)'
-      self.unscoped.joins(:movie, :review)
+      conditions = { creator: user } if user.present?
+      self.unscoped.joins(:movie, :review).where(conditions)
           .where('ratings.reviewed = ? and articles.published = ?', true, true)
           .where('articles.date <= ?', DateTime.now.in_time_zone(tz).to_date)
           .order(reviewed_at: :desc).first(x)
