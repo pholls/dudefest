@@ -29,7 +29,7 @@ class Article < ActiveRecord::Base
   validates :column, :creator, presence: true
   validates :authors, presence: true, on: :update
   validates :topic, presence: true, unless: :is_movie_review?
-  validates :image, presence: true, if: :created?
+  validates :image, :editor, presence: true, if: :created?
   validates :byline, presence: true
   validate :creator_is_author
   validate :review_has_enough_ratings
