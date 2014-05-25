@@ -31,7 +31,6 @@
             .user_info_label.short_label> Comments
             .user_info_value.short_value>= @user.comments.count
         .user_info
-        .user_info
           .title_list_header.user_info_label> Roles at Dudefest.com
           - @user.titles.each do |title|
             .title_item.user_info_value>= title.title
