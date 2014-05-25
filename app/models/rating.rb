@@ -62,6 +62,16 @@ class Rating < ActiveRecord::Base
       end
     end
 
+    create do 
+      include_fields :movie, :creator, :body, :rating, :reviewed, :notes,
+                     :weekly_output do
+        visible false
+      end
+      field :add_your_rating_elsewhere do
+        read_only true
+      end
+    end
+
     nested do
       include_fields :movie, :weekly_output do
         visible false
@@ -82,6 +92,10 @@ class Rating < ActiveRecord::Base
 
     def display_rating
       self.rating == self.rating.to_i ? self.rating.to_i : self.rating
+    end
+
+    def add_your_rating_elsewhere
+      'Add it to the actual movie so it relates to the review and other ratings'
     end
 
     def label_method
