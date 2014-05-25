@@ -57,7 +57,7 @@
           - @user.public_articles.each do |article|
             = render partial: '/articles/summary', locals: { article: article }
 
-- if @recent_comments.empty? || @recent_comments.empty?
+- if @recent_ratings.empty? && @recent_comments.empty?
   = render 'home/daily_dose'
 - else
   #right_column.home_column
