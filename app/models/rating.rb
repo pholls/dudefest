@@ -81,9 +81,7 @@ class Rating < ActiveRecord::Base
 
   public
     def initialize_creator
-      if self.new_record?
-        self.creator ||= User.current
-      end
+      self.creator ||= User.current if self.new_record?
     end
 
     def rating_enum
