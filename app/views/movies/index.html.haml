@@ -39,9 +39,6 @@
           - Rating.recent(10).each do |rating|
             = render partial: 'ratings/recent_ratings', 
                      locals: { rating: rating }
-      .daily_dose_item
-        .right_label RECENT COMMENTS
-        .recent_comments
-          - Comment.recent(10).each do |comment|
-            = render partial: 'comments/recent_comment', 
-                     locals: { comment: comment }
+    = render partial: 'comments/recent_comments', 
+             locals: { comments: Comment.recent(10) }
+

@@ -71,9 +71,6 @@
               = render partial: 'ratings/recent_ratings', 
                        locals: { rating: rating }
       - if @recent_comments.present?
-        .daily_dose_item
-          .right_label RECENT COMMENTS
-          .recent_comments
-            - @recent_comments.each do |comment|
-              = render partial: 'comments/recent_comment', 
-                       locals: { comment: comment }
+        = render partial: 'comments/recent_comments', 
+                 locals: { comments: @recent_comments }
+

@@ -1,0 +1,13 @@
+.right_article
+  .right_article_image>
+    = link_to image_tag(article.display_image), article_path(article)
+  .right_article_info>
+    .right_article_title>
+      = link_to article.title, article_path(article)
+    .right_article_authors>
+      By
+      - if article.authors.count > 2
+        = link_to 'the Dudefest Dudes', users_path
+      - else
+        = article.authors.map { |a| link_to a.name, user_path(a) }. |
+                  join(', ').html_safe                              |
