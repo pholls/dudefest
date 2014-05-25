@@ -15,4 +15,15 @@
           = link_to image_tag(column.image_url(:display)), column_path(column)
         = render partial: 'column_info', locals: { column: column }
 
-= render partial: 'home/daily_dose'
+#right_column.home_column
+  #right_content
+    #daily_dose Recent Shit To Read
+    .daily_dose_item
+      .right_label.recent_article= 'RECENT ARTICLES'
+      .right_column_list
+        - @articles.each do |article|
+          = render partial: 'articles/side_article', 
+                   locals: { article: article }
+    = render partial: 'comments/recent_comments', 
+             locals: { comments: Comment.recent(10) }
+
