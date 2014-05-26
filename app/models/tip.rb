@@ -37,7 +37,9 @@ class Tip < ActiveRecord::Base
       include_fields :notes
       configure :tip do
         label 'Put your tip in'
-        help tip_help
+        help do 
+          tip_help
+        end
       end
       configure :reviewed do
         visible do
