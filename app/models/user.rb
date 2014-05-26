@@ -6,6 +6,8 @@ class User < ActiveRecord::Base
   after_initialize :set_user
   before_validation :sanitize
 
+  scope :readers, -> { where 'articles_count = ? and comments_count > ?', 0, 0 }
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable, # :recoverable, 

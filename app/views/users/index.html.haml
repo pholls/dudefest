@@ -21,4 +21,12 @@
         .writer_avatar>= link_to image_tag(user.display_avatar), user_path(user)
         .writer_name>= link_to user.name, user_path(user)
 
-= render '/home/daily_dose'
+#right_column.home_column
+  #right_content
+    #daily_dose The Other Guys
+    .daily_dose_item
+      - User.readers.find_each do |user|
+        .right_user
+          .user_image= link_to image_tag(user.display_avatar), user_path(user)
+          .username
+            = link_to truncate(user.username, length: 17), user_path(user)

@@ -324,6 +324,20 @@ ul#nav {
   /*border-top: 2px solid #BBBBBB;*/
 }
 
+.daily_dose_item .right_user {
+  width: 96px;
+  display: inline-block;
+}
+
+.right_user .username {
+  font-size: .7em;
+  text-align: center;
+}
+
+.daily_dose_item .user_image img {
+  max-width: 100%;
+}
+
 .right_label {
   text-align: left;
   font-size: 1.25em;
