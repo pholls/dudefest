@@ -117,7 +117,7 @@ class User < ActiveRecord::Base
       if self.avatar.present? 
         self.avatar.url(:display) 
       else
-        "/mugshot#{(self.id % 5) + 1}.jpg"
+        "/mugshot#{(self.id % 10) + 1}.jpg"
       end
     end
 
