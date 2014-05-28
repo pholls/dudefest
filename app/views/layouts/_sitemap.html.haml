@@ -9,7 +9,7 @@
   %ul.sitemap_list
     %li.sitemap_title>= link_to 'Topics', articles_path
     - @topics.first(5).each do |topic|
-      %li>= link_to topic.topic, articles_path(topic: topic)
+      %li>= link_to topic.topic, topic_path(topic)
   %ul.sitemap_list
     %li.sitemap_title>= link_to 'Columns', columns_path
     - @columns.sort_by { |c| c.public_articles.count }.first(5) |

@@ -1,0 +1,26 @@
+- content_for(:title, @topic.topic)
+- meta_description @topic.description
+- content_for :head do
+  = tag :meta, property: 'og:title', content: @topic.topic
+  = tag :meta, property: 'og:url', content: topic_url(@topic)
+  = tag :meta, property: 'og:image', content: image_url('DudefestSymbol.png')
+  = tag :meta, property: 'og:description', content: @topic.description
+
+#main_column.home_column
+  #shit_to_read.main_top= @header
+  #article_summaries
+    - @articles.each do |article|
+      = render partial: '/articles/summary', locals: { article: article }
+
+#right_column.home_column
+  #right_content
+    #daily_dose Recent Shit To Read
+    .daily_dose_item
+      .right_label.recent_article RECENT ARTICLES
+      .right_column_list
+        - @articles.each do |article|
+          = render partial: 'articles/side_article',
+                   locals: { article: article }
+    = render partial: 'comments/recent_comments', 
+             locals: { comments: Comment.recent(10) }
+

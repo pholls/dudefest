@@ -1,13 +1,7 @@
 class ArticlesController < ApplicationController
   def index
-    @topic = Topic.find(params[:topic]) if params[:topic].present?
-    if @topic.present?
-      @articles = Article.public_articles.select { |a| a.topic == @topic }
-      @header = 'ON THE SUBJECT OF ' + @topic.topic
-    else
-      @articles = Article.public_articles
-      @header = 'ALL ARTICLES WE\'VE WRITTEN'
-    end
+    @articles = Article.public_articles
+    @header = 'ALL ARTICLES WE\'VE WRITTEN'
   end
 
   def show

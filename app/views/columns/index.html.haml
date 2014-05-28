@@ -19,7 +19,7 @@
   #right_content
     #daily_dose Recent Shit To Read
     .daily_dose_item
-      .right_label.recent_article= 'RECENT ARTICLES'
+      .right_label.recent_article RECENT ARTICLES
       .right_column_list
         - @articles.each do |article|
           = render partial: 'articles/side_article', 

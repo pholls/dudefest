@@ -8,6 +8,7 @@ Dudefest::Application.routes.draw do
   get 'coming_soon', to: 'coming_soon#index'
   get 'info', to: 'info#index'
   get 'legal', to: 'legal#index'
+  get 'topics/:id', to: 'topics#show', as: 'topic'
 
   mount Rich::Engine => '/rich', :as => 'rich'
   mount Ckeditor::Engine => '/ckeditor'

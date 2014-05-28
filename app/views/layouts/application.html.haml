@@ -51,7 +51,7 @@
               = link_to 'TOPICS &#x25BE;'.html_safe, articles_path
               %ul.right_align>
                 - @topics.each do |topic|
-                  %li>= link_to topic.topic, articles_path(topic: topic)
+                  %li>= link_to topic.topic, topic_path(topic)
             %li>
               = link_to 'WRITERS &#x25BE;'.html_safe, users_path
               %ul.right_align>

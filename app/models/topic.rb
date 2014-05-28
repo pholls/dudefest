@@ -19,6 +19,8 @@ class Topic < ActiveRecord::Base
     end
   end
 
+  def to_param; self.topic.sub(' ', '+'); end
+
   def public_articles
     self.articles.order(date: :desc).select { |article| article.public? }
   end

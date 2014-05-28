@@ -13,4 +13,14 @@
     - @articles.each do |article|
       = render partial: '/articles/summary', locals: { article: article }
 
-= render 'home/daily_dose'
+#right_column.home_column
+  #right_content
+    #daily_dose The Topics
+    - @topics.each do |topic|
+      .daily_dose_item
+        .right_link= link_to topic.topic.upcase, topic_path(topic)
+        .right_description= topic.description
+    .daily_dose_item
+      = render partial: '/comments/recent_comments',
+               locals: { comments: Comment.recent(10) }
+
