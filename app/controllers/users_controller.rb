@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   def index
-    @users = User.where(role: 'writer')
-                 .select { |u| !u.public_articles.count.zero? }
+    @users = User.with_role(:writer)
+                 .select { |u| !u.public_articles.count.zero? } - @writers
   end
 
   def show
