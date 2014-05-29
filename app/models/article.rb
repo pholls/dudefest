@@ -363,6 +363,9 @@ class Article < ActiveRecord::Base
       # Sanitize.clean!(self.body, Sanitize::Config::RELAXED)
       Sanitize.clean!(self.byline, Sanitize::Config::BASIC)
 
+      self.body = self.body.gsub('<a href', '<a target="_blank" href')
+      self.byline = self.byline.gsub('<a href', '<a target="_blank" href')
+
       strip_paragraphs = self.body.split(/\<\/p\>\s*\<p\>/)
 
       # if body has trailing whitespace, remove it
