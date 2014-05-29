@@ -30,4 +30,9 @@ module ApplicationHelper
       APP_CONFIG['meta_description']
     end
   end
+
+  def preview(str)
+    length = str.index(' ').nil? || str.index(' ') >= 25 ? 25 : 150
+    truncate(str, length: length, separator: ' ')
+  end
 end
