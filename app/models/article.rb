@@ -24,7 +24,7 @@ class Article < ActiveRecord::Base
   validates_associated :creator
   validates_associated :editor, if: :created?
   validates_associated :authors
-  validates :title, presence: true, uniqueness: true, length: { in: 8..70 }
+  validates :title, presence: true, uniqueness: true, length: { in: 7..70 }
   validates :body, presence: true, uniqueness: true
   validates :column, :creator, presence: true
   validates :authors, presence: true, on: :update
