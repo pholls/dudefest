@@ -41,7 +41,8 @@ module ColumnSchedule
         end
 
         # make sure writer has < 4 articles this week
-        if Article.where(date: start_of_week..new_date.end_of_week(:sunday))
+        if Article.where(date: start_of_week..new_date.end_of_week(:sunday),
+                         creator: self.creator)
                   .where.not(id: self.id).count > 2
           errors.add(:published, 'creator can\'t have > 3 articles in a week')
         end
