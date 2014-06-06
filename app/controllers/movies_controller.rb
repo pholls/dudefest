@@ -19,7 +19,7 @@ class MoviesController < ApplicationController
   def show
     @movie = Movie.find(params[:id])
     @commentable = @movie.review
-    @comments = @commentable.root_comments
+    @comments = @commentable.root_comments.order(id: :desc)
     @comment = Comment.new
     @count = 10
     if user_signed_in? && current_user.has_role?(:writer)

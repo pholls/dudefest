@@ -17,7 +17,7 @@ class ArticlesController < ApplicationController
       @fake_users = User.fake_or(current_user)
     end
     @column = @article.column
-    @comments = @commentable.root_comments.order(created_at: :desc)
+    @comments = @commentable.root_comments.order(id: :desc)
     @comment = Comment.new
   end
 end
