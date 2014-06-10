@@ -18,7 +18,7 @@
     .daily_dose_item
       .right_label.recent_article RECENT ARTICLES
       .right_column_list
-        - @articles.each do |article|
+        - @all_articles.each do |article|
           = render partial: 'articles/side_article',
                    locals: { article: article }
     = render partial: 'comments/recent_comments', 
