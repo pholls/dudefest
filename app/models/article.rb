@@ -315,7 +315,7 @@ class Article < ActiveRecord::Base
         self.status = '2 - Edited'                              # 3 - Responded
       elsif self.edited? && (self.creator == User.current || self.status > '4')
         self.responded_at = Time.now
-        self.status = '3 - Responded'
+        self.status = (self.finalized_was ? '3 - Rejected' : '3 - Responded')
       elsif self.created? && self.creator == User.current # 1 - Created
         self.status = '1 - Created'
         self.editor ||= set_editor()
