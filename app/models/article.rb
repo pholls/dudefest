@@ -375,5 +375,7 @@ class Article < ActiveRecord::Base
         end while strip_paragraphs[-1].match(/[\s"&nbsp;"]*/)[0].present?
         self.body = strip_paragraphs.join("</p>\r\n\r\n<p>") + "</p>\r\n"
       end
+
+      self.body = self.body.gsub(/(&nbsp;| )+/, ' ')
     end
 end
