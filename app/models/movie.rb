@@ -88,7 +88,7 @@ class Movie < ActiveRecord::Base
 
   public
     def complete_ratings 
-      self.ratings.select { |r| r.reviewed? }
+      self.ratings.where(reviewed: true)
     end 
 
     def title_with_year
