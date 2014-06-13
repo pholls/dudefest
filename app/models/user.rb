@@ -3,7 +3,6 @@ class User < ActiveRecord::Base
   mount_uploader :avatar, AvatarUploader
   process_in_background :avatar
 
-  after_initialize :set_user
   before_validation :sanitize
 
   scope :readers, -> { where 'articles_count = ? and comments_count > ?', 0, 0 }
@@ -134,10 +133,6 @@ class User < ActiveRecord::Base
     end
 
   private
-    def set_user
-      self.add_role :fake if self.new_record?
-    end
-
     def sanitize
       #Sanitize.clean!(self.name) if self.name.present?
       #Sanitize.clean!(self.username)
