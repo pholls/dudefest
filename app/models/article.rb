@@ -47,7 +47,8 @@ class Article < ActiveRecord::Base
     list do
       filters [:creator, :column, :editor]
       sort_by do
-        'status_order_by, date desc, column_id, creator_id, articles.created_at'
+        'status_order_by, status desc, date desc, column_id, '\
+         'creator_id, articles.created_at'
       end
       include_fields :date, :column, :title, :creator, :status, :editor
       configure :date do
