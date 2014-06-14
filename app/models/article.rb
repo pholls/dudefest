@@ -378,5 +378,6 @@ class Article < ActiveRecord::Base
       end
 
       self.body = self.body.gsub(/(&nbsp;| )+/, ' ')
+      self.body = self.body.gsub('<p> </p>', '<p>&nbsp;</p>')
     end
 end
