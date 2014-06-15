@@ -4,15 +4,14 @@ class Rating < ActiveRecord::Base
   around_save :set_movie_total_rating
   after_initialize :initialize_creator
   before_validation :sanitize
-
-  POSSIBLE_RATINGS = [10.0, 9.5, 9.0, 8.5, 8.0, 7.5, 7.0, 6.5, 6.0, 5.5, 5.0, 4.5, 4.0, 3.5, 3.0, 2.5, 2.0, 1.5, 1.0, 0.5, 0.0]
+  before_save :set_published_at
 
   has_paper_trail
   belongs_to :movie, inverse_of: :ratings, counter_cache: true
   has_one :review, through: :movie
 
   validates :body, presence: true, uniqueness: true, length: { in: 10..500 }
-  validates :rating, presence: true, inclusion: { in: POSSIBLE_RATINGS }
+  validates :rating, presence: true, inclusion: { in: :rating_enum }
   validates :creator, uniqueness: { scope: :movie }
   validates :movie, presence: true
 
@@ -85,7 +84,7 @@ class Rating < ActiveRecord::Base
     end
 
     def rating_enum
-      POSSIBLE_RATINGS
+      (0..10).step(0.5).to_a.reverse
     end
 
     def display_rating
@@ -105,15 +104,25 @@ class Rating < ActiveRecord::Base
     end
 
     def self.recent(x, user = nil)
-      tz = 'Eastern Time (US & Canada)'
+      now = DateTime.now.in_time_zone('Eastern Time (US & Canada)').to_date
       conditions = { creator: user } if user.present?
-      self.unscoped.joins(:movie, :review).where(conditions)
-          .where('ratings.reviewed = ? and articles.published = ?', true, true)
-          .where('articles.date <= ?', DateTime.now.in_time_zone(tz).to_date)
-          .order(reviewed_at: :desc).first(x)
+      self.unscoped.where(conditions).where('published_at <= ?', now)
+          .order(published_at: :desc).first(x)
+    end
+
+    def generate_published_at
+      if self.reviewed? && self.review.published?
+        [self.review.date.try(:midnight), self.reviewed_at].max_by(&:to_i)
+      else
+        nil
+      end
     end
 
   private
+    def set_published_at
+      self.published_at = generate_published_at()
+    end
+
     def set_movie_total_rating
       yield
       if self.reviewed?

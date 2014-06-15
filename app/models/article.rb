@@ -8,6 +8,7 @@ class Article < ActiveRecord::Base
   before_validation :sanitize
   before_validation :substitute_references
   before_save :determine_status
+  after_save :update_ratings_if_review
   after_destroy :destroy_movie_if_review
 
   has_paper_trail
@@ -379,5 +380,13 @@ class Article < ActiveRecord::Base
 
       self.body = self.body.gsub(/(&nbsp;| )+/, ' ')
       self.body = self.body.gsub('<p> </p>', '<p>&nbsp;</p>')
+    end
+
+    def update_ratings_if_review
+      if (self.published? || self.reviewed?) && self.is_movie_review?
+        self.movie.ratings.each do |rating|
+          rating.update_column :published_at, rating.generate_published_at
+        end
+      end
     end
 end
