@@ -58,12 +58,9 @@
                 - @writers.each do |writer|
                   %li>= link_to writer.last_name, user_path(writer)
             %li>
-              = link_to 'INFO &#x25BE;'.html_safe, info_path
+              = link_to 'SUBMIT &#x25BE;'.html_safe, contribute_path
               %ul.right_align>
-                %li>= link_to 'Legal', legal_path
-                %li>= link_to 'Coming Soon', coming_soon_path
-                %li>= link_to 'Contribute', contribute_path
-                %li>= link_to 'About', about_path
+                %li>= link_to 'Tip Of The Day', new_tip_path
     #sub_nav
       #tagline
         = link_to @tagline.tagline, 

@@ -118,7 +118,7 @@ ul#nav {
 
 #nav li {
   display: inline;
-  font-size: 22px;
+  font-size: 21px;
 }
 
 #nav li a {
@@ -526,6 +526,7 @@ td.daily_dose_close_quote {
   text-align: right;
   margin: 2px 10px;
   margin-left: 0px;
+  vertical-align: top;
 }
 
 .simple_form div.input {
@@ -643,4 +644,48 @@ td.daily_dose_close_quote {
 
 .sitemap_list a {
   color: #DDDDDD;
+}
+
+#daily_dose_form {
+  margin-top: 20px;
+}
+
+#daily_dose_form .simple_form .text_field {
+  padding: 11px;
+}
+
+#daily_dose_form .simple_form textarea {
+  width: 100%;
+  max-width: 100%;
+  padding: 10px;
+  margin: -11px;
+  font-size: 1em;
+}
+
+.daily_dose_actions {
+  text-align: right;
+  margin: 20px 0px;
+}
+
+.daily_dose_actions input[type='submit'] {
+  display: inline-block;
+  margin: 0px;
+}
+
+#daily_dose_form:after {
+  content: ".";
+  display: block;
+  height: 0px;
+  clear: both;
+  visibility: hidden;
+}
+
+#daily_dose_form_help {
+  margin-top: 20px;
+}
+
+#daily_dose_form_help ul {
+  margin-left: 20px;
+  padding: 0px;
+  font-size: 1em;
 }

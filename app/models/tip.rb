@@ -58,16 +58,16 @@ class Tip < ActiveRecord::Base
     end
   end
 
+  def tip_help
+    ('<ul><li>Between 10 and 200 characters.</li>'\
+     '<li>Keep the tips short and sweet.</li><li>A piece of advice or a '\
+     'question leading off makes them very strong.</li><li>Follow it '\
+     'with no more than two sentences to '\
+     'explain how to achieve the desired outcome.</li></ul>').html_safe
+  end
+
   private
     def sanitize
       Sanitize.clean!(self.tip)
-    end
-
-    def tip_help
-      ('Required. Between 10 and 200 characters.<br>'\
-       'Keep the tips short and sweet.<br>A piece of advice or a '\
-       'question leading off makes them very strong.<br>Follow it '\
-       'with no more than two sentences to '\
-       'explain how to achieve the desired outcome.').html_safe
     end
 end

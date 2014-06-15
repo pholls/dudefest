@@ -39,8 +39,11 @@ module ItemReview
 
   private
     def complete_create
-      self.reviewed = false
-      self.creator = User.current
+      if self.new_record?
+        self.reviewed = false
+        self.creator = User.current
+        self.notes ||= ''
+      end
     end
 
     def complete_review

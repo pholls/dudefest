@@ -25,5 +25,9 @@ module DailyItem
         where.not(date: nil).first
       end
     end
+
+    def random_live(x)
+      where('date <= ?', self.today_est).order('RANDOM()').limit(x)
+    end
   end
 end

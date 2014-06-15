@@ -1,0 +1,45 @@
+- content_for(:title, 'Put your tip in')
+- meta_description @meta_description
+- content_for :head do
+  = tag :meta, property: 'og:title', content: 'Put your tip in'
+  = tag :meta, property: 'og:url', content: new_tip_url
+  = tag :meta, property: 'og:image', content: image_url('/DudefestSymbol.png')
+  = tag :meta, property: 'og:description', content: @meta_description
+
+#main_column.home_column
+  #shit_to_read.main_top GIVE US YOUR TIP
+  #daily_dose_form_help
+    If you have a pretty sweet dudefest tip, we'd love for you to give it to us.
+    If we like it, we'll put it up on the site as the tip of the day. A few
+    guidelines for giving us your tip:
+    = @tip.tip_help
+  #daily_dose_form
+    = simple_form_for @tip do |f|
+      .daily_dose_field.field.text_field
+        = f.text_area :tip, rows: 5, placeholder: 'Just the tip', 
+                        class: 'char_count'
+      .daily_dose_submit
+        .daily_dose_count#tip_char_count
+          - if @tip.errors[:tip].any?
+            = @tip.errors[:tip].map { |e| "Your tip #{e}." }.join(' ')
+          - else
+            10 characters to go
+        .daily_dose_actions.actions
+          = f.submit 'PUT YOUR TIP IN'
+
+#right_column.home_column
+  #right_content
+    #daily_dose Some Of Our Tips
+    - @sample_tips.each do |t|
+      .daily_dose_item.sample_tip.sample_item
+        .short_info
+          .short_label> Inserted By
+          .short_value>= link_to t.creator.username, user_path(t.creator_id)
+        .short_info
+          .short_label> Date
+          .short_value>= t.date
+        .short_desc= t.tip
+
+:javascript
+  character_count(10, 200, 'tip_char_count')
+

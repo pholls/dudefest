@@ -3,6 +3,8 @@ Dudefest::Application.routes.draw do
     resources :comments
   end
 
+  resources :tips
+
   get 'about', to: 'about#index'
   get 'contribute', to: 'contribute#index'
   get 'coming_soon', to: 'coming_soon#index'
