@@ -12,10 +12,10 @@ class Fact < ActiveRecord::Base
   rails_admin do
     navigation_label 'Kennedy Research Center'
     list do
-      sort_by 'reviewed_at desc, reviewed, created_at, fact'
-      include_fields :fact, :nickname, :type, :reviewed
-      configure :reviewed do
-        column_width 75
+      sort_by 'status_order_by, reviewed_at desc, created_at, fact'
+      include_fields :fact, :nickname, :type, :status
+      configure :status do
+        column_width 85
       end
       configure :type do
         column_width 100
@@ -26,9 +26,14 @@ class Fact < ActiveRecord::Base
     end
 
     edit do
-      include_fields :fact, :nickname, :type, :reviewed do
+      include_fields :fact, :nickname, :type, :reviewed, :needs_work do
         read_only do
           bindings[:object].is_read_only?
+        end
+      end
+      include_fields :needs_work do
+        visible do
+          bindings[:object].failable?
         end
       end
       field :notes

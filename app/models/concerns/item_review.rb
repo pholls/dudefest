@@ -2,8 +2,8 @@ module ItemReview
   extend ActiveSupport::Concern
 
   included do
-    before_validation :complete_create, on: :create
-    before_update :complete_review
+    after_initialize :initialize_item, on: :new
+    before_save :determine_status
     before_validation :sanitize_notes
 
     belongs_to :creator, class_name: 'User', counter_cache: true
@@ -18,7 +18,11 @@ module ItemReview
 
   public
     def reviewable?
-      self.persisted? && self.owner_or_admin?
+      self.persisted? && self.owner_or_admin? && self.status_order_by >= 1
+    end
+
+    def failable?
+      self.persisted? && self.owner_or_admin? && self.status_order_by == 1
     end
 
     def editable?
@@ -38,19 +42,34 @@ module ItemReview
     end
 
   private
-    def complete_create
+    def initialize_item
       if self.new_record?
-        self.reviewed = false
-        self.creator = User.current
+        self.reviewed = false if self.reviewed.nil?
+        self.needs_work = false if self.needs_work.nil?
+        self.creator ||= User.current
+        self.status ||= '0 - Drafting'
+        self.status_order_by ||= 0
         self.notes ||= ''
       end
     end
 
-    def complete_review
-      if reviewed? && reviewed_at.nil?
+    def determine_status
+      if self.try(:published) # 3 - Published; daily items only
+        self.published_at = Time.now if !self.published_was
+        self.date ||= set_date()
+        self.status = '3 - Published'
+      elsif self.reviewed? # 2 - Reviewed
+        self.reviewer = User.current if !self.reviewed_was
+        self.reviewed_at = Time.now if !self.reviewed_was
+        self.status = '2 - Reviewed'
+      elsif self.needs_work? # -1 - Needs Work
         self.reviewer = User.current
-        self.reviewed_at = Time.now
+        self.needs_work = false
+        self.status = '-1 - Redo It'
+      else # 1 - Created
+        self.status = '1 - Created'
       end
+      self.status_order_by = self.status.to_i
     end
 
     def sanitize_notes

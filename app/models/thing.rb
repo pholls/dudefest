@@ -29,14 +29,14 @@ class Thing < ActiveRecord::Base
     end
 
     list do
-      sort_by 'date desc, reviewed, creator_id, created_at'
-      include_fields :date, :thing_category, :thing, :creator, :reviewed
+      sort_by 'date desc, status_order_by, creator_id, created_at'
+      include_fields :date, :thing_category, :thing, :creator, :status
       configure :date do
         strftime_format '%Y-%m-%d'
         column_width 75
       end
-      configure :reviewed do
-        column_width 75
+      configure :status do
+        column_width 90
       end
       configure :creator do
         column_width 85
@@ -45,7 +45,7 @@ class Thing < ActiveRecord::Base
 
     edit do
       include_fields :thing_category, :thing, :description, :image,
-                     :published, :reviewed do
+                     :reviewed, :needs_work, :published do
         read_only do
           bindings[:object].is_read_only?
         end
@@ -77,6 +77,11 @@ class Thing < ActiveRecord::Base
       configure :published do
         visible do
           bindings[:object].reviewed? 
+        end
+      end
+      configure :needs_work do
+        visible do
+          bindings[:object].failable?
         end
       end
       configure :reviewed do

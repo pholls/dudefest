@@ -9,10 +9,10 @@ class Tagline < ActiveRecord::Base
     navigation_label 'Daily Items'
     object_label_method :tagline
     list do
-      sort_by 'reviewed, tagline, created_at'
-      include_fields :tagline, :creator, :reviewed
-      configure :reviewed do
-        column_width 75
+      sort_by 'status_order_by, tagline, created_at'
+      include_fields :tagline, :creator, :status
+      configure :status do
+        column_width 85
       end
       configure :creator do
         column_width 85
@@ -20,7 +20,7 @@ class Tagline < ActiveRecord::Base
     end
 
     edit do
-      include_fields :tagline, :reviewed do
+      include_fields :tagline, :reviewed, :needs_work do
         read_only do
           bindings[:object].is_read_only?
         end
@@ -30,6 +30,11 @@ class Tagline < ActiveRecord::Base
              'you.'
       end
       field :notes
+      configure :needs_work do
+        visible do
+          bindings[:object].failable?
+        end
+      end
       configure :reviewed do
         visible do
           bindings[:object].reviewable?

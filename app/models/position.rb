@@ -23,14 +23,14 @@ class Position < ActiveRecord::Base
     object_label_method :position
     navigation_label 'Daily Items'
     list do
-      sort_by 'date desc, reviewed, creator_id, created_at'
-      include_fields :date, :position, :creator, :reviewed
+      sort_by 'date desc, status_order_by, creator_id, created_at'
+      include_fields :date, :position, :creator, :status
       configure :date do
         strftime_format '%Y-%m-%d'
         column_width 75
       end
-      configure :reviewed do
-        column_width 75
+      configure :status do
+        column_width 90
       end
       configure :creator do
         column_width 85
@@ -38,7 +38,7 @@ class Position < ActiveRecord::Base
     end
 
     edit do
-      include_fields :position, :description, :reviewed do
+      include_fields :position, :description, :reviewed, :needs_work do
         read_only do
           bindings[:object].is_read_only?
         end
@@ -55,7 +55,7 @@ class Position < ActiveRecord::Base
              ).html_safe
       end
       include_fields :notes 
-      configure :reviewed do
+      include_fields :reviewed, :needs_work do
         visible do
           false
           # Change from the above to the below if we add position to the site

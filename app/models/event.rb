@@ -16,16 +16,16 @@ class Event < ActiveRecord::Base
     navigation_label 'Daily Items'
     label 'Historical Event'
     list do
-      sort_by 'reviewed, month_day, date'
+      sort_by 'status_order_by, month_day, date'
       items_per_page 500
-      include_fields :date, :event, :creator, :reviewed
+      include_fields :date, :event, :creator, :status
       configure :date do
         strftime_format '%m/%d/%Y'
         column_width 75
         sortable :month_day
       end
-      configure :reviewed do
-        column_width 75
+      configure :status do
+        column_width 85
       end
       configure :creator do
         column_width 85
@@ -33,7 +33,7 @@ class Event < ActiveRecord::Base
     end
 
     edit do
-      include_fields :event, :link, :date, :reviewed do
+      include_fields :event, :link, :date, :reviewed, :needs_work do
         read_only do
           bindings[:object].is_read_only?
         end
@@ -66,6 +66,11 @@ class Event < ActiveRecord::Base
       configure :date do
         help 'Required. Enter date as YYYY-MM-DD.'
         date_format :default
+      end
+      configure :needs_work do
+        visible do
+          bindings[:object].failable?
+        end
       end
       configure :reviewed do
         visible do

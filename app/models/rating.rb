@@ -27,12 +27,19 @@ class Rating < ActiveRecord::Base
     end
 
     list do
-      sort_by 'reviewed, movie_id desc, created_at asc, creator_id'
-      include_fields :movie, :rating, :creator, :reviewed
+      sort_by 'status_order_by, movie_id desc, created_at asc, creator_id'
+      include_fields :movie, :rating, :creator, :status
+      configure :status do
+        column_width 85
+      end
+      configure :rating do
+        column_width 55
+      end
     end
 
     edit do
-      include_fields :movie, :creator, :body, :rating, :reviewed, :notes
+      include_fields :movie, :creator, :body, :rating, :reviewed, 
+                     :needs_work, :notes
       configure :creator do
         read_only true
       end
@@ -45,9 +52,14 @@ class Rating < ActiveRecord::Base
               'with.<br>'\
               'Make sure you have a punchline in mind.').html_safe
       end
-      include_fields :movie, :body, :rating, :reviewed do
+      include_fields :movie, :body, :rating, :reviewed, :needs_work do
         read_only do
           bindings[:object].class == Rating && bindings[:object].is_read_only?
+        end
+      end
+      configure :needs_work do
+        visible do
+          bindings[:object].failable?
         end
       end
       configure :reviewed do

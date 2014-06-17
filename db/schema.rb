@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140610230552) do
+ActiveRecord::Schema.define(version: 20140615210917) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -132,6 +132,9 @@ ActiveRecord::Schema.define(version: 20140610230552) do
     t.datetime "updated_at"
     t.boolean  "published"
     t.datetime "published_at"
+    t.boolean  "needs_work",      default: false, null: false
+    t.string   "status",          default: "0",   null: false
+    t.integer  "status_order_by", default: 0,     null: false
   end
 
   create_table "dudes", force: true do |t|
@@ -153,6 +156,9 @@ ActiveRecord::Schema.define(version: 20140610230552) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "month_day"
+    t.boolean  "needs_work",      default: false, null: false
+    t.string   "status",          default: "0",   null: false
+    t.integer  "status_order_by", default: 0,     null: false
   end
 
   create_table "facts", force: true do |t|
@@ -166,6 +172,9 @@ ActiveRecord::Schema.define(version: 20140610230552) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "type"
+    t.boolean  "needs_work",      default: false, null: false
+    t.string   "status",          default: "0",   null: false
+    t.integer  "status_order_by", default: 0,     null: false
   end
 
   create_table "genres", force: true do |t|
@@ -227,6 +236,9 @@ ActiveRecord::Schema.define(version: 20140610230552) do
     t.datetime "updated_at"
     t.boolean  "published"
     t.datetime "published_at"
+    t.boolean  "needs_work",      default: false, null: false
+    t.string   "status",          default: "0",   null: false
+    t.integer  "status_order_by", default: 0,     null: false
   end
 
   create_table "quotes", force: true do |t|
@@ -245,6 +257,9 @@ ActiveRecord::Schema.define(version: 20140610230552) do
     t.datetime "updated_at"
     t.boolean  "published"
     t.datetime "published_at"
+    t.boolean  "needs_work",      default: false, null: false
+    t.string   "status",          default: "0",   null: false
+    t.integer  "status_order_by", default: 0,     null: false
   end
 
   add_index "quotes", ["dude_id"], name: "index_quotes_on_dude_id", using: :btree
@@ -274,6 +289,9 @@ ActiveRecord::Schema.define(version: 20140610230552) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "published_at"
+    t.boolean  "needs_work",      default: false, null: false
+    t.string   "status",          default: "0",   null: false
+    t.integer  "status_order_by", default: 0,     null: false
   end
 
   create_table "rich_rich_files", force: true do |t|
@@ -309,6 +327,9 @@ ActiveRecord::Schema.define(version: 20140610230552) do
     t.datetime "reviewed_at"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "needs_work",      default: false, null: false
+    t.string   "status",          default: "0",   null: false
+    t.integer  "status_order_by", default: 0,     null: false
   end
 
   create_table "thing_categories", force: true do |t|
@@ -333,6 +354,9 @@ ActiveRecord::Schema.define(version: 20140610230552) do
     t.boolean  "published"
     t.datetime "published_at"
     t.string   "image"
+    t.boolean  "needs_work",        default: false, null: false
+    t.string   "status",            default: "0",   null: false
+    t.integer  "status_order_by",   default: 0,     null: false
   end
 
   add_index "things", ["thing_category_id"], name: "index_things_on_thing_category_id", using: :btree
@@ -349,6 +373,9 @@ ActiveRecord::Schema.define(version: 20140610230552) do
     t.datetime "updated_at"
     t.boolean  "published"
     t.datetime "published_at"
+    t.boolean  "needs_work",      default: false, null: false
+    t.string   "status",          default: "0",   null: false
+    t.integer  "status_order_by", default: 0,     null: false
   end
 
   create_table "titles", force: true do |t|

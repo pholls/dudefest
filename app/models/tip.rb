@@ -11,8 +11,8 @@ class Tip < ActiveRecord::Base
     label 'Just the Tip'
     navigation_label 'Daily Items'
     list do
-      sort_by 'date desc, reviewed, creator_id, created_at'
-      include_fields :date, :tip, :creator, :reviewed
+      sort_by 'date desc, status, creator_id, created_at'
+      include_fields :date, :tip, :creator, :status
       configure :date do
         strftime_format '%Y-%m-%d'
         column_width 75
@@ -20,8 +20,8 @@ class Tip < ActiveRecord::Base
       configure :tip do
         label 'Just the Tip'
       end
-      configure :reviewed do
-        column_width 75
+      configure :status do
+        column_width 90
       end
       configure :creator do
         column_width 85
@@ -29,7 +29,7 @@ class Tip < ActiveRecord::Base
     end
 
     edit do
-      include_fields :tip, :reviewed, :published do
+      include_fields :tip, :reviewed, :needs_work, :published do
         read_only do
           bindings[:object].is_read_only?
         end
@@ -41,9 +41,14 @@ class Tip < ActiveRecord::Base
           tip_help
         end
       end
+      configure :needs_work do
+        visible do
+          bindings[:object].failable?
+        end
+      end
       configure :reviewed do
         visible do
-          bindings[:object].reviewable? && !bindings[:object].reviewed?
+          bindings[:object].reviewable?
         end
       end
       configure :published do

@@ -1,8 +1,8 @@
 module DailyItem
   extend ActiveSupport::Concern
 
-  included do 
-    before_validation :set_date
+  included do
+    after_initialize :set_published
     validates :date, allow_blank: :true, uniqueness: true, on: :update
   end
 
@@ -10,11 +10,15 @@ module DailyItem
     def set_date
       if self.published? && self.date.nil?
         if self.class.select(:date).count > 0
-          self.date = self.class.maximum(:date) + 1.day
+          self.class.maximum(:date) + 1.day
         else
-          self.date = self.class.start_date
+          self.class.start_date
         end
       end
+    end
+
+    def set_published
+      self.published = false if (self.new_record? && self.published.nil?)
     end
 
   module ClassMethods

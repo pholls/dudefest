@@ -23,14 +23,14 @@ class DailyVideo < ActiveRecord::Base
     object_label_method :title
     navigation_label 'Daily Items'
     list do
-      sort_by 'date desc, reviewed, creator_id, created_at'
-      include_fields :date, :title, :creator, :reviewed
+      sort_by 'date desc, status_order_by, creator_id, created_at'
+      include_fields :date, :title, :creator, :status
       configure :date do
         strftime_format '%Y-%m-%d'
         column_width 75
       end
-      configure :reviewed do
-        column_width 75
+      configure :status do
+        column_width 90
       end
       configure :creator do
         column_width 85
@@ -38,7 +38,7 @@ class DailyVideo < ActiveRecord::Base
     end
 
     edit do
-      include_fields :title, :source, :reviewed, :published do
+      include_fields :title, :source, :reviewed, :needs_work, :published do
         read_only do
           bindings[:object].is_read_only?
         end
@@ -50,6 +50,11 @@ class DailyVideo < ActiveRecord::Base
         help false
       end
       include_fields :notes
+      configure :needs_work do
+        visible do
+          bindings[:object].failable?
+        end
+      end
       configure :reviewed do
         visible do
           bindings[:object].reviewable? && !bindings[:object].reviewed?

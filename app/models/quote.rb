@@ -19,14 +19,14 @@ class Quote < ActiveRecord::Base
     navigation_label 'Daily Items'
 
     list do
-      sort_by 'date desc, reviewed, creator_id, created_at'
-      include_fields :date, :dude, :quote, :creator, :reviewed
+      sort_by 'date desc, status_order_by, creator_id, created_at'
+      include_fields :date, :dude, :quote, :creator, :status
       configure :date do
         strftime_format '%Y-%m-%d'
         column_width 75
       end
-      configure :reviewed do
-        column_width 75
+      configure :status do
+        column_width 90
       end
       configure :creator do
         column_width 85
@@ -38,7 +38,7 @@ class Quote < ActiveRecord::Base
 
     edit do
       include_fields :dude, :quote, :context, :source, :year, :reviewed,
-                     :published do
+                     :needs_work, :published do
         read_only do
           bindings[:object].is_read_only?
         end
@@ -56,6 +56,11 @@ class Quote < ActiveRecord::Base
         help 'Optional. Length up to 255. Helps verify the link.'
       end
       include_fields :notes
+      configure :needs_work do
+        visible do
+          bindings[:object].failable?
+        end
+      end
       configure :reviewed do
         visible do
           bindings[:object].reviewable? && !bindings[:object].reviewed?
