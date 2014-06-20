@@ -96,7 +96,7 @@ class Event < ActiveRecord::Base
 
     def self.this_day
       where(month_day: find_month_day(self.today_est), reviewed: true)
-        .order(date: :desc)
+      .order(date: :desc)
     end
 
   private

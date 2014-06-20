@@ -38,7 +38,7 @@ class Tip < ActiveRecord::Base
       configure :tip do
         label 'Put your tip in'
         help do 
-          tip_help
+          bindings[:object].tip_help
         end
       end
       configure :needs_work do
