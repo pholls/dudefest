@@ -63,8 +63,8 @@
                 %li>= link_to 'Tip Of The Day', new_tip_path
     #sub_nav
       #tagline
-        = link_to @tagline.tagline, 
-                  article_path(Article.all.select { |a| a.public? }.sample)
+        = link_to (flash[:alert] || @tagline.tagline), 
+                  article_path(Article.public.sample)
     #content
       = yield
     #footer

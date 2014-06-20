@@ -8,8 +8,7 @@ class TipsController < ApplicationController
   def create
     @tip.assign_attributes(tips_params)
     if @tip.save
-      redirect_to session[:previous_url], 
-                  alert: 'Thanks for putting your tip in!'
+      redirect_to root_path, alert: 'Thanks for putting your tip in!'
     else
       render :new
     end
