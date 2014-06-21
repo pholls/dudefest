@@ -27,7 +27,7 @@
 #right_column.home_column
   #right_content
     #daily_dose= link_to 'Dudefest Movie Genres', movies_path
-    - if @show_daily_dose
+    - if @show_full_sidebar
       .daily_dose_item
         - Genre.order(:genre).each do |genre|
           .genre_tag= link_to genre.genre, movies_path(genre: genre)
@@ -37,7 +37,7 @@
         - Rating.recent(10).each do |rating|
           = render partial: 'ratings/recent_ratings', 
                    locals: { rating: rating }
-    - if @show_daily_dose
+    - if @show_full_sidebar
       = render partial: 'comments/recent_comments', 
                locals: { comments: Comment.recent(10) }
 
