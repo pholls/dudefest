@@ -18,13 +18,14 @@ class Event < ActiveRecord::Base
     list do
       sort_by 'status_order_by, month_day, date'
       items_per_page 500
-      include_fields :date, :event, :creator, :status
+      include_fields :date, :event, :creator
       configure :date do
         strftime_format '%m/%d/%Y'
         column_width 75
         sortable :month_day
       end
-      configure :status do
+      field :status_with_color do
+        label 'Status'
         column_width 85
       end
       configure :creator do

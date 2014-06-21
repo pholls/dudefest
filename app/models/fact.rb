@@ -13,8 +13,9 @@ class Fact < ActiveRecord::Base
     navigation_label 'Kennedy Research Center'
     list do
       sort_by 'status_order_by, reviewed_at desc, created_at, fact'
-      include_fields :fact, :nickname, :type, :status
-      configure :status do
+      include_fields :fact, :nickname, :type
+      field :status_with_color do
+        label 'Status'
         column_width 85
       end
       configure :type do

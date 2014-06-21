@@ -18,7 +18,7 @@ module DailyItem
     end
 
     def set_published
-      self.published = false if (self.new_record? && self.published.nil?)
+      self.published = false if self.published.nil?
     end
 
   module ClassMethods

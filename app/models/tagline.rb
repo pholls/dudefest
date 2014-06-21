@@ -10,9 +10,10 @@ class Tagline < ActiveRecord::Base
     object_label_method :tagline
     list do
       sort_by 'status_order_by, tagline, created_at'
-      include_fields :tagline, :creator, :status
-      configure :status do
-        column_width 85
+      include_fields :tagline, :creator
+      field :status_with_color do
+        label 'Status'
+        column_width 90
       end
       configure :creator do
         column_width 85

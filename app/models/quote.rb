@@ -20,12 +20,13 @@ class Quote < ActiveRecord::Base
 
     list do
       sort_by 'date desc, status_order_by, creator_id, created_at'
-      include_fields :date, :dude, :quote, :creator, :status
+      include_fields :date, :dude, :quote, :creator
       configure :date do
         strftime_format '%Y-%m-%d'
         column_width 75
       end
-      configure :status do
+      field :status_with_color do
+        label 'Status'
         column_width 90
       end
       configure :creator do

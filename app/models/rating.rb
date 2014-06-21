@@ -28,8 +28,9 @@ class Rating < ActiveRecord::Base
 
     list do
       sort_by 'status_order_by, movie_id desc, created_at asc, creator_id'
-      include_fields :movie, :rating, :creator, :status
-      configure :status do
+      include_fields :movie, :rating, :creator
+      field :status_with_color do
+        label 'Status'
         column_width 85
       end
       configure :rating do

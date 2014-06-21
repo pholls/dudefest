@@ -11,8 +11,8 @@ class Tip < ActiveRecord::Base
     label 'Just the Tip'
     navigation_label 'Daily Items'
     list do
-      sort_by 'date desc, status, creator_id, created_at'
-      include_fields :date, :tip, :creator, :status
+      sort_by 'date desc, status_order_by, creator_id, created_at'
+      include_fields :date, :tip, :creator
       configure :date do
         strftime_format '%Y-%m-%d'
         column_width 75
@@ -20,8 +20,9 @@ class Tip < ActiveRecord::Base
       configure :tip do
         label 'Just the Tip'
       end
-      configure :status do
+      field :status_with_color do
         column_width 90
+        label 'Status'
       end
       configure :creator do
         column_width 85

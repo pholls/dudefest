@@ -41,6 +41,16 @@ module ItemReview
       end
     end
 
+    def status_with_color
+      color =
+        if status_order_by == -1 then 'red'
+        elsif status_order_by == 1 then 'blue'
+        elsif status_order_by == 2 && !try(:published).nil? && !published?
+          'gold' # use gold for only daily items that can later be published
+        else 'limegreen' end
+      "<span style='color:#{color};'>#{status}</span>".html_safe
+    end
+
   private
     def initialize_item
       if self.new_record?
