@@ -11,7 +11,8 @@ RailsAdmin.config do |config|
   ideas = docs + 'document/d/1AH0SZQJH2QzwfZFcGCBbdTiZHUSCGvRTvUbCp_XC1WU'
   config.navigation_static_links = { 
     'Weekly Output' => wo, 'Article Ideas' => (wo + '#gid=7'),
-    'Dudefest Ideas' => ideas
+    'Dudefest Ideas' => ideas,
+    'Reddit Posts' => 'http://www.reddit.com/domain/dudefest.com'
   }
 
   INCLUDED = %w(User Tip Event Position ThingCategory Thing DailyVideo Article
