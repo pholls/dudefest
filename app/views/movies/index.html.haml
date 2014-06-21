@@ -24,21 +24,20 @@
           DUDEFEST RATING
           .dudefest_rating= movie.average_rating
 
-- if @show_daily_dose
-  = render 'home/daily_dose'
-- else
-  #right_column.home_column
-    #right_content
-      #daily_dose Dudefest Movie Genres
+#right_column.home_column
+  #right_content
+    #daily_dose= link_to 'Dudefest Movie Genres', movies_path
+    - if @show_daily_dose
       .daily_dose_item
         - Genre.order(:genre).each do |genre|
           .genre_tag= link_to genre.genre, movies_path(genre: genre)
-      .daily_dose_item
-        .right_label RECENT RATINGS
-        .recent_comments
-          - Rating.recent(10).each do |rating|
-            = render partial: 'ratings/recent_ratings', 
-                     locals: { rating: rating }
-    = render partial: 'comments/recent_comments', 
-             locals: { comments: Comment.recent(10) }
+    .daily_dose_item
+      .right_label RECENT RATINGS
+      .recent_comments
+        - Rating.recent(10).each do |rating|
+          = render partial: 'ratings/recent_ratings', 
+                   locals: { rating: rating }
+    - if @show_daily_dose
+      = render partial: 'comments/recent_comments', 
+               locals: { comments: Comment.recent(10) }
 
