@@ -120,7 +120,7 @@ class Rating < ActiveRecord::Base
       now = DateTime.now.in_time_zone('Eastern Time (US & Canada)').to_date
       conditions = { creator: user } if user.present?
       self.unscoped.where(conditions).where('published_at <= ?', now)
-          .order(published_at: :desc).first(x)
+          .order(published_at: :desc).limit(x)
     end
 
     def generate_published_at
