@@ -60,7 +60,7 @@ class Rating < ActiveRecord::Base
       end
       configure :needs_work do
         visible do
-          bindings[:object].failable?
+          bindings[:object].class == Rating && bindings[:object].failable?
         end
       end
       configure :reviewed do
