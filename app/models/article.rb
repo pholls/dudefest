@@ -385,7 +385,9 @@ class Article < ActiveRecord::Base
     def update_ratings_if_review
       if (self.published? || self.reviewed?) && self.is_movie_review?
         self.movie.ratings.each do |rating|
-          rating.update_column :published_at, rating.generate_published_at
+          if rating.persisted?
+            rating.update_column :published_at, rating.generate_published_at
+          end
         end
       end
     end
