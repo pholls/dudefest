@@ -354,7 +354,7 @@ class Article < ActiveRecord::Base
 
     def review_has_enough_ratings
       if self.is_movie_review? && self.movie.reviewed_ratings < 2
-        if self.published? && self.creator.id != 1
+        if self.published? && [1,7].include?(self.creator.id)
           errors.add(:column, 'needs at least 2 reviewed ratings')
         end
       end
