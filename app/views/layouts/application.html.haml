@@ -69,4 +69,4 @@
       = yield
     #footer
       = render 'layouts/sitemap' unless request.fullpath == root_path
-      = render 'layouts/footer'
+      = render 'layouts/footer' if Rails.env.production?
