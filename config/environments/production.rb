@@ -33,8 +33,8 @@ Dudefest::Application.configure do
 
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-    address:              'localhost',
-    port:                 26,
+    address:              'mail.dudefest.com',
+    port:                 587,
     domain:               'dudefest.com',
     user_name:            ENV['EMAIL_USERNAME'],
     password:             ENV['EMAIL_PASSWORD'],
