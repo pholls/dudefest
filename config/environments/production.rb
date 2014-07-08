@@ -29,15 +29,15 @@ Dudefest::Application.configure do
   # Do not fallback to assets pipeline if a precompiled asset is missed.
   config.assets.compile = false
 
-  config.action_mailer.default_url_options = { host: 'dudefest.com' }
+  config.action_mailer.default_url_options = { host: 'www.dudefest.com' }
 
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-    address:              'mail.dudefest.com',
+    address:              'smtp.sendgrid.net',
     port:                 587,
-    domain:               'dudefest.com',
-    user_name:            ENV['EMAIL_USERNAME'],
-    password:             ENV['EMAIL_PASSWORD'],
+    domain:               'heroku.com',
+    user_name:            ENV['SENDGRID_USERNAME'],
+    password:             ENV['SENDGRID_PASSWORD'],
     authentication:       'plain',
     enable_starttls_auto: true  
   }
