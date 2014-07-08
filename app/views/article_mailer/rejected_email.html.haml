@@ -1,0 +1,13 @@
+%p
+  Uh oh,
+  = @article.reviewer.name
+  rejected an article that you worked on,
+  = link_to @article.title,
+            rails_admin.edit_url(model_name: 'article', id: @article.id)
+%p
+  See what's up with that article! Check out why it was rejected. Chances are,
+  it's a joke that doesn't work or a sentence that's difficult to read. It
+  should take five seconds to fix. Do it quick son!
+%p Love,
+.sig John Dudefest
+.sig Paternal Figure

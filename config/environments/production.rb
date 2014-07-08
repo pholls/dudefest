@@ -29,6 +29,19 @@ Dudefest::Application.configure do
   # Do not fallback to assets pipeline if a precompiled asset is missed.
   config.assets.compile = false
 
+  config.action_mailer.default_url_options = { host: 'dudefest.com' }
+
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    address:              'localhost',
+    port:                 26,
+    domain:               'dudefest.com',
+    user_name:            ENV['EMAIL_USERNAME'],
+    password:             ENV['EMAIL_PASSWORD'],
+    authentication:       'plain',
+    enable_starttls_auto: true  
+  }
+
   # Generate digests for assets URLs.
   config.assets.digest = true
 

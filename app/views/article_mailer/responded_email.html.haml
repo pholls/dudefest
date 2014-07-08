@@ -1,0 +1,11 @@
+%p
+  = @article.creator.name
+  finally stopped masturbating long enough to respond to edits for
+  = link_to @article.title,
+            rails_admin.edit_url(model_name: 'article', id: @article.id)
+%p
+  Now it's time to take
+  %i your
+  hand out from underneath your desk and take a look at those responses!
+%p Love,
+.sig John Dudefest

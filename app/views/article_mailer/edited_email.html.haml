@@ -1,0 +1,14 @@
+%p
+  #{@article.editor.name} just edited your article,
+  = link_to @article.title,
+            rails_admin.edit_url(model_name: 'article', id: @article.id)
+%p
+  Go respond to your edits for it! Every day you
+  %i don't
+  respond to the edits, we'll flip a coin, and depending on the result of the
+  flip, put either a spider or a pubic hair in your mouth as you sleep. You'd
+  better hope that it's tails. Or better yet, just respond to your edits today,
+  idiot.
+%p Love,
+.sig John Dudefest
+.sig Arachnologist and Pube Collector

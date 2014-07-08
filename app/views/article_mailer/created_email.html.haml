@@ -1,0 +1,9 @@
+%p
+  #{@article.creator.name} just submitted an article entitled
+  = link_to @article.title,
+            rails_admin.edit_url(model_name: 'article', id: @article.id)
+%p
+  It's ready to be edited, and you've been assigned to edit it!
+  Hurry the fuck up and do it dickbag!
+%p Love,
+.sig John Dudefest

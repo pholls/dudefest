@@ -311,16 +311,23 @@ class Article < ActiveRecord::Base
       elsif self.needs_rewrite? && self.created? # -1 - Rewrite
         self.created = self.needs_rewrite = false
         self.status = '-1 - Rewrite'
+        ArticleMailer.needs_rewrite_email(self).deliver
       elsif self.can_edit? && self.status > '1' # 2 - Edited
         self.edited_at = Time.now
         self.edited = true
-        self.status = '2 - Edited'                              # 3 - Responded
-      elsif self.edited? && (self.creator == User.current || self.status > '4')
+        self.status = '2 - Edited'
+        ArticleMailer.edited_email(self).deliver
+      elsif self.edited? && self.finalized_was # 3 - Rejected
+        self.status = '3 - Rejected'
+        ArticleMailer.rejected_email(self).deliver
+      elsif self.edited? && self.creator == User.current # 3 - Responded
         self.responded_at = Time.now
-        self.status = (self.finalized_was ? '3 - Rejected' : '3 - Responded')
+        self.status = '3 - Responded'
+        ArticleMailer.responded_email(self).deliver
       elsif self.created? && self.creator == User.current # 1 - Created
         self.status = '1 - Created'
         self.editor ||= set_editor()
+        ArticleMailer.created_email(self)
       elsif self.creator == User.current # 0 - Drafting
         self.status = '0 - Drafting'
       end
