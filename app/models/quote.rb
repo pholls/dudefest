@@ -79,6 +79,10 @@ class Quote < ActiveRecord::Base
     end
   end
 
+  def label
+    self.quote ? '"' + self.quote + '"' : nil
+  end
+
   def display_attribution
     [self.dude.name, self.context, self.year.to_s].reject(&:blank?).join(', ')
   end

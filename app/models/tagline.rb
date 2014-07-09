@@ -47,4 +47,8 @@ class Tagline < ActiveRecord::Base
       include_fields :tagline, :creator, :reviewed
     end
   end
+
+  def label
+    self.tagline
+  end
 end

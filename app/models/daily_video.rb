@@ -85,6 +85,10 @@ class DailyVideo < ActiveRecord::Base
     end
   end
 
+  def label
+    self.title
+  end
+
   private
     def sanitize
       Sanitize.clean!(self.title)

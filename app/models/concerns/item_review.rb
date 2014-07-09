@@ -3,8 +3,9 @@ module ItemReview
 
   included do
     after_initialize :initialize_item, on: :new
-    before_save :determine_status
     before_validation :sanitize_notes
+    before_save :determine_status
+    after_save :send_emails
 
     belongs_to :creator, class_name: 'User', counter_cache: true
     belongs_to :reviewer, class_name: 'User'
@@ -17,6 +18,9 @@ module ItemReview
   end
 
   public
+    def down_class() self.class.name.underscore; end
+    def class_name() down_class.gsub('_', ' '); end
+
     def reviewable?
       self.persisted? && self.owner_or_admin? && self.status_order_by >= 1
     end
@@ -80,6 +84,13 @@ module ItemReview
         self.status = '1 - Created'
       end
       self.status_order_by = self.status.to_i
+    end
+
+    def send_emails
+      case self.status_order_by
+      when -1 then ItemMailer.needs_work_email(self).deliver
+      when 1  then ItemMailer.created_email(self).deliver
+      end if self.status_changed? && self.creator != self.class.owner
     end
 
     def sanitize_notes

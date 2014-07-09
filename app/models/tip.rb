@@ -64,6 +64,10 @@ class Tip < ActiveRecord::Base
     end
   end
 
+  def label
+    self.tip
+  end
+
   def tip_help
     ('<ul><li>Between 10 and 200 characters.</li>'\
      '<li>Keep the tips short and sweet.</li><li>A piece of advice or a '\

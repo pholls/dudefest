@@ -91,6 +91,10 @@ class Event < ActiveRecord::Base
   end
 
   public
+    def label
+      self.event
+    end
+
     def year_str
       self.date.year.to_s + ': '
     end

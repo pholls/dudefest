@@ -1,0 +1,8 @@
+%p
+  #{@item.creator.name} just submitted a new #{@item.class_name},
+  = link_to @item.label,
+            rails_admin.edit_url(model_name: @item.down_class, id: @item.id)
+%p
+  Review it while it's still hot!
+%p Love,
+.sig John Dudefest

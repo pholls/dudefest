@@ -46,5 +46,9 @@ class Fact < ActiveRecord::Base
     end
   end
 
+  def label
+    self.fact
+  end
+
   def type_enum; TYPES; end
 end

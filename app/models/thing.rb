@@ -105,6 +105,10 @@ class Thing < ActiveRecord::Base
   public
     def category() self.thing_category.category; end
 
+    def label
+      self.thing
+    end
+
     def display_image
       self.image.present? ? self.image.url.to_s : self.image_old
     end

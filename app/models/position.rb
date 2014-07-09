@@ -72,6 +72,10 @@ class Position < ActiveRecord::Base
     end
   end
 
+  def label
+    self.position
+  end
+
   private
     def sanitize
       Sanitize.clean!(self.position)

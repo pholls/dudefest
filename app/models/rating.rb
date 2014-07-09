@@ -20,7 +20,7 @@ class Rating < ActiveRecord::Base
   rails_admin do
     navigation_label 'Movies'
     parent Movie
-    object_label_method :label_method
+    object_label_method :label
     configure :creator do
       label 'Rater'
       column_width 85
@@ -110,7 +110,7 @@ class Rating < ActiveRecord::Base
       'Add it to the actual movie so it relates to the review and other ratings'
     end
 
-    def label_method
+    def label
       if self.movie.present?
         self.creator.username + ' - ' + self.display_rating.to_s
       else
