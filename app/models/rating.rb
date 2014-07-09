@@ -27,7 +27,9 @@ class Rating < ActiveRecord::Base
     end
 
     list do
-      sort_by 'status_order_by, movie_id desc, created_at asc, creator_id'
+      sort_by do
+        'status_order_by, movie_id desc, ratings.created_at, ratings.creator_id'
+      end
       include_fields :movie, :rating, :creator
       field :status_with_color do
         label 'Status'
