@@ -23,6 +23,7 @@ class Tip < ActiveRecord::Base
       field :status_with_color do
         label 'Status'
         sortable :status_order_by
+        searchable :status
         column_width 90
       end
       configure :creator do
