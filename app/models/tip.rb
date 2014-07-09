@@ -21,8 +21,9 @@ class Tip < ActiveRecord::Base
         label 'Just the Tip'
       end
       field :status_with_color do
-        column_width 90
         label 'Status'
+        sortable :status_order_by
+        column_width 90
       end
       configure :creator do
         column_width 85

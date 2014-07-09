@@ -16,6 +16,7 @@ class Fact < ActiveRecord::Base
       include_fields :fact, :nickname, :type
       field :status_with_color do
         label 'Status'
+        sortable :status_order_by
         column_width 85
       end
       configure :type do

@@ -37,6 +37,7 @@ class Thing < ActiveRecord::Base
       end
       field :status_with_color do
         label 'Status'
+        sortable :status_order_by
         column_width 90
       end
       configure :creator do

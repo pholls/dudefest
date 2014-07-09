@@ -13,6 +13,7 @@ class Tagline < ActiveRecord::Base
       include_fields :tagline, :creator
       field :status_with_color do
         label 'Status'
+        sortable :status_order_by
         column_width 90
       end
       configure :creator do

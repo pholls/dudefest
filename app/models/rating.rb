@@ -33,6 +33,7 @@ class Rating < ActiveRecord::Base
       include_fields :movie, :rating, :creator
       field :status_with_color do
         label 'Status'
+        sortable :status_order_by
         column_width 85
       end
       configure :rating do
