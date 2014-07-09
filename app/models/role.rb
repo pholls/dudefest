@@ -8,6 +8,13 @@ class Role < ActiveRecord::Base
     object_label_method :role_and_resource
     navigation_label 'Admin'
     parent 'User'
+
+    list do
+      sort_by :id
+      field :id do; sort_reverse false; end
+      field :role_and_resource do; label 'Role'; end
+      include_fields :users 
+    end
   end
 
   def role_and_resource
