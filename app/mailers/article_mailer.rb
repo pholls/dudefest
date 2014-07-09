@@ -25,7 +25,7 @@ class ArticleMailer < ActionMailer::Base
     mail(to: emails, subject: 'An article got rejected, brah!')
   end
 
-  def needs_rewrite_email(article)
+  def rewrite_email(article)
     @article = article
     mail(to: @article.creator.email,
          subject: 'You got an article to rewrite, brah!')

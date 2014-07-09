@@ -9,6 +9,7 @@ class Article < ActiveRecord::Base
   before_validation :substitute_references
   before_save :determine_status
   after_save :update_ratings_if_review
+  after_save :send_emails
   after_destroy :destroy_movie_if_review
 
   has_paper_trail
@@ -311,23 +312,18 @@ class Article < ActiveRecord::Base
       elsif self.needs_rewrite? && self.created? # -1 - Rewrite
         self.created = self.needs_rewrite = false
         self.status = '-1 - Rewrite'
-        ArticleMailer.needs_rewrite_email(self).deliver
       elsif self.can_edit? && self.status > '1' # 2 - Edited
         self.edited_at = Time.now
         self.edited = true
         self.status = '2 - Edited'
-        ArticleMailer.edited_email(self).deliver
       elsif self.edited? && self.finalized_was # 3 - Rejected
         self.status = '3 - Rejected'
-        ArticleMailer.rejected_email(self).deliver
       elsif self.edited? && self.creator == User.current # 3 - Responded
         self.responded_at = Time.now
         self.status = '3 - Responded'
-        ArticleMailer.responded_email(self).deliver
       elsif self.created? && self.creator == User.current # 1 - Created
         self.status = '1 - Created'
         self.editor ||= set_editor()
-        ArticleMailer.created_email(self)
       elsif self.creator == User.current # 0 - Drafting
         self.status = '0 - Drafting'
       end
@@ -396,6 +392,16 @@ class Article < ActiveRecord::Base
             rating.update_column :published_at, rating.generate_published_at
           end
         end
+      end
+    end
+
+    def send_emails
+      case self.status
+      when '-1 - Needs Rewrite' then ArticleMailer.rewrite_email(self).deliver
+      when '1 - Created'        then ArticleMailer.created_email(self).deliver
+      when '2 - Edited'         then ArticleMailer.edited_email(self).deliver
+      when '3 - Responded'      then ArticleMailer.responded_email(self).deliver
+      when '3 - Rejected'       then ArticleMailer.rejected_email(self).deliver
       end
     end
 end
