@@ -1,7 +1,7 @@
 %p
   Looks like #{@item.reviewer.name} hated your #{@item.class_name},
   = link_to @item.label,
-            rails_admin.edit_url(model_name: 'item', id: @item.id)
+            rails_admin.edit_url(model_name: @item.down_class, id: @item.id)
 
 %p
   If you ever want it to see the light of day, fix it!
