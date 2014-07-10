@@ -26,7 +26,7 @@
     .related_row
       .related_row_label
         Recent
-        = link_to @article.topic.topic, topic_path(article.topic.topic)
+        = link_to @article.topic.topic, topic_path(@article.topic.topic)
         Articles
       - @article.topic.public_related(@column).first(6).each do |article|
         = render partial: 'related_articles', locals: { article: article }
