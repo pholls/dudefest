@@ -318,6 +318,7 @@ class Article < ActiveRecord::Base
         self.status = '2 - Edited'
       elsif self.edited? && self.finalized_was # 3 - Rejected
         self.status = '3 - Rejected'
+        self.reviewer = User.current
       elsif self.edited? && self.creator == User.current # 3 - Responded
         self.responded_at = Time.now
         self.status = '3 - Responded'
