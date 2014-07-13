@@ -45,7 +45,11 @@ class Movie < ActiveRecord::Base
         sortable 'total_rating / reviewed_ratings'
       end
       field :your_rating
-      include_fields :reviewed_ratings, :average_rating, :unreviewed_ratings do
+      field :your_rating_reviewed, :boolean do
+        label 'Rating reviewed'
+      end
+      include_fields :reviewed_ratings, :average_rating, :unreviewed_ratings,
+                     :your_rating, :your_rating_reviewed do
         column_width 50
       end
     end
@@ -148,8 +152,16 @@ class Movie < ActiveRecord::Base
       self.review.destroy if self.review && !self.review.destroyed?
     end
 
+    def current_user_rating
+      self.ratings.find_by(creator: User.current)
+    end
+
     def your_rating
-      self.ratings.where(creator: User.current).first.try(:rating)
+      current_user_rating.try(:rating)
+    end
+
+    def your_rating_reviewed
+      current_user_rating.try(:reviewed)
     end
 
     def self.finalized
