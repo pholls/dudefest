@@ -201,7 +201,7 @@ class Article < ActiveRecord::Base
     end
 
     def rewritable?
-      self.editor == User.current && self.status?('1 - Created')
+      User.current.has_role?(:editor) && self.status?('1 - Created')
     end
 
     def finalizable?
