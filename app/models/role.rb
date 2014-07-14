@@ -18,6 +18,6 @@ class Role < ActiveRecord::Base
   end
 
   def role_and_resource
-    [self.name.camelcase, self.resource_type].compact.join(' of ')
+    [self.name.camelcase, self.resource_type].reject(&:blank?).join(' of ')
   end
 end
