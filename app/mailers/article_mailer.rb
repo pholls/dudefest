@@ -21,7 +21,7 @@ class ArticleMailer < ActionMailer::Base
 
   def rejected_email(article)
     @article = article
-    emails = [@article.editor, @article.creator].collect(&:email).join(',')
+    emails = collect_emails([@article.editor, @article.creator])
     mail(to: emails, subject: 'An article got rejected, brah!')
   end
 
@@ -30,4 +30,15 @@ class ArticleMailer < ActionMailer::Base
     mail(to: @article.creator.email,
          subject: 'You got an article to rewrite, brah!')
   end
+
+  def finalized_email(article)
+    @article = article
+    emails = collect_emails(User.with_role(:reviewer) << @article.creator)
+    mail(to: emails, subject: 'Your article was finalized, brah!')
+  end
+
+  private
+    def collect_emails(users)
+      users.collect(&:email).join(',')
+    end
 end

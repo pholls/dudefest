@@ -1,0 +1,9 @@
+%p
+  #{@article.editor.name} just finalized an article by #{@article.creator.name},
+  entitled
+  = link_to @article.title,
+            rails_admin.edit_url(model_name: 'article', id: @article.id)
+%p
+  It is now 100% ready for review!
+%p Love,
+.sig John Dudefest
