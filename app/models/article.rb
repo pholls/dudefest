@@ -404,6 +404,7 @@ class Article < ActiveRecord::Base
       when '3 - Responded'      then ArticleMailer.responded_email(self).deliver
       when '3 - Rejected'       then ArticleMailer.rejected_email(self).deliver
       when '4 - Finalized'      then ArticleMailer.finalized_email(self).deliver
+      when '5 - Reviewed'       then ArticleMailer.reviewed_email(self).deliver
       end if self.status_changed?
     end
 end

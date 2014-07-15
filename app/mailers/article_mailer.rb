@@ -37,6 +37,12 @@ class ArticleMailer < ActionMailer::Base
     mail(to: emails, subject: 'Your article was finalized, brah!')
   end
 
+  def reviewed_email(article)
+    @article = article
+    emails = collect_emails(@article.creator, @article.editor)
+    mail(to: emails, subject: 'Your article was reviewed, brah!')
+  end
+
   private
     def collect_emails(users)
       users.collect(&:email).join(',')
