@@ -1,10 +1,12 @@
 class Role < ActiveRecord::Base
+  before_save :blank_resources
+
+  scopify
+
   has_and_belongs_to_many :users, join_table: :users_roles
   belongs_to :resource, polymorphic: true
 
-  before_save :blank_resources
-  
-  scopify
+  validates :name, presence: true
 
   rails_admin do
     object_label_method :role_and_resource
@@ -17,10 +19,18 @@ class Role < ActiveRecord::Base
       field :role_and_resource do; label 'Role'; end
       include_fields :users 
     end
+
+    edit do
+      include_fields :name, :resource, :users
+    end
   end
 
   def role_and_resource
-    [self.name.camelcase, self.resource_type].reject(&:blank?).join(' of ')
+    if self.name.present?
+      [self.name.camelcase, self.resource_type].reject(&:blank?).join(' of ')
+    else
+      'New Role'
+    end
   end
 
   private
