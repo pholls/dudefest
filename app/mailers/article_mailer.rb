@@ -39,7 +39,7 @@ class ArticleMailer < ActionMailer::Base
 
   def reviewed_email(article)
     @article = article
-    emails = collect_emails(@article.creator, @article.editor)
+    emails = collect_emails([@article.creator, @article.editor])
     mail(to: emails, subject: 'Your article was reviewed, brah!')
   end
 
