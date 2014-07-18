@@ -1,6 +1,8 @@
 class Role < ActiveRecord::Base
   has_and_belongs_to_many :users, join_table: :users_roles
   belongs_to :resource, polymorphic: true
+
+  before_save :blank_resources
   
   scopify
 
@@ -20,4 +22,10 @@ class Role < ActiveRecord::Base
   def role_and_resource
     [self.name.camelcase, self.resource_type].reject(&:blank?).join(' of ')
   end
+
+  private
+    def blank_resources
+      self.resource_id = nil if self.resource_id.blank?
+      self.resource_type = nil if self.resource_type.blank?
+    end
 end
