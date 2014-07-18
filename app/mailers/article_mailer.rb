@@ -1,21 +1,22 @@
 class ArticleMailer < ActionMailer::Base
-  default from: 'dudes@dudefest.com'
+  require 'mail'
+  default from: '"John Dudefest" <dudes@dudefest.com>'
 
   def created_email(article)
     @article = article
-    mail(to: @article.editor.email, 
+    mail(to: collect_emails([@article.editor]), 
          subject: 'You got an article to edit, brah!')
   end
 
   def edited_email(article)
     @article = article
-    mail(to: @article.creator.email,
+    mail(to: collect_emails([@article.creator]),
          subject: 'You got some edits to respond to, brah!')
   end
 
   def responded_email(article)
     @article = article
-    mail(to: @article.editor.email,
+    mail(to: collect_emails([@article.editor]),
          subject: 'You got some responses to your edits, brah!')
   end
 
@@ -27,7 +28,7 @@ class ArticleMailer < ActionMailer::Base
 
   def rewrite_email(article)
     @article = article
-    mail(to: @article.creator.email,
+    mail(to: collect_emails([@article.creator]),
          subject: 'You got an article to rewrite, brah!')
   end
 
@@ -45,6 +46,10 @@ class ArticleMailer < ActionMailer::Base
 
   private
     def collect_emails(users)
-      users.collect(&:email).join(',')
+      (User.with_role(:admin) | users).map do |user|
+        address = Mail::Address.new user.email
+        address.display_name = user.name
+        address.format
+      end.join(',')
     end
 end
