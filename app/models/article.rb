@@ -305,7 +305,7 @@ class Article < ActiveRecord::Base
         self.status = '6 - Published'
       elsif self.reviewed? # 5 - Reviewed
         self.status = '5 - Reviewed'
-        self.reviewer ||= User.current
+        self.reviewer = User.current if self.status_order_by == 4 # was final
       elsif self.finalized? # 4 - Finalized
         self.finalized_at ||= Time.now
         self.status = '4 - Finalized'
