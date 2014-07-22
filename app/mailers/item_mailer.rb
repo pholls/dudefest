@@ -1,15 +1,15 @@
-class ItemMailer < ActionMailer::Base
-  default from: "dudes@dudefest.com"
+class ItemMailer < ApplicationMailer
 
   def created_email(item)
     @item = item
-    mail(to: @item.class.owner.email, 
+    mail(to: collect_emails(@item.class.owner), 
          subject: "There's a new #{item.class_name} to review!")
   end
 
   def needs_work_email(item)
     @item = item
-    mail(to: @item.creator.email,
+    mail(to: collect_emails(@item.creator),
          subject: "The #{item.class_name} you submitted needs a redo!")
   end
+
 end

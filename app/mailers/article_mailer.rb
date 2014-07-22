@@ -1,6 +1,4 @@
-class ArticleMailer < ActionMailer::Base
-  require 'mail'
-  default from: '"John Dudefest" <dudes@dudefest.com>'
+class ArticleMailer < ApplicationMailer
 
   def created_email(article)
     @article = article
@@ -44,12 +42,4 @@ class ArticleMailer < ActionMailer::Base
     mail(to: emails, subject: 'Your article was reviewed, brah!')
   end
 
-  private
-    def collect_emails(users)
-      (User.with_role(:admin) | users).map do |user|
-        address = Mail::Address.new user.email
-        address.display_name = user.name
-        address.format
-      end.join(',')
-    end
 end
