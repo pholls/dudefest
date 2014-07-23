@@ -3,8 +3,8 @@
   = link_to @article.title,
             rails_admin.edit_url(model_name: 'article', id: @article.id)
 %p
-  The good news is, one of the editors,
-  = @article.editor.name
+  The good news is, one of the approvers,
+  = @article.approver.name
   took a look at your article already! The bad news is that he hated it!
   Substantial work is needed on your article, but please get to it as soon as
   you can.
