@@ -398,13 +398,13 @@ class Article < ActiveRecord::Base
 
     def send_emails
       case self.status
-      when '-1 - Needs Rewrite' then ArticleMailer.rewrite_email(self).deliver
-      when '1 - Created'        then ArticleMailer.created_email(self).deliver
-      when '2 - Edited'         then ArticleMailer.edited_email(self).deliver
-      when '3 - Responded'      then ArticleMailer.responded_email(self).deliver
-      when '3 - Rejected'       then ArticleMailer.rejected_email(self).deliver
-      when '4 - Finalized'      then ArticleMailer.finalized_email(self).deliver
-      when '5 - Reviewed'       then ArticleMailer.reviewed_email(self).deliver
+      when '-1 - Rewrite'   then ArticleMailer.rewrite_email(self).deliver
+      when  '1 - Created'   then ArticleMailer.created_email(self).deliver
+      when  '2 - Edited'    then ArticleMailer.edited_email(self).deliver
+      when  '3 - Responded' then ArticleMailer.responded_email(self).deliver
+      when  '3 - Rejected'  then ArticleMailer.rejected_email(self).deliver
+      when  '4 - Finalized' then ArticleMailer.finalized_email(self).deliver
+      when  '5 - Reviewed'  then ArticleMailer.reviewed_email(self).deliver
       end if self.status_changed?
     end
 end
