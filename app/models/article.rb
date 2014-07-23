@@ -417,6 +417,7 @@ class Article < ActiveRecord::Base
       when  '4 - Rejected'  then ArticleMailer.rejected_email(self).deliver
       when  '5 - Finalized' then ArticleMailer.finalized_email(self).deliver
       when  '6 - Reviewed'  then ArticleMailer.reviewed_email(self).deliver
+      when  '7 - Published' then ArticleMailer.published_email(self).deliver
       end if self.status_changed?
     end
 end

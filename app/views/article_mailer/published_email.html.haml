@@ -1,0 +1,12 @@
+%p
+  Congrats! On #{@article.date}, your article
+  = link_to @article.title,
+            rails_admin.edit_url(model_name: 'article', id: @article.id)
+  is going to go live!
+%p
+  Your hard work has paid off, and your article will be read by anyone who puts
+  the url
+  = link_to article_url(@article), article_url(@article)
+  in their address bar from #{@article.date} until the end of time.
+%p Love,
+.sig John Dudefest

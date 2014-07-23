@@ -48,4 +48,11 @@ class ArticleMailer < ApplicationMailer
     mail(to: emails, subject: 'Your article was reviewed, brah!')
   end
 
+  def published_email(article)
+    @article = article
+    emails = collect_emails([@article.creator])
+    mail(to: emails, 
+         subject: "Your article will go live on #{@article.date}, brah!")
+  end
+
 end
