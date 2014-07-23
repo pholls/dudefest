@@ -24,7 +24,6 @@ class Article < ActiveRecord::Base
                              autosave: true
   has_many :authors, through: :article_authors
 
-  validates :creator, presence: true #:authors, presence: true
   validates :editor, presence: true, if: :approved?
   validates :title, presence: true, uniqueness: true, length: { in: 7..70 }
   validates :body, presence: true, uniqueness: true

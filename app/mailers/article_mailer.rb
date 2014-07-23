@@ -2,7 +2,7 @@ class ArticleMailer < ApplicationMailer
 
   def created_email(article)
     @article = article
-    mail(to: collect_emails([User.with_role(:approver)]),
+    mail(to: collect_emails(User.with_role(:approver)),
          subject: 'You got an article to approve, brah!')
   end
 
