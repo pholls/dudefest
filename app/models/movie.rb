@@ -23,7 +23,8 @@ class Movie < ActiveRecord::Base
   validates :genres, presence: true
   validates :title, presence: true, uniqueness: true, length: { in: 3..60 }
   validates :release_date, :review, :genres, :ratings, presence: true
-  validate :at_least_two_ratings
+  # This is no longer necessary, as we're doing more recent films
+  # validate :at_least_two_ratings
   validate :at_least_one_name_variant
 
   accepts_nested_attributes_for :review, :ratings, :credits
