@@ -1,5 +1,6 @@
 %p
-  #{@article.creator.name} just submitted an article entitled
+  #{@article.approver.name} just approved #{@article.creator.name}'s article 
+  entitled
   = link_to @article.title,
             rails_admin.edit_url(model_name: 'article', id: @article.id)
 %p

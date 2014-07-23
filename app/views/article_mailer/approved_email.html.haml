@@ -1,0 +1,9 @@
+%p
+  #{@article.creator.name} just submitted an article entitled
+  = link_to @article.title,
+            rails_admin.edit_url(model_name: 'article', id: @article.id)
+%p
+  Feel free to approve or reject it, but either way, do it quick. 
+  We're holding your lizard captive until you do so.
+%p Love,
+.sig John Dudefest

@@ -18,14 +18,14 @@ class Article < ActiveRecord::Base
   belongs_to :creator, class_name: 'User'
   belongs_to :editor, class_name: 'User'
   belongs_to :reviewer, class_name: 'User'
+  belongs_to :approver, class_name: 'User'
   belongs_to :movie, inverse_of: :review
   has_many :article_authors, dependent: :destroy, inverse_of: :article,
                              autosave: true
   has_many :authors, through: :article_authors
 
-  validates_associated :creator
-  validates_associated :editor, if: :created?
-  validates_associated :authors
+  validates :creator, :authors, presence: true
+  validates :editor, presence: true, if: :approved?
   validates :title, presence: true, uniqueness: true, length: { in: 7..70 }
   validates :body, presence: true, uniqueness: true
   validates :column, :creator, presence: true
@@ -34,7 +34,8 @@ class Article < ActiveRecord::Base
   validates :image, presence: true, if: :created?
   validates :byline, presence: true
   validate :creator_is_author
-  validate :review_has_enough_ratings
+  # No longer need more than 1 ratings
+  # validate :review_has_enough_ratings
 
   accepts_nested_attributes_for :article_authors
 
@@ -123,6 +124,12 @@ class Article < ActiveRecord::Base
         help 'Until you check this box, your article will just be a draft. '\
              'Check this box to submit your article for editing'
       end
+      field :approved do
+        visible do
+          bindings[:object].rewritable?
+        end
+        help 'Check here if this article is all set to be edited.'
+      end
       field :needs_rewrite do
         visible do
           bindings[:object].rewritable?
@@ -201,7 +208,7 @@ class Article < ActiveRecord::Base
     end
 
     def rewritable?
-      User.current.has_role?(:editor) && self.status?('1 - Created')
+      User.current.has_role?(:approver) && self.status?('1 - Created')
     end
 
     def finalizable?
@@ -209,8 +216,8 @@ class Article < ActiveRecord::Base
     end
 
     def reviewable?
-      if self.finalized? && !self.reviewed? && User.current != self.creator
-        User.current != self.editor
+      if (User.with_role(:reviewer) - [creator, editor]).include?(User.current)
+        self.finalized? && !self.reviewed?
       else
         false
       end
@@ -292,6 +299,7 @@ class Article < ActiveRecord::Base
         self.finalized = false if self.finalized.nil?
         self.published = false if self.published.nil?
         self.reviewed = false if self.reviewed.nil?
+        self.approved = false if self.approved.nil?
         self.status ||= '0 - Drafting'
         self.status_order_by = 0
         self.byline = self.creator.byline
@@ -299,32 +307,35 @@ class Article < ActiveRecord::Base
     end
 
     def determine_status
-      if self.published? # 6 - Published
+      if self.published? # 7 - Published
         self.published_at ||= Time.now
         self.date ||= self.assign_date()
-        self.status = '6 - Published'
-      elsif self.reviewed? # 5 - Reviewed
-        self.status = '5 - Reviewed'
-        self.reviewer = User.current if self.status_order_by == 4 # was final
-      elsif self.finalized? # 4 - Finalized
+        self.status = '7 - Published'
+      elsif self.reviewed? # 6 - Reviewed
+        self.status = '6 - Reviewed'
+        self.reviewer = User.current if self.status_order_by == 5 # was final
+      elsif self.finalized? # 5 - Finalized
         self.finalized_at ||= Time.now
-        self.status = '4 - Finalized'
+        self.status = '5 - Finalized'
       elsif self.needs_rewrite? && self.created? # -1 - Rewrite
         self.created = self.needs_rewrite = false
         self.status = '-1 - Rewrite'
-      elsif self.can_edit? && self.status > '1' # 2 - Edited
+      elsif self.can_edit? && self.status > '2' # 3 - Edited
         self.edited_at = Time.now
         self.edited = true
-        self.status = '2 - Edited'
-      elsif self.edited? && self.finalized_was # 3 - Rejected
-        self.status = '3 - Rejected'
+        self.status = '3 - Edited'
+      elsif self.edited? && self.finalized_was # 4 - Rejected
+        self.status = '4 - Rejected'
         self.reviewer = User.current
-      elsif self.edited? && self.creator == User.current # 3 - Responded
+      elsif self.edited? && self.creator == User.current # 4 - Responded
         self.responded_at = Time.now
-        self.status = '3 - Responded'
+        self.status = '4 - Responded'
+      elsif self.approved? && User.current.has_role(:approver) # 2 - Approved
+        self.approver = User.current
+        self.status = '2 - Approved'
+        self.editor ||= set_editor()
       elsif self.created? && self.creator == User.current # 1 - Created
         self.status = '1 - Created'
-        self.editor ||= set_editor()
       elsif self.creator == User.current # 0 - Drafting
         self.status = '0 - Drafting'
       end
@@ -400,11 +411,12 @@ class Article < ActiveRecord::Base
       case self.status
       when '-1 - Rewrite'   then ArticleMailer.rewrite_email(self).deliver
       when  '1 - Created'   then ArticleMailer.created_email(self).deliver
-      when  '2 - Edited'    then ArticleMailer.edited_email(self).deliver
-      when  '3 - Responded' then ArticleMailer.responded_email(self).deliver
-      when  '3 - Rejected'  then ArticleMailer.rejected_email(self).deliver
-      when  '4 - Finalized' then ArticleMailer.finalized_email(self).deliver
-      when  '5 - Reviewed'  then ArticleMailer.reviewed_email(self).deliver
+      when  '2 - Approved'  then ArticleMailer.approved_email(self).deliver
+      when  '3 - Edited'    then ArticleMailer.edited_email(self).deliver
+      when  '4 - Responded' then ArticleMailer.responded_email(self).deliver
+      when  '4 - Rejected'  then ArticleMailer.rejected_email(self).deliver
+      when  '5 - Finalized' then ArticleMailer.finalized_email(self).deliver
+      when  '6 - Reviewed'  then ArticleMailer.reviewed_email(self).deliver
       end if self.status_changed?
     end
 end
