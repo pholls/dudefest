@@ -1,10 +1,9 @@
 %p
-  #{@article.approver.name} just approved #{@article.creator.name}'s article 
-  entitled
+  #{@article.creator.name} just submitted an article entitled
   = link_to @article.title,
             rails_admin.edit_url(model_name: 'article', id: @article.id)
 %p
-  It's ready to be edited, and you've been assigned to edit it!
-  Hurry the fuck up and do it dickbag!
+  Feel free to approve or reject it, but either way, do it quick. 
+  We're holding your lizard captive until you do so.
 %p Love,
 .sig John Dudefest
