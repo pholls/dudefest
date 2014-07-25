@@ -93,6 +93,10 @@ class Event < ActiveRecord::Base
   end
 
   public
+    def month; month_day / 100; end
+    def day; month_day % 100; end
+    def month_slash_day; "#{self.month.to_s}/#{self.day.to_s}"; end
+
     def label
       self.event
     end

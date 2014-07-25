@@ -12,4 +12,16 @@ class ItemMailer < ApplicationMailer
          subject: "The #{item.class_name} you submitted needs a redo!")
   end
 
+  def reviewed_email(item)
+    @item = item
+    mail(to: collect_emails([@item.creator]),
+         subject: "The #{item.class_name} you submitted was reviewed!")
+  end
+
+  def published_email(item)
+    @item = item
+    mail(to: collect_emails([@item.creator]),
+         subject: "The #{item.class_name} you submitted was published!")
+  end
+
 end

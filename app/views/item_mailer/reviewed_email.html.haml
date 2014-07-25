@@ -1,0 +1,19 @@
+%p
+  #{@item.reviewer.name} just reviewed your #{@item.class_name},
+  = link_to @item.label,
+            rails_admin.edit_url(model_name: @item.down_class, id: @item.id)
+%p
+  - case @item.class_name
+  - when 'tagline'
+    If you refresh the site's homepage enough, your tagline will show up!
+  - when 'event'
+    Every #{@item.month_slash_day} you'll be able to see it on the site!
+  - when 'rating'
+    Your rating will go live as soon as the movie does. If the movie is already
+    live, then so is your rating!
+  - else
+    Your #{@item.class_name} still needs to be published before it goes up on
+    the site
+%p Love,
+.sig John Dudefest
+.sig Email Sending Specialist
