@@ -9,8 +9,8 @@ pluralize_characters = (num) ->
     num + ' characters'
 
 @character_count = (min, max, class_name) ->
-  $('textarea.char_count').keyup ->
-    chars = $('textarea.char_count').val().length
+  $('.char_count').keyup ->
+    chars = $('.char_count').val().length
     left = max - chars
     count_class = '#' + class_name
     if chars < min

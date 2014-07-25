@@ -1,7 +1,7 @@
 class DailyVideo < ActiveRecord::Base
   include EasternTime, ModelConfig, ItemReview, DailyItem, WeeklyOutput
 
-  before_validation :sanitize
+  before_save :sanitize
 
   has_paper_trail
 
@@ -44,6 +44,11 @@ class DailyVideo < ActiveRecord::Base
       include_fields :title, :source, :reviewed, :needs_work, :published do
         read_only do
           bindings[:object].is_read_only?
+        end
+      end
+      configure :source do
+        help do
+          bindings[:object].daily_video_help
         end
       end
       field :source_html do
@@ -89,6 +94,13 @@ class DailyVideo < ActiveRecord::Base
 
   def label
     self.title
+  end
+
+  def daily_video_help
+    ('<ul><li>Video should be under ten minutes long. '\
+     'We don\'t want to bore people.</li>'\
+     '<li>The video must be from youtube, metacafe, or vimeo. '\
+     'We can\'t accepted videos from other sources.</li></ul>').html_safe
   end
 
   private

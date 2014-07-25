@@ -1,0 +1,51 @@
+- content_for(:title, 'Put your daily_video in')
+- meta_description @meta_description
+- content_for :head do
+  = tag :meta, property: 'og:title', content: 'Put your daily_video in'
+  = tag :meta, property: 'og:url', content: new_daily_video_url
+  = tag :meta, property: 'og:image', content: image_url('/DudefestSymbol.png')
+  = tag :meta, property: 'og:description', content: @meta_description
+
+#main_column.home_column
+  #shit_to_read.main_top SUBMIT A VIDEO
+  #daily_dose_form_help
+    = @meta_description
+    A few guidelines for the videos:
+    = @daily_video.daily_video_help
+  #daily_dose_form
+    = simple_form_for @daily_video do |f|
+      .daily_dose_field.half_width>
+        .left>
+          = f.text_field :title, placeholder: 'Video title', 
+                         class: 'char_count', maxlength: 32
+      .daily_dose_field.half_width>
+        .right>
+          = f.text_field :source, placeholder: 'Youtube, metacafe, or vimeo url'
+      .daily_dose_submit
+        .daily_dose_count#daily_video_char_count
+          - if @daily_video.errors[:title].any?
+            = "The title #{@daily_video.errors[:title].first}"
+          - elsif @daily_video.errors[:source].any?
+            = "The url #{@daily_video.errors[:source].first}"
+          - else
+            3 characters to go
+        .daily_dose_actions.actions
+          = f.submit 'SUBMIT VIDEO'
+
+#right_column.home_column
+  #right_content
+    #daily_dose Sample Video
+    - @sample_videos.each do |v|
+      .daily_dose_item.sample_item
+        .daily_dose_video= v.source_html
+        .right_title= v.title
+        .short_info
+          .short_label> Inserted By
+          .short_value>= link_to v.creator.username, user_path(v.creator_id)
+        .short_info
+          .short_label> Date
+          .short_value>= v.date
+
+:javascript
+  character_count(3, 32, 'daily_video_char_count')
+

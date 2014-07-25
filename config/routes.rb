@@ -4,6 +4,7 @@ Dudefest::Application.routes.draw do
   end
 
   resources :tips
+  resources :daily_videos
 
   get 'about', to: 'about#index'
   get 'contribute', to: 'contribute#index'

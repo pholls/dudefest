@@ -1,0 +1,2 @@
+module DailyVideosHelper
+end
