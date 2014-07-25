@@ -61,9 +61,10 @@
               = link_to 'SUBMIT &#x25BE;'.html_safe, contribute_path
               %ul.right_align>
                 %li>= link_to 'Tip Of The Day', new_tip_path
+                %li>= link_to 'Feedback', feedback_path
     #sub_nav
       #tagline
-        = link_to (flash[:alert] || @tagline.tagline), 
+        = link_to (flash[:alert] || flash[:notice] || @tagline.tagline),
                   article_path(Article.public.sample)
     #content
       = yield

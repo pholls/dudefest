@@ -11,6 +11,8 @@ Dudefest::Application.routes.draw do
   get 'info', to: 'info#index'
   get 'legal', to: 'legal#index'
   get 'topics/:id', to: 'topics#show', as: 'topic'
+  get 'feedback', to: 'feedback#index'
+  post 'send_feedback', to: 'feedback#send_feedback'
 
   mount Rich::Engine => '/rich', :as => 'rich'
   mount Ckeditor::Engine => '/ckeditor'

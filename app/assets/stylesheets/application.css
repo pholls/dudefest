@@ -662,6 +662,36 @@ td.daily_dose_close_quote {
   font-size: 1em;
 }
 
+#daily_dose_form .simple_form .half_width {
+  width: 50%;
+  display: inline-block;
+}
+
+#daily_dose_form .simple_form .half_width .left {
+  text-align: left;
+  max-width: 100%;
+  margin-right: 10px;
+  display: block;
+}
+
+#daily_dose_form .simple_form .half_width .right {
+  text-align: right;
+  margin-right: 10px;
+  max-width: 100%;
+  display: block;
+}
+
+#daily_dose_form .simple_form .half_width input[type='text'] {
+  width: 100%;
+  max-width: 100%;
+  font-size: 1em;
+  padding: 5px 0px 5px 10px;
+  margin: 0px -10px 10px 0px;
+  -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+  -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+  box-sizing: border-box; 
+}
+
 .daily_dose_actions {
   text-align: right;
   margin: 20px 0px;

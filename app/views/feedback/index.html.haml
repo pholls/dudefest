@@ -1,0 +1,35 @@
+- content_for(:title, 'Submit Feedback')
+- meta_description @meta_description
+- content_for :head do
+  = tag :meta, property: 'og:title', content: 'Put your tip in'
+  = tag :meta, property: 'og:url', content: new_tip_url
+  = tag :meta, property: 'og:image', content: image_url('/DudefestSymbol.png')
+  = tag :meta, property: 'og:description', content: @meta_description
+
+#main_column.home_column
+  #shit_to_read.main_top SUBMIT FEEDBACK
+  #daily_dose_form_help
+    Have any thoughts about the site? Do you think we can improve in any way? 
+    Do you want us to bang your girlfriend? Whatever the case, if you'd like to
+    send us a message, this is the page to do it! The email will go to
+    #{mail_to 'braintrust@dudefest.com'}.
+  #daily_dose_form
+    = form_tag(send_feedback_path, class: 'simple_form') do
+      .daily_dose_field.half_width>
+        .left>= text_field_tag 'name', @name, placeholder: 'Your name'
+      .daily_dose_field.half_width>
+        .right>= text_field_tag 'email', @email, placeholder: 'Your email'
+      .daily_dose_field.text_field.field
+        = text_area_tag 'body', @body, rows: 5, placeholder: 'Your feedback',
+                        class: 'char_count'
+      .daily_dose_submit
+        .daily_dose_count= (flash[:error] || "&nbsp;").html_safe
+        .daily_dose_actions.actions
+          = submit_tag 'SUBMIT FEEDBACK'
+
+#right_column.home_column
+  #right_content
+    #daily_dose Your feedback
+    .daily_dose_item
+      .daily_dose_image= image_tag '/shaq-cat.gif'
+      .right_label IS MUCH APPRECIATED
