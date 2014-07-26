@@ -317,6 +317,7 @@ class Article < ActiveRecord::Base
         self.finalized_at ||= Time.now
         self.status = '5 - Finalized'
       elsif self.needs_rewrite? && self.created? # -1 - Rewrite
+        self.approver = User.current
         self.created = self.needs_rewrite = false
         self.status = '-1 - Rewrite'
       elsif self.can_edit? && self.status > '2' # 3 - Edited
