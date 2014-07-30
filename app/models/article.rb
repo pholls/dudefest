@@ -331,9 +331,11 @@ class Article < ActiveRecord::Base
         self.responded_at = Time.now
         self.status = '4 - Responded'
       elsif self.approved? && User.current.has_role(:approver) # 2 - Approved
-        self.approver = User.current
-        self.status = '2 - Approved'
-        self.editor ||= set_editor()
+        if !self.edited?
+          self.approver = User.current
+          self.status = '2 - Approved'
+          self.editor ||= set_editor()
+        end
       elsif self.created? && self.creator == User.current # 1 - Created
         self.status = '1 - Created'
       elsif self.creator == User.current # 0 - Drafting
