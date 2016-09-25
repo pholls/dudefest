@@ -23,11 +23,19 @@ module DailyItem
 
   module ClassMethods
     def of_the_day
-      if Rails.env.production?
-        where(date: self.today_est).first
-      else
-        where.not(date: nil).first
-      end
+      item = self.find_by(date: self.today_est)
+
+      return item if item
+
+      total_items = self.where.not(date: nil).count
+      first_item = self.where.not(date: nil).order(date: :asc).first
+
+      return nil if first_item.nil?
+
+      date_diff = (self.today_est - first_item.date).to_i
+      date_to_use = first_item.date + (date_diff % total_items).days
+
+      return self.find_by(date: date_to_use)
     end
 
     def random_live(x)
