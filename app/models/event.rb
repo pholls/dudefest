@@ -1,4 +1,4 @@
-class Event < ActiveRecord::Base
+class Event < ApplicationRecord
   include EasternTime, ModelConfig, ItemReview, WeeklyOutput
 
   before_validation :set_month_day
@@ -21,14 +21,14 @@ class Event < ActiveRecord::Base
       include_fields :date, :event, :creator
       configure :date do
         strftime_format '%m/%d/%Y'
-        column_width 75
+        column_width 85
         sortable :month_day
       end
       field :status_with_color do
         label 'Status'
         sortable :status_order_by
         searchable :status
-        column_width 85
+        column_width 95
       end
       configure :creator do
         column_width 85
@@ -120,7 +120,7 @@ class Event < ActiveRecord::Base
     end
 
     def sanitize
-      Sanitize.clean!(self.event)
-      Sanitize.clean!(self.link)
+      self.event = Sanitize.fragment(self.event)
+      self.link  = Sanitize.fragment(self.link)
     end
 end

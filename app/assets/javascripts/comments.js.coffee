@@ -10,5 +10,4 @@ comment_shit = ->
       $(this).find('a').text('Close').css 'background', '#CCCCCC'
       $(this).next().show()
 
-$(document).ready(comment_shit)
-$(document).on('page:load', comment_shit)
+$(document).on('turbolinks:load', comment_shit)

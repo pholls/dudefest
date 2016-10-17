@@ -1,4 +1,4 @@
-class Position < ActiveRecord::Base
+class Position < ApplicationRecord
   include EasternTime, ModelConfig, ItemReview, DailyItem
 
   before_validation :sanitize
@@ -27,16 +27,16 @@ class Position < ActiveRecord::Base
       include_fields :date, :position, :creator
       configure :date do
         strftime_format '%Y-%m-%d'
-        column_width 75
+        column_width 85
       end
       field :status_with_color do
         label 'Status'
         sortable :status_order_by
         searchable :status
-        column_width 90
+        column_width 95
       end
       configure :creator do
-        column_width 85
+        column_width 90
       end
     end
 
@@ -80,8 +80,8 @@ class Position < ActiveRecord::Base
 
   private
     def sanitize
-      Sanitize.clean!(self.position)
-      Sanitize.clean!(self.image) if self.image.present?
-      Sanitize.clean!(self.description)
+      self.position = Sanitize.fragment(self.position)
+      self.image = Sanitize.fragment(self.image) if self.image.present?
+      self.description = Sanitize.fragment(self.description)
     end
 end

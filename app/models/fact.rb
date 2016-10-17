@@ -1,4 +1,4 @@
-class Fact < ActiveRecord::Base
+class Fact < ApplicationRecord
   include EasternTime, ModelConfig, ItemReview
 
   TYPES = ['fact', 'statistic']

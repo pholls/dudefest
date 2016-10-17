@@ -1,4 +1,4 @@
-class Credit < ActiveRecord::Base
+class Credit < ApplicationRecord
   belongs_to :movie, inverse_of: :credits
   belongs_to :name_variant, inverse_of: :credits
 

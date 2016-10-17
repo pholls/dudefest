@@ -1,4 +1,4 @@
-class User < ActiveRecord::Base
+class User < ApplicationRecord
   rolify
   mount_uploader :avatar, AvatarUploader
   process_in_background :avatar
@@ -50,26 +50,26 @@ class User < ActiveRecord::Base
         sort_reverse false
       end
 
-      field :tips_count do label 'Tip'; sort_reverse true; end
+      field :tips_count         do label 'Tip'; sort_reverse true; end
       field :daily_videos_count do label 'Vid'; sort_reverse true; end
-      field :events_count do label 'His'; sort_reverse true; end
-      field :things_count do label 'Thi'; sort_reverse true; end
-      field :quotes_count do label 'Quo'; sort_reverse true; end
-      field :articles_count do label 'Art'; sort_reverse true; end
-      field :ratings_count do label 'Rat'; sort_reverse true; end
-      field :movies_count do label 'Mov'; sort_reverse true; end
-      field :comments_count do label 'Com'; sort_reverse true; end
-      field :taglines_count do label 'Tag'; sort_reverse true; end
+      field :events_count       do label 'His'; sort_reverse true; end
+      field :things_count       do label 'Thi'; sort_reverse true; end
+      field :quotes_count       do label 'Quo'; sort_reverse true; end
+      field :articles_count     do label 'Art'; sort_reverse true; end
+      field :ratings_count      do label 'Rat'; sort_reverse true; end
+      field :movies_count       do label 'Mov'; sort_reverse true; end
+      field :comments_count     do label 'Com'; sort_reverse true; end
+      field :taglines_count     do label 'Tag'; sort_reverse true; end
 
-      include_fields :tips_count, :daily_videos_count, :events_count, 
+      include_fields :tips_count, :daily_videos_count,
                      :things_count, :articles_count do
-        column_width 30
-      end
-      include_fields :quotes_count, :movies_count, :comments_count do
         column_width 40
       end
-      include_fields :ratings_count, :taglines_count do
-        column_width 35
+      include_fields :quotes_count, :movies_count, :comments_count do
+        column_width 50
+      end
+      include_fields :events_count, :ratings_count, :taglines_count do
+        column_width 45
       end
     end
 
@@ -121,24 +121,26 @@ class User < ActiveRecord::Base
     end
 
     def self.current
-      Thread.current[:current_user]
-    end
+      return Current.user if Current.user
 
-    def self.current=(user)
-      Thread.current[:current_user] = user
+      bindings = self.try(:bindings)
+
+      return nil if bindings.nil?
+
+      return (bindings[:view].current_user || bindings[:view]._current_user)
     end
 
     def self.fake_or(user)
-      self.with_role(:fake).order(:id).unshift(user) if user.present?
+      self.with_role(:fake).order(:id).to_a.unshift(user) if user.present?
     end
 
   private
     def sanitize
-      #Sanitize.clean!(self.name) if self.name.present?
-      #Sanitize.clean!(self.username)
-      Sanitize.clean!(self.email)
+      # self.username = Sanitize.fragment(self.username)
+      # self.name = Sanitize.fragment(self.name)
+      self.email = Sanitize.fragment(self.email)
       if self.byline.present?
-        Sanitize.clean!(self.byline, Sanitize::Config::BASIC)
+        self.byline = Sanitize.fragment(self.byline, Sanitize::Config::BASIC)
       end
       self.name ||= self.username
     end

@@ -1,4 +1,4 @@
-class Thing < ActiveRecord::Base
+class Thing < ApplicationRecord
   include EasternTime, ModelConfig, ItemReview, DailyItem, WeeklyOutput
   mount_uploader :image, ImageUploader
   process_in_background :image
@@ -33,16 +33,16 @@ class Thing < ActiveRecord::Base
       include_fields :date, :thing_category, :thing, :creator
       configure :date do
         strftime_format '%Y-%m-%d'
-        column_width 75
+        column_width 85
       end
       field :status_with_color do
         label 'Status'
         sortable :status_order_by
         searchable :status
-        column_width 90
+        column_width 95
       end
       configure :creator do
-        column_width 85
+        column_width 90
       end
     end
 
@@ -112,13 +112,13 @@ class Thing < ActiveRecord::Base
     end
 
     def display_image
-      self.image.present? ? self.image.url.to_s : self.image_old
+      self.image ? self.image.url.to_s : self.image_old
     end
 
   private
     def sanitize
-      Sanitize.clean!(self.thing)
-      Sanitize.clean!(self.description)
-      Sanitize.clean!(self.image_old) if self.image_old.present?
+      self.thing = Sanitize.fragment(self.thing)
+      self.description = Sanitize.fragment(self.description)
+      self.image_old = Sanitize.fragment(self.image_old) if self.image_old.present?
     end
 end

@@ -25,7 +25,7 @@ RailsAdmin.config do |config|
   config.main_app_name = ['Dudefest', 'Douchebag Central (Admin Page)']
 
   # RailsAdmin may need a way to know who the current user is]
-  config.current_user_method { current_user } # auto-generated
+  config.current_user_method(&:current_user) # auto-generated
 
   # If you want to track changes on your models:
   INCLUDED.each do |model|
@@ -50,4 +50,6 @@ RailsAdmin.config do |config|
   #}
 
   config.included_models = INCLUDED
+
+  config.parent_controller = '::ApplicationController'
 end

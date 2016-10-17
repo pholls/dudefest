@@ -88,14 +88,14 @@ module ItemReview
 
     def send_emails
       case self.status_order_by
-      when -1 then ItemMailer.needs_work_email(self).deliver
-      when  1 then ItemMailer.created_email(self).deliver
-      when  2 then ItemMailer.reviewed_email(self).deliver
-      when  3 then ItemMailer.published_email(self).deliver
+      when -1 then ItemMailer.needs_work_email(self).deliver_later
+      when  1 then ItemMailer.created_email(self).deliver_later
+      when  2 then ItemMailer.reviewed_email(self).deliver_later
+      when  3 then ItemMailer.published_email(self).deliver_later
       end if self.status_changed? && !self.creator.has_role?(:owner, self.class)
     end
 
     def sanitize_notes
-      Sanitize.clean!(self.notes)
+      self.notes = Sanitize.fragment(self.notes)
     end
 end

@@ -3,9 +3,9 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 pluralize_characters = (num) ->
-  if num is 1 
-    num + ' character' 
-  else 
+  if num is 1
+    num + ' character'
+  else
     num + ' characters'
 
 @character_count = (min, max, class_name) ->
@@ -29,6 +29,4 @@ home = ->
     nextSelector: 'nav.pagination a[rel=next]'
     itemSelector: '#article_summaries .article_summary'
 
-$(document).ready(home)
-$(document).on('page:load', home)
-
+$(document).on('turbolinks:load', home)

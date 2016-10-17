@@ -1,4 +1,4 @@
-class Column < ActiveRecord::Base
+class Column < ApplicationRecord
   mount_uploader :image, ImageUploader
   process_in_background :image
 
@@ -26,25 +26,25 @@ class Column < ActiveRecord::Base
     navigation_label 'Articles'
     parent Article
     configure :image, :jcrop
-    configure :short_name do
-      label 'Short'
-      column_width 50
-    end
 
     list do
       sort_by :column
       include_fields :column, :short_name, :publish_days, :articles_count, 
                      :active
+      configure :short_name do
+        label 'Short'
+        column_width 60
+      end
       configure :publish_days do
         label 'Days'
-        column_width 45
+        column_width 55
       end
       configure :articles_count do
         label 'Articles'
-        column_width 60
+        column_width 70
       end
       configure :active do
-        column_width 50
+        column_width 60
       end
     end
 
@@ -99,7 +99,7 @@ class Column < ActiveRecord::Base
 
   private
     def sanitize
-      Sanitize.clean!(self.column)
-      Sanitize.clean!(self.short_name)
+      self.column = Sanitize.fragment(self.column)
+      self.short_name = Sanitize.fragment(self.short_name)
     end
 end

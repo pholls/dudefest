@@ -1,4 +1,4 @@
-class Model < ActiveRecord::Base
+class Model < ApplicationRecord
   has_paper_trail
   belongs_to :owner, class_name: 'User'
 

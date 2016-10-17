@@ -1,4 +1,4 @@
-class Topic < ActiveRecord::Base
+class Topic < ApplicationRecord
   has_paper_trail
   has_many :articles, inverse_of: :topic
 
@@ -12,6 +12,15 @@ class Topic < ActiveRecord::Base
     list do
       sort_by :topic
       include_fields :topic, :description, :articles_count
+
+      configure :topic do
+        column_width 150
+      end
+
+      configure :articles_count do
+        label 'Articles'
+        column_width 70
+      end
     end
 
     edit do
@@ -19,7 +28,7 @@ class Topic < ActiveRecord::Base
     end
   end
 
-  def to_param; self.topic.sub(' ', '+'); end
+  def to_param; self.topic.gsub(' ', '+'); end
 
   def public_articles
     self.articles.order(date: :desc).select { |article| article.public? }

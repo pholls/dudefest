@@ -1,4 +1,4 @@
-class Rating < ActiveRecord::Base
+class Rating < ApplicationRecord
   include ModelConfig, ItemReview, WeeklyOutput
 
   around_save :set_movie_total_rating
@@ -23,7 +23,6 @@ class Rating < ActiveRecord::Base
     object_label_method :label
     configure :creator do
       label 'Rater'
-      column_width 85
     end
 
     list do
@@ -35,10 +34,13 @@ class Rating < ActiveRecord::Base
         label 'Status'
         sortable :status_order_by
         searchable :status
-        column_width 85
+        column_width 95
       end
       configure :rating do
-        column_width 55
+        column_width 65
+      end
+      configure :creator do
+        column_width 90
       end
     end
 
@@ -153,6 +155,6 @@ class Rating < ActiveRecord::Base
     end
 
     def sanitize
-      Sanitize.clean!(self.body)
+      self.body = Sanitize.fragment(self.body)
     end
 end

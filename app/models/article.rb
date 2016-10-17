@@ -1,4 +1,4 @@
-class Article < ActiveRecord::Base
+class Article < ApplicationRecord
   include ModelConfig, ColumnSchedule, WeeklyOutput
   mount_uploader :image, ImageUploader
   process_in_background :image
@@ -55,19 +55,19 @@ class Article < ActiveRecord::Base
       include_fields :date, :column, :title, :creator, :status, :editor
       configure :date do
         strftime_format '%Y-%m-%d'
-        column_width 75
+        column_width 85
       end
       configure :column do
-        column_width 60
+        column_width 70
       end
       configure :status do
-        column_width 95
+        column_width 105
       end
       configure :creator do
-        column_width 85
+        column_width 90
       end
       configure :editor do
-        column_width 85
+        column_width 90
       end
     end
 
@@ -235,7 +235,7 @@ class Article < ActiveRecord::Base
     def type; self.column.short_name.upcase; end
 
     def display_image
-      if self.image.present?
+      if self.image
         self.image_url(:display).to_s
       else
         self.column.image_url(:display).to_s
@@ -300,7 +300,7 @@ class Article < ActiveRecord::Base
         self.reviewed = false if self.reviewed.nil?
         self.approved = false if self.approved.nil?
         self.status ||= '0 - Drafting'
-        self.status_order_by = 0
+        self.status_order_by ||= 0
         self.byline = self.creator.byline
       end
     end
@@ -378,9 +378,9 @@ class Article < ActiveRecord::Base
     end
 
     def sanitize
-      # Sanitize.clean!(self.title)
-      # Sanitize.clean!(self.body, Sanitize::Config::RELAXED)
-      Sanitize.clean!(self.byline, Sanitize::Config::BASIC)
+      # self.title = Sanitize.fragment(self.title)
+      # self.body = Sanitize.fragment(self.body, Sanitize::Config::RELAXED)
+      self.byline = Sanitize.fragment(self.byline, Sanitize::Config::BASIC)
 
       self.body = self.body.gsub('<a href', '<a target="_blank" href')
       self.byline = self.byline.gsub('<a href', '<a target="_blank" href')
@@ -411,15 +411,15 @@ class Article < ActiveRecord::Base
 
     def send_emails
       case self.status
-      when '-1 - Rewrite'   then ArticleMailer.rewrite_email(self).deliver
-      when  '1 - Created'   then ArticleMailer.created_email(self).deliver
-      when  '2 - Approved'  then ArticleMailer.approved_email(self).deliver
-      when  '3 - Edited'    then ArticleMailer.edited_email(self).deliver
-      when  '4 - Responded' then ArticleMailer.responded_email(self).deliver
-      when  '4 - Rejected'  then ArticleMailer.rejected_email(self).deliver
-      when  '5 - Finalized' then ArticleMailer.finalized_email(self).deliver
-      when  '6 - Reviewed'  then ArticleMailer.reviewed_email(self).deliver
-      when  '7 - Published' then ArticleMailer.published_email(self).deliver
+      when '-1 - Rewrite'   then ArticleMailer.rewrite_email(self).deliver_later
+      when  '1 - Created'   then ArticleMailer.created_email(self).deliver_later
+      when  '2 - Approved'  then ArticleMailer.approved_email(self).deliver_later
+      when  '3 - Edited'    then ArticleMailer.edited_email(self).deliver_later
+      when  '4 - Responded' then ArticleMailer.responded_email(self).deliver_later
+      when  '4 - Rejected'  then ArticleMailer.rejected_email(self).deliver_later
+      when  '5 - Finalized' then ArticleMailer.finalized_email(self).deliver_later
+      when  '6 - Reviewed'  then ArticleMailer.reviewed_email(self).deliver_later
+      when  '7 - Published' then ArticleMailer.published_email(self).deliver_later
       end if self.status_changed?
     end
 end

@@ -8,7 +8,7 @@ class DailyVideosController < ApplicationController
   def create
     @daily_video.assign_attributes(daily_video_params)
     if @daily_video.save
-      redirect_to root_path, alert: 'Thanks for putting your daily_video in!'
+      redirect_to root_path, alert: 'Thanks for submitting a video!'
     else
       render :new
     end

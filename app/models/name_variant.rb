@@ -1,4 +1,4 @@
-class NameVariant < ActiveRecord::Base
+class NameVariant < ApplicationRecord
   has_paper_trail
   has_many :credits, inverse_of: :name_variant, dependent: :destroy
   has_many :movies, through: :credits
@@ -23,6 +23,6 @@ class NameVariant < ActiveRecord::Base
 
   private
     def sanitize
-      Sanitize.clean!(self.name_variant)
+      self.name_variant = Sanitize.fragment(self.name_variant)
     end
 end

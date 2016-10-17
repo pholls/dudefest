@@ -1,4 +1,4 @@
-class Movie < ActiveRecord::Base
+class Movie < ApplicationRecord
   include WeeklyOutput
 
   after_initialize :initialize_movie
@@ -210,7 +210,7 @@ class Movie < ActiveRecord::Base
     end
 
     def sanitize
-      Sanitize.clean!(self.title)
+      self.title = Sanitize.fragment(self.title)
     end
 
 end

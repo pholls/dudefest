@@ -1,4 +1,4 @@
-class Role < ActiveRecord::Base
+class Role < ApplicationRecord
   before_save :blank_resources
 
   scopify
@@ -15,8 +15,14 @@ class Role < ActiveRecord::Base
 
     list do
       sort_by :id
-      field :id do; sort_reverse false; end
-      field :role_and_resource do; label 'Role'; end
+      field :id do
+        sort_reverse false
+        column_width 35
+      end
+      field :role_and_resource do
+        label 'Role'
+        column_width 140
+      end
       include_fields :users 
     end
 

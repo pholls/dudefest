@@ -1,11 +1,11 @@
 - content_for(:title, @article.title)
-- meta_description preview(Sanitize.clean(@article.body).html_safe)
+- meta_description preview(Sanitize.fragment(@article.body).html_safe)
 - content_for :head do
   = tag :meta, property: 'og:title', content: @article.title
   = tag :meta, property: 'og:url', content: article_url(@article)
   = tag :meta, property: 'og:image', content: image_url(@article.display_image)
   = tag :meta, property: 'og:description', 
-               content: preview(Sanitize.clean(@article.body).html_safe)
+               content: preview(Sanitize.fragment(@article.body).html_safe)
 
 #main_column.home_column
   #shit_to_read.main_top= @article.column.column.upcase

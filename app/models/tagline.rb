@@ -1,4 +1,4 @@
-class Tagline < ActiveRecord::Base
+class Tagline < ApplicationRecord
   include ModelConfig, ItemReview
 
   has_paper_trail
@@ -15,10 +15,10 @@ class Tagline < ActiveRecord::Base
         label 'Status'
         sortable :status_order_by
         searchable :status
-        column_width 90
+        column_width 95
       end
       configure :creator do
-        column_width 85
+        column_width 90
       end
     end
 

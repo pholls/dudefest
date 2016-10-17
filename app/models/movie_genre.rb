@@ -1,4 +1,4 @@
-class MovieGenre < ActiveRecord::Base
+class MovieGenre < ApplicationRecord
   belongs_to :movie
   belongs_to :genre, counter_cache: :movies_count
   

@@ -1,4 +1,4 @@
-class Comment < ActiveRecord::Base
+class Comment < ApplicationRecord
   include WeeklyOutput
   
   acts_as_nested_set scope: [:commentable_id, :commentable_type]
@@ -36,11 +36,11 @@ class Comment < ActiveRecord::Base
       sort_by :created_at
       include_fields :commentable, :user, :body, :created_at
       configure :user do
-        column_width 85
+        column_width 90
       end
       configure :created_at do
         strftime_format '%Y-%m-%d %H:%M'
-        column_width 115
+        column_width 125
       end
     end
 

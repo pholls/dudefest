@@ -1,4 +1,4 @@
-class Dude < ActiveRecord::Base
+class Dude < ApplicationRecord
   has_paper_trail
   has_many :quotes, inverse_of: :dude
 
@@ -25,6 +25,6 @@ class Dude < ActiveRecord::Base
 
   private
     def sanitize
-      Sanitize.clean!(self.name)
+      self.name = Sanitize.fragment(self.name)
     end
 end

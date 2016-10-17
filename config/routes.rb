@@ -1,4 +1,4 @@
-Dudefest::Application.routes.draw do
+Rails.application.routes.draw do
   resources :movies, :articles do
     resources :comments
   end

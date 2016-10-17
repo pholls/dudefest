@@ -1,4 +1,4 @@
-class ThingCategory < ActiveRecord::Base
+class ThingCategory < ApplicationRecord
   has_paper_trail
   has_many :things, inverse_of: :thing_category
 
@@ -19,6 +19,6 @@ class ThingCategory < ActiveRecord::Base
 
   private
     def sanitize
-      Sanitize.clean!(self.category)
+      self.category = Sanitize.fragment(self.category)
     end
 end

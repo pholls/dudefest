@@ -1,36 +1,3 @@
-# Create initial users, the magnificent 7
-def populate_users
-  # 1 - jkennedy
-  User.create(username: 'jkennedy', email: 'joseph.stephen.kennedy@gmail.com',
-              password: 'birdsdontfly', password_confirmation: 'birdsdontfly',
-              role: 'admin', name: 'Joe Kennedy')
-  # 2 - efinkle
-  User.create(username: 'efinkle', email: 'evanfinkle@gmail.com',
-              password: 'thefinkler', password_confirmation: 'thefinkler',
-              role: 'reviewer', name: 'Evan Finkle')
-  # 3 - dsorensen
-  User.create(username: 'dsorensen', email: 'd.smigoversen@gmail.com',
-              password: 'maceoparker', password_confirmation: 'maceoparker',
-              role: 'editor', name: 'Dylan Sorensen')
-  # 4 - jmcloughlin
-  User.create(username: 'jmcloughlin', email: 'joe.mcloughlin15@gmail.com',
-              password: 'henryhenryhenry', name: 'Joe McLoughlin',
-              password_confirmation: 'henryhenryhenry', role: 'writer')
-  # 5 - bkraus
-  User.create(username: 'bkraus', email: 'bourkekraus@gmail.com',
-              password: 'brotastic', password_confirmation: 'brotastic',
-              role: 'editor', name: 'Bourke Kraus')
-  # 6 - rkoella
-  User.create(username: 'rkoella', email: 'rdkoella@gmail.com',
-              password: 'mustacheride', password_confirmation: 'mustacheride',
-              role: 'writer', name: 'Ryan Koella')
-  # 7 - pholland
-  User.create(username: 'pholland', email: 'patrick.holland3576@gmail.com',
-              password: 'gaytwins', password_confirmation: 'gaytwins',
-              role: 'reviewer', name: 'Pat Holland')
-  puts 'Created the seven users'
-end
-
 # Create movie genres
 def populate_genres
   genres = ['Rampage', 'Bromance', 'Heist', 'Gangster', 'War', 'Western',
@@ -82,7 +49,6 @@ def populate_models
   puts 'Added models configuration'
 end
 
-populate_users
 populate_genres
 populate_thing_categories
 populate_columns

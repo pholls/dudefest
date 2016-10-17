@@ -30,7 +30,7 @@ class ImageUploader < CarrierWave::Uploader::Base
   # Create different versions of your uploaded files:
   version :display do
     process :rails_admin_crop
-    process :resize_to_fill => [400, 300]
+    process resize_to_fill: [400, 300]
   end
 
   # Add a white list of extensions which are allowed to be uploaded.

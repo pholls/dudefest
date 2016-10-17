@@ -1,4 +1,4 @@
-class Genre < ActiveRecord::Base
+class Genre < ApplicationRecord
   has_paper_trail
   has_many :movie_genres, dependent: :destroy
   has_many :movies, through: :movie_genres
@@ -38,7 +38,7 @@ class Genre < ActiveRecord::Base
 
   private
     def sanitize
-      Sanitize.clean!(self.genre)
-      Sanitize.clean!(self.description) if self.description.present?
+      self.genre = Sanitize.fragment(self.genre)
+      self.description = Sanitize.fragment(self.description) if self.description.present?
     end
 end

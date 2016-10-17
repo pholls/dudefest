@@ -2,24 +2,24 @@ class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
-  before_filter :configure_permitted_parameters, if: :devise_controller?
-  before_filter :set_current_user
-  before_filter :set_daily_dose
-  before_filter :set_nav
-  after_filter :store_location
+  before_action :configure_permitted_parameters, if: :devise_controller?
+  before_action :set_daily_dose
+  before_action :set_nav
+  before_action :set_current_user
+  after_action :store_location
   rescue_from CanCan::AccessDenied do |exception|
-    redirect_to main_app.root_path, :alert => exception.message
+    redirect_to main_app.root_path, alert: exception.message
   end
 
   protected
     def configure_permitted_parameters
-      devise_parameter_sanitizer.for(:sign_up) { |u|
+      devise_parameter_sanitizer.permit(:sign_up) { |u|
         u.permit(:username, :email, :password, :password_confirmation) 
       }
-      devise_parameter_sanitizer.for(:sign_in) { |u| 
+      devise_parameter_sanitizer.permit(:sign_in) { |u| 
         u.permit(:username, :password, :remember_me) 
       }
-      devise_parameter_sanitizer.for(:account_update) { |u|
+      devise_parameter_sanitizer.permit(:account_update) { |u|
         u.permit(:username, :email, :name, :password, :password_confirmation,
                  :current_password, :bio, :avatar)
       }
@@ -48,7 +48,7 @@ class ApplicationController < ActionController::Base
 
   private
     def set_current_user
-      User.current = current_user
+      Current.user = current_user
     end
 
     def set_daily_dose

@@ -1,4 +1,4 @@
-class Tip < ActiveRecord::Base
+class Tip < ApplicationRecord
   include EasternTime, ModelConfig, ItemReview, DailyItem, WeeklyOutput
 
   before_validation :sanitize
@@ -15,7 +15,7 @@ class Tip < ActiveRecord::Base
       include_fields :date, :tip, :creator
       configure :date do
         strftime_format '%Y-%m-%d'
-        column_width 75
+        column_width 85
       end
       configure :tip do
         label 'Just the Tip'
@@ -24,10 +24,10 @@ class Tip < ActiveRecord::Base
         label 'Status'
         sortable :status_order_by
         searchable :status
-        column_width 90
+        column_width 95
       end
       configure :creator do
-        column_width 85
+        column_width 90
       end
     end
 
@@ -80,6 +80,6 @@ class Tip < ActiveRecord::Base
 
   private
     def sanitize
-      Sanitize.clean!(self.tip)
+      self.tip = Sanitize.fragment(self.tip)
     end
 end

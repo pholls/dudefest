@@ -14,7 +14,7 @@ class FeedbackController < ApplicationController
     flash[:error] += 'Invalid email. ' if !valid_email?(@email)
     flash[:error] += 'Need feedback. ' if @body.blank?
     if flash[:error].blank?
-      FeedbackMailer.feedback_email(@name, @email, @body).deliver
+      FeedbackMailer.feedback_email(@name, @email, @body).deliver_later
       redirect_to root_path, notice: 'Thanks for the feedback, dude'
     else
       render :index

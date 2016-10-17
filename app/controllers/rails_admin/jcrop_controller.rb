@@ -2,9 +2,9 @@ require 'mini_magick'
 
 module RailsAdmin
 
-  class JcropController < RailsAdmin::ApplicationController
-    skip_before_filter :get_model
-    before_filter :get_model, :get_object, :get_field, :get_fit_image
+  class JcropController < RailsAdmin::MainController
+    skip_before_action :get_model
+    before_action :get_model, :get_object, :get_field, :get_fit_image
 
     helper_method :abstract_model, :geometry
 
@@ -15,17 +15,33 @@ module RailsAdmin
 
       @image_tag_options = {}
       @image_tag_options[:class] = "jcrop-subject"
-      # check if using s3 storage
-      attachment = @object.send(@field)
-      image_path = if attachment.url.include?("s3.amazonaws.com")
-                     attachment.url
-                   else
-                     attachment.path
-                   end
-      @image_tag_options[:'data-geometry'] = geometry(image_path).join(",")
+      @file_path=''
+      #Condition for Carrierwave.
+      if @object.send(@field).class.to_s =~ /Uploader/
 
-      if @fit_image
-        fit_image_geometry = fit_image_geometry(image_path)
+        if @object.send(@field)._storage.to_s =~ /Fog/
+
+          @file_path=@object.send(@field).url
+        else
+
+          @file_path=@object.send(@field).path
+        end
+      #Condition for Paperclip.
+      elsif @object.send(@field).class.to_s =~ /Paperclip/
+
+        if (@object.send(@field).options[:storage].to_s =='s3')
+
+          @file_path=@object.send(@field).url
+        else
+
+          @file_path=@object.send(@field).path
+        end
+      end
+
+      @image_tag_options[:'data-geometry'] = geometry(@file_path).join(",")
+
+      if @fit_image_geometry
+        fit_image_geometry = fit_image_geometry(@file_path)
 
         @form_options[:'style'] = "margin-left: #{375 - (fit_image_geometry[0]/2) - 15}px;"
 
@@ -42,7 +58,7 @@ module RailsAdmin
     end
 
     def update
-      @object.rails_admin_crop! params
+      @object.rails_admin_crop! params.merge(crop_process_before: '+repage', crop_process_after: '+repage')
 
       respond_to do |format|
         format.html { redirect_to_on_success }
