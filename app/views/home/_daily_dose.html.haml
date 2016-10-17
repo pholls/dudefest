@@ -39,5 +39,5 @@
       - @events.each do |event|
         .right_description.text
           %b= event.year_str
-          = link_to event.event, event.link
+          = link_to event.event, event.link, target: '_blank'
 
