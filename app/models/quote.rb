@@ -91,8 +91,8 @@ class Quote < ApplicationRecord
 
   private
     def sanitize
-      self.quote   = Sanitize.fragment(self.quote) 
+      self.quote   = Sanitize.fragment(self.quote)
       self.context = Sanitize.fragment(self.context) if self.context.present?
-      self.source  = Sanitize.fragment(self.source) 
+      self.source  = Sanitize.fragment(self.source)
     end
 end
