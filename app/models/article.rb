@@ -291,7 +291,7 @@ class Article < ApplicationRecord
         self.approved = false if self.approved.nil?
         self.status ||= '0 - Drafting'
         self.status_order_by ||= 0
-        self.byline = self.creator.byline
+        self.byline ||= self.creator.byline
       end
     end
 
