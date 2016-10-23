@@ -19,7 +19,6 @@ class User < ApplicationRecord
   validates :bio, uniqueness: true, allow_blank: true
 
   has_paper_trail
-  has_and_belongs_to_many :roles, join_table: :users_roles
   has_many :tips, foreign_key: 'creator_id'
   has_many :events, foreign_key: 'creator_id'
   has_many :daily_videos, foreign_key: 'creator_id'
