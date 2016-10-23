@@ -21,35 +21,23 @@ class DailyVideo < ApplicationRecord
   rails_admin do
     label 'Video'
     object_label_method :title
-    navigation_label 'Daily Items'
+
     list do
-      sort_by 'date desc, status_order_by, creator_id, created_at'
-      include_fields :date, :title, :creator
-      configure :date do
-        strftime_format '%Y-%m-%d'
-        column_width 85
-      end
-      field :status_with_color do
-        label 'Status'
-        sortable :status_order_by
-        searchable :status
-        column_width 95
-      end
-      configure :creator do
-        column_width 90
+      include_fields :date, :title, :source, :creator, :status_with_color
+      configure :source do
+        column_width 80
+        pretty_value do
+          "<a href='#{value}' target='_blank'>Video Link</a>".html_safe
+        end
       end
     end
 
     edit do
-      include_fields :title, :source, :reviewed, :needs_work, :published do
-        read_only do
-          bindings[:object].is_read_only?
-        end
+      include_fields :title, :source do
+        read_only { is_read_only? }
       end
       configure :source do
-        help do
-          bindings[:object].daily_video_help
-        end
+        help { bindings[:object].daily_video_help }
       end
       field :source_html do
         label 'Video'
@@ -57,26 +45,8 @@ class DailyVideo < ApplicationRecord
         visible false
         help false
       end
-      include_fields :notes
-      configure :needs_work do
-        visible do
-          bindings[:object].failable?
-        end
-      end
-      configure :reviewed do
-        visible do
-          bindings[:object].reviewable? && !bindings[:object].reviewed?
-        end
-      end
-      configure :published do
-        visible do
-          bindings[:object].reviewed?
-        end
-      end
-      field :weekly_output do
-        read_only true
-        help 'Do it. You will.'
-      end
+      include_fields :reviewed, :needs_work, :published, :notes, :weekly_output
+      field :current_user_id
     end
 
     update do
@@ -101,6 +71,10 @@ class DailyVideo < ApplicationRecord
      'We don\'t want to bore people.</li>'\
      '<li>The video must be from youtube, metacafe, or vimeo. '\
      'We can\'t accepted videos from other sources.</li></ul>').html_safe
+  end
+
+  def weekly_output_help
+    'Do it. You will.'
   end
 
   private

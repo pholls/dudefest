@@ -4,7 +4,7 @@ class Article < ApplicationRecord
   process_in_background :image
   acts_as_commentable
 
-  after_initialize :initialize_article, on: :new
+  before_validation :initialize_article, on: :create
   before_validation :sanitize
   before_validation :substitute_references
   before_save :determine_status
@@ -81,7 +81,7 @@ class Article < ApplicationRecord
       end
       include_fields :column, :title, :topic do
         read_only do
-          bindings[:object].class == Article && bindings[:object].movie.present?
+          article && article.movie.present?
         end
       end
       field :authors do
@@ -92,8 +92,8 @@ class Article < ApplicationRecord
       end
       field :editor do
         visible do
-          if User.current.has_role?(:editor) || User.current.has_role?(:admin)
-            bindings[:object].class == Article && bindings[:object].created?
+          if current_user.has_role?(:editor) || current_user.has_role?(:admin)
+            article && article.created
           else
             false
           end
@@ -113,32 +113,33 @@ class Article < ApplicationRecord
       end
       field :byline, :ck_editor do
         help 'Required. If you don\'t like filling out a byline every time, '\
-             'then fill our the byline on your user page.'
+             'then fill out the byline on your user page.'
       end
       field :created do
         label 'Submit Draft'
         visible do
-          bindings[:object].creatable?
+          article && article.creator == current_user && article.status < '1'
         end
         help 'Until you check this box, your article will just be a draft. '\
-             'Check this box to submit your article for editing'
+             'Check this box to submit your article for approval/editing'
       end
       field :approved do
         visible do
-          bindings[:object].rewritable?
+          current_user.has_role?(:approver) && article && article.status?('1 - Created')
         end
         help 'Check here if this article is all set to be edited.'
       end
       field :needs_rewrite do
         visible do
-          bindings[:object].rewritable?
+          current_user.has_role?(:approver) && article && article.status?('1 - Created')
         end
         help 'Is this article a piece of shit? Have the jackass who '\
              'submitted this piece of garbage rewrite it.'
       end
       field :finalized do
         visible do
-          bindings[:object].finalizable?
+          editor_or_admin = article.try(:editor) == current_user || current_user.has_role?(:admin)
+          article && !article.reviewed && article.edited && editor_or_admin
         end
         help ('Checklist for finalizing an article:<br>'\
               '1. Make sure grammar, spelling, etc. are all set.<br>'\
@@ -151,7 +152,12 @@ class Article < ApplicationRecord
       end
       field :reviewed do
         visible do
-          bindings[:object].reviewable?
+          if article
+            available_reviewers = ::User.with_role(:reviewer) - [article.creator, article.editor]
+          else
+            available_reviewers = []
+          end
+          current_user.in?(available_reviewers) && article && article.finalized? && !article.reviewed?
         end
         help ('Checklist for finalizing an article:<br>'\
               '1. Make sure grammar, spelling, etc. are all set.<br>'\
@@ -161,13 +167,13 @@ class Article < ApplicationRecord
       end
       field :published do
         visible do
-          bindings[:object].reviewed? && User.current.has_role?(:admin)
+          article && article.reviewed? && current_user.has_role?(:admin)
         end
         help 'Schedule this article to be released. It best be good to go.'
       end
       field :date do
         visible do
-          bindings[:object].published? && User.current.has_role?(:admin)
+          article && article.published? && current_user.has_role?(:admin)
         end
       end
       field :weekly_output do
@@ -202,32 +208,20 @@ class Article < ApplicationRecord
   public
     def status?(base_status) base_status.to_s == self.status; end
 
-    def creatable?
-      self.creator == User.current && self.status < '1'
-    end
-
-    def rewritable?
-      User.current.has_role?(:approver) && self.status?('1 - Created')
-    end
-
-    def finalizable?
-      !self.reviewed && self.edited && self.editor_or_admin?
-    end
-
-    def reviewable?
-      if (User.with_role(:reviewer) - [creator, editor]).include?(User.current)
-        self.finalized? && !self.reviewed?
-      else
-        false
-      end
-    end
-
     def display_title
       [self.column.article_append, self.title].reject(&:blank?).join(' ')
     end
 
     def is_movie_review?
       self.column.present? && self.column == Column.movie
+    end
+
+    def editable_by?(user)
+      if user.has_role?(:editor)
+        !self.edited? && self.editor == user && !self.finalized
+      else
+        self.authors.include?(user) && !self.finalized
+      end
     end
 
     def display_date; self.date.strftime('%B %d, %Y'); end
@@ -249,11 +243,7 @@ class Article < ApplicationRecord
     end
 
     def can_edit?
-      self.editor == User.current
-    end
-
-    def editor_or_admin?
-      self.editor == User.current || User.current.has_role?(:admin)
+      self.editor == current_user
     end
 
     def public?
@@ -291,8 +281,8 @@ class Article < ApplicationRecord
   private
     def initialize_article
       if self.new_record?
-        self.creator ||= User.current
-        self.article_authors.build(author: User.current, position: 1)
+        self.creator ||= self.current_user
+        self.article_authors.build(author: self.current_user, position: 1)
         self.created = false if self.created.nil?
         self.needs_rewrite = false if self.needs_rewrite.nil?
         self.finalized = false if self.finalized.nil?
@@ -312,12 +302,12 @@ class Article < ApplicationRecord
         self.status = '7 - Published'
       elsif self.reviewed? # 6 - Reviewed
         self.status = '6 - Reviewed'
-        self.reviewer = User.current if self.status_order_by == 5 # was final
+        self.reviewer = self.current_user if self.status_order_by == 5 # was final
       elsif self.finalized? # 5 - Finalized
         self.finalized_at ||= Time.now
         self.status = '5 - Finalized'
       elsif self.needs_rewrite? && self.created? # -1 - Rewrite
-        self.approver = User.current
+        self.approver = self.current_user
         self.created = self.needs_rewrite = false
         self.status = '-1 - Rewrite'
       elsif self.can_edit? && self.status > '2' # 3 - Edited
@@ -326,19 +316,19 @@ class Article < ApplicationRecord
         self.status = '3 - Edited'
       elsif self.edited? && self.finalized_was # 4 - Rejected
         self.status = '4 - Rejected'
-        self.reviewer = User.current
-      elsif self.edited? && self.creator == User.current # 4 - Responded
+        self.reviewer = self.current_user
+      elsif self.edited? && self.creator == self.current_user # 4 - Responded
         self.responded_at = Time.now
         self.status = '4 - Responded'
-      elsif self.approved? && User.current.has_role(:approver) # 2 - Approved
+      elsif self.approved? && self.current_user.has_role(:approver) # 2 - Approved
         if !self.edited?
-          self.approver = User.current
+          self.approver = self.current_user
           self.status = '2 - Approved'
           self.editor ||= set_editor()
         end
-      elsif self.created? && self.creator == User.current # 1 - Created
+      elsif self.created? && self.creator == self.current_user # 1 - Created
         self.status = '1 - Created'
-      elsif self.creator == User.current # 0 - Drafting
+      elsif self.creator == self.current_user # 0 - Drafting
         self.status = '0 - Drafting'
       end
       self.status_order_by = self.status.to_i

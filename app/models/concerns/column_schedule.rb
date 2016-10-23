@@ -1,5 +1,6 @@
 module ColumnSchedule
   extend ActiveSupport::Concern
+  include CurrentUser
 
   included do 
     validate :can_be_published
@@ -7,7 +8,7 @@ module ColumnSchedule
 
   public
     def set_editor
-      User.with_role(:editor).where.not(id: User.current.id)
+      User.with_role(:editor).where.not(id: current_user.id)
           .min_by { |u| u.edited_articles.where(status_order_by: [1, 3]).count }
     end
 

@@ -17,22 +17,27 @@ class Ability
       readable_items << Topic
 
       can :new, creatable_items
+      can :create, creatable_items, current_user_id: user
       can :read, readable_items
       can :edit, items
+      can :update, items, current_user_id: user
+
       can :edit, Article do |article|
-        article.creator == user && !article.finalized?
+        article.editable_by(user)
       end
-      can :edit, Movie do |movie|
-        !movie.review.finalized?
-      end
-      can :edit, User do |item|
-        item == user
+      can :update, Article do |article|
+        article.editable_by(user) && article.current_user == user
       end
 
-      if user.has_role?(:editor)
-        can :edit, Article do |article|
-          !article.finalized? && !article.edited_at.nil? ? article.editor == user : false
-        end
+      can :edit, Movie do |movie|
+        !movie.review.finalized? && movie.current_user == user
+      end
+      can :update, Movie do |movie|
+        !movie.review.finalized?
+      end
+
+      can :edit, User do |item|
+        item == user
       end
 
       if user.has_role?(:admin)

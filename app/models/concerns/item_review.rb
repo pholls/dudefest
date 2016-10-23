@@ -1,8 +1,9 @@
 module ItemReview
   extend ActiveSupport::Concern
+  include CurrentUser
 
   included do
-    after_initialize :initialize_item, on: :new
+    before_validation :initialize_item, on: :create
     before_validation :sanitize_notes
     before_save :determine_status
     after_save :send_emails
@@ -15,34 +16,39 @@ module ItemReview
     validates :creator, presence: true
     validates :reviewed, inclusion: { in: [true, false] }
     validates :notes, length: { maximum: 1000 }
+
+    rails_admin do
+      navigation_label 'Daily Items'
+      configure :status_with_color do
+        label 'Status'
+        sortable :status_order_by
+        searchable :status
+        column_width 95
+      end
+      configure :creator do
+        column_width 90
+      end
+      configure :needs_work do
+        read_only { is_read_only? }
+        visible do
+          item_status_changeable? && object.status_order_by == 1
+        end
+      end
+      configure :reviewed do
+        read_only { is_read_only? }
+        visible do
+          item_status_changeable? && object.status_order_by >= 1
+        end
+      end
+    end
   end
 
   public
-    def down_class() self.class.name.underscore; end
-    def class_name() down_class.gsub('_', ' '); end
-
-    def reviewable?
-      self.persisted? && self.owner_or_admin? && self.status_order_by >= 1
-    end
-
-    def failable?
-      self.persisted? && self.owner_or_admin? && self.status_order_by == 1
-    end
+    def down_class; self.class.name.underscore;     end
+    def class_name; self.down_class.gsub('_', ' '); end
 
     def editable?
       self.persisted? && !self.reviewed?
-    end
-
-    def is_creator?
-      self.creator == User.current
-    end
-
-    def is_read_only?
-      if self.reviewed?
-        !User.current.has_role?(:admin)
-      else
-        self.persisted? && !(self.is_creator? || self.owner_or_admin?)
-      end
     end
 
     def status_with_color
@@ -60,7 +66,7 @@ module ItemReview
       if self.new_record?
         self.reviewed = false if self.reviewed.nil?
         self.needs_work = false if self.needs_work.nil?
-        self.creator ||= User.current
+        self.creator ||= self.current_user
         self.status ||= '0 - Drafting'
         self.status_order_by ||= 0
         self.notes ||= ''
@@ -73,11 +79,11 @@ module ItemReview
         self.date ||= set_date()
         self.status = '3 - Published'
       elsif self.reviewed? # 2 - Reviewed
-        self.reviewer = User.current if !self.reviewed_was
-        self.reviewed_at = Time.now if !self.reviewed_was
+        self.reviewer = self.current_user if !self.reviewed_was
+        self.reviewed_at = Time.now  if !self.reviewed_was
         self.status = '2 - Reviewed'
       elsif self.needs_work? # -1 - Needs Work
-        self.reviewer = User.current
+        self.reviewer = self.current_user
         self.needs_work = false
         self.status = '-1 - Redo It'
       else # 1 - Created

@@ -16,8 +16,10 @@ gem 'validates_formatting_of'
 gem 'validates_timeliness'
 gem 'auto_html', '~> 1.6.4'
 gem 'devise'
-gem 'rails_admin'
-gem 'cancan'
+# Use this version of rails_admin until
+# https://github.com/sferik/rails_admin/pull/2737 is merged
+gem 'rails_admin', git: 'https://github.com/tmesquita/rails_admin'
+gem 'cancancan'
 gem 'ckeditor'
 gem 'bootstrap-wysihtml5-rails'
 gem 'mini_magick'

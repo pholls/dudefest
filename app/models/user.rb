@@ -88,7 +88,7 @@ class User < ApplicationRecord
       field :bio
       field :roles do
         visible do
-          User.current.has_role? :admin
+          current_user.has_role? :admin
         end
       end
       field :byline, :ck_editor do
@@ -118,16 +118,6 @@ class User < ApplicationRecord
       else
         "/mugshot#{(self.id % 10) + 1}.jpg"
       end
-    end
-
-    def self.current
-      return Current.user if Current.user
-
-      bindings = self.try(:bindings)
-
-      return nil if bindings.nil?
-
-      return (bindings[:view].current_user || bindings[:view]._current_user)
     end
 
     def self.fake_or(user)

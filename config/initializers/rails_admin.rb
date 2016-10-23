@@ -52,4 +52,38 @@ RailsAdmin.config do |config|
   config.included_models = INCLUDED
 
   config.parent_controller = '::ApplicationController'
+
+  def current_user
+    bindings[:view].current_user
+  end
+
+  def object
+    bindings[:object]
+  end
+
+  def is_read_only?
+    if object.try(:reviewed?)
+      !current_user.has_role?(:admin)
+    else
+      object.persisted? && !(is_creator? || owner_or_admin?)
+    end
+  end
+
+  def is_creator?
+    object.try(:creator) == bindings[:view].current_user
+  end
+
+  def owner_or_admin?(obj = object)
+    owner = obj.class.try(:owner)
+    owner == current_user || current_user.has_role?(:admin)
+  end
+
+  def item_status_changeable?
+    object.class.included_modules.include?(ItemReview) &&
+      object.persisted? && owner_or_admin?
+  end
+
+  def article
+    object.is_a?(Article) ? object : object.try(:review)
+  end
 end

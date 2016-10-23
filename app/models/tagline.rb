@@ -6,43 +6,19 @@ class Tagline < ApplicationRecord
   validates :tagline, presence: true, uniqueness: true
 
   rails_admin do
-    navigation_label 'Daily Items'
     object_label_method :tagline
+
     list do
       sort_by 'status_order_by, tagline, created_at'
-      include_fields :tagline, :creator
-      field :status_with_color do
-        label 'Status'
-        sortable :status_order_by
-        searchable :status
-        column_width 95
-      end
-      configure :creator do
-        column_width 90
-      end
+      include_fields :tagline, :creator, :status_with_color
     end
 
     edit do
-      include_fields :tagline, :reviewed, :needs_work do
-        read_only do
-          bindings[:object].is_read_only?
-        end
+      field :tagline do
+        read_only { is_read_only? }
+        help "Required. If it's not funny, then Dylan will literally kill you."
       end
-      configure :tagline do
-        help 'Required. If it\'s not funny, then Dylan will literally kill '\
-             'you.'
-      end
-      field :notes
-      configure :needs_work do
-        visible do
-          bindings[:object].failable?
-        end
-      end
-      configure :reviewed do
-        visible do
-          bindings[:object].reviewable?
-        end
-      end
+      include_fields :reviewed, :needs_work, :notes, :current_user_id
     end
 
     show do

@@ -16,35 +16,18 @@ class Quote < ApplicationRecord
 
   rails_admin do
     object_label_method :quote
-    navigation_label 'Daily Items'
 
     list do
       sort_by 'date desc, status_order_by, creator_id, created_at'
-      include_fields :date, :dude, :quote, :creator
-      configure :date do
-        strftime_format '%Y-%m-%d'
-        column_width 85
-      end
-      field :status_with_color do
-        label 'Status'
-        sortable :status_order_by
-        searchable :status
-        column_width 95
-      end
-      configure :creator do
-        column_width 90
-      end
+      include_fields :date, :dude, :quote, :creator, :status_with_color
       configure :dude do
         column_width 130
       end
     end
 
     edit do
-      include_fields :dude, :quote, :context, :source, :year, :reviewed,
-                     :needs_work, :published do
-        read_only do
-          bindings[:object].is_read_only?
-        end
+      include_fields :dude, :quote, :context, :source, :year do
+        read_only { is_read_only? }
       end
       configure :quote do
         help 'Required. Between 8 and 500 characters.'\
@@ -58,26 +41,8 @@ class Quote < ApplicationRecord
       configure :source do
         help 'Optional. Length up to 255. Helps verify the link.'
       end
-      include_fields :notes
-      configure :needs_work do
-        visible do
-          bindings[:object].failable?
-        end
-      end
-      configure :reviewed do
-        visible do
-          bindings[:object].reviewable? && !bindings[:object].reviewed?
-        end
-      end
-      configure :published do
-        visible do
-          bindings[:object].reviewed? 
-        end
-      end
-      field :weekly_output do
-        read_only true
-        help 'Just do it. Ya dick.'
-      end
+      include_fields :reviewed, :needs_work, :published, :notes, :weekly_output
+      field :current_user_id
     end
   end
 
@@ -87,6 +52,10 @@ class Quote < ApplicationRecord
 
   def display_attribution
     [self.dude.name, self.context, self.year.to_s].reject(&:blank?).join(', ')
+  end
+
+  def weekly_output_help
+    'Just do it. Ya dick.'
   end
 
   private

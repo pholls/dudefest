@@ -1,7 +1,7 @@
 class Movie < ApplicationRecord
-  include WeeklyOutput
+  include CurrentUser, WeeklyOutput
 
-  after_initialize :initialize_movie
+  before_validation :initialize_movie, on: :create
   before_validation :set_review
   before_validation :sanitize
   after_destroy :destroy_review
@@ -45,9 +45,24 @@ class Movie < ApplicationRecord
       field :average_rating do
         sortable 'total_rating / reviewed_ratings'
       end
-      field :your_rating
+      field :your_rating do
+        formatted_value do
+          object.rating_by(current_user).try(:rating)
+        end
+      end
       field :your_rating_reviewed, :boolean do
         label 'Rating reviewed'
+        formatted_value do
+          object.rating_by(current_user).try(:reviewed)
+        end
+        pretty_value do
+          # Has to override the boolean pretty_value method
+          case formatted_value
+          when nil   then %(<span class='label label-default'>&#x2012;</span>)
+          when false then %(<span class='label label-danger'>&#x2718;</span>)
+          when true  then %(<span class='label label-success'>&#x2713;</span>)
+          end.html_safe
+        end
       end
       include_fields :reviewed_ratings, :average_rating, :unreviewed_ratings,
                      :your_rating, :your_rating_reviewed do
@@ -117,7 +132,7 @@ class Movie < ApplicationRecord
     def unreviewed_ratings
       self.ratings_count.to_i - self.reviewed_ratings.to_i 
     end
-    
+
     def name_variant_ids=(ids)
       ids = ids.map(&:to_i).select { |i| i > 0 }
       unless ids == (current_ids = credits.map(&:name_variant_id)) 
@@ -137,32 +152,24 @@ class Movie < ApplicationRecord
     end
 
     # Necessary for rails_admin review booleans
-    def creatable?; self.review.present? ? self.review.creatable? : true end
-    def rewritable?; self.review.present? ? self.review.rewritable? : false end
-    def finalizable?; self.review.nil? ? false : self.review.finalizable? end
-    def finalized?; self.review.present? ? self.review.finalized? : false end
-    def reviewed?; self.review.present? ? self.review.reviewed? : false end
-    def published?; self.review.present? ? self.review.published? : false end
+    # def creatable?; self.review.present? ? self.review.creatable? : true end
+    # def rewritable?; self.review.present? ? self.review.rewritable? : false end
+    # def finalizable?; self.review.nil? ? false : self.review.finalizable? end
+    # def finalized?; self.review.present? ? self.review.finalized? : false end
+    # def reviewed?; self.review.present? ? self.review.reviewed? : false end
+    # def published?; self.review.present? ? self.review.published? : false end
 
     # Necessary for rails_admin ratings boolean
-    def reviewable?
-      self.ratings.any? ? self.ratings.first.owner_or_admin? : false
-    end
+    # def revie#wable?
+    #   self.ratings.any? ? self.ratings.first.owner_or_admin? : false
+    # end
 
     def destroy_review  
       self.review.destroy if self.review && !self.review.destroyed?
     end
 
-    def current_user_rating
-      self.ratings.find_by(creator: User.current)
-    end
-
-    def your_rating
-      current_user_rating.try(:rating)
-    end
-
-    def your_rating_reviewed
-      current_user_rating.try(:reviewed)
+    def rating_by(user)
+      self.ratings.find_by(creator: user)
     end
 
     def self.finalized
@@ -186,7 +193,7 @@ class Movie < ApplicationRecord
     def initialize_movie
       if self.new_record?
         self.reviewed_ratings ||= self.total_rating ||= 0 
-        self.creator = User.current
+        self.creator = self.current_user
       end
     end
 

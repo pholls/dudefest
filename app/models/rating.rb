@@ -2,7 +2,6 @@ class Rating < ApplicationRecord
   include ModelConfig, ItemReview, WeeklyOutput
 
   around_save :set_movie_total_rating
-  after_initialize :initialize_creator
   before_validation :sanitize
   before_save :set_published_at
 
@@ -21,6 +20,7 @@ class Rating < ApplicationRecord
     navigation_label 'Movies'
     parent Movie
     object_label_method :label
+
     configure :creator do
       label 'Rater'
     end
@@ -29,60 +29,29 @@ class Rating < ApplicationRecord
       sort_by do
         'status_order_by, movie_id desc, ratings.created_at, ratings.creator_id'
       end
-      include_fields :movie, :rating, :creator
-      field :status_with_color do
-        label 'Status'
-        sortable :status_order_by
-        searchable :status
-        column_width 95
-      end
+      include_fields :movie, :rating, :creator, :status_with_color
       configure :rating do
         column_width 65
-      end
-      configure :creator do
-        column_width 90
       end
     end
 
     edit do
-      include_fields :movie, :creator, :body, :rating, :reviewed, 
-                     :needs_work, :notes
-      configure :creator do
+      include_fields :movie, :creator, :review do
         read_only true
       end
-      configure :body do
-        help ('Required. Between 10 and 500 characters.<br>'\
-              'Try to say something that wasn\'t said in the review, '\
-              'or in any of the other ratings.<br>'\
-              'Feel free to poke fun at another one of the writers, '\
-              'especially if they gave a movie a rating you disagree '\
-              'with.<br>'\
-              'Make sure you have a punchline in mind.').html_safe
+      field :body do
+        help { bindings[:object].body_help }
       end
-      include_fields :movie, :body, :rating, :reviewed, :needs_work do
-        read_only do
-          bindings[:object].class == Rating && bindings[:object].is_read_only?
-        end
+      include_fields :body, :rating do
+        read_only { is_read_only? }
       end
-      configure :needs_work do
-        visible do
-          bindings[:object].class == Rating && bindings[:object].failable?
-        end
-      end
-      configure :reviewed do
-        visible do
-          bindings[:object].reviewable?
-        end
-      end
-      field :weekly_output do
-        read_only true
-        help 'Rate your weekly ratings output on a scale of 1 to 2.'
-      end
+      include_fields :reviewed, :needs_work, :notes, :weekly_output
+      field :current_user_id
     end
 
-    create do 
-      include_fields :movie, :creator, :body, :rating, :reviewed, :notes,
-                     :weekly_output do
+    create do
+      include_fields :movie, :creator, :review, :body, :rating, :reviewed,
+                     :needs_work, :notes, :weekly_output, :current_user_id do
         visible false
       end
       field :add_your_rating_elsewhere do
@@ -91,17 +60,13 @@ class Rating < ApplicationRecord
     end
 
     nested do
-      include_fields :movie, :weekly_output do
+      include_fields :movie, :review, :weekly_output do
         visible false
       end
     end
   end
 
   public
-    def initialize_creator
-      self.creator ||= User.current if self.new_record?
-    end
-
     def rating_enum
       (0..10).step(0.5).to_a.reverse
     end
@@ -120,6 +85,20 @@ class Rating < ApplicationRecord
       else
         'New Rating'
       end
+    end
+
+    def body_help
+      ('Required. Between 10 and 500 characters.<br>'\
+       'Try to say something that wasn\'t said in the review, '\
+       'or in any of the other ratings.<br>'\
+       'Feel free to poke fun at another one of the writers, '\
+       'especially if they gave a movie a rating you disagree '\
+       'with.<br>'\
+       'Make sure you have a punchline in mind.').html_safe
+    end
+
+    def weekly_output_help
+      'Rate your weekly ratings output on a scale of 1 to 2.'
     end
 
     def self.recent(x, user = nil)

@@ -11,15 +11,10 @@ class Fact < ApplicationRecord
 
   rails_admin do
     navigation_label 'Kennedy Research Center'
+
     list do
       sort_by 'status_order_by, reviewed_at desc, created_at, fact'
-      include_fields :fact, :nickname, :type
-      field :status_with_color do
-        label 'Status'
-        sortable :status_order_by
-        searchable :status
-        column_width 85
-      end
+      include_fields :fact, :nickname, :type, :status_with_color
       configure :type do
         column_width 100
       end
@@ -29,22 +24,10 @@ class Fact < ApplicationRecord
     end
 
     edit do
-      include_fields :fact, :nickname, :type, :reviewed, :needs_work do
-        read_only do
-          bindings[:object].is_read_only?
-        end
+      include_fields :fact, :nickname, :type do
+        read_only { is_read_only? }
       end
-      include_fields :needs_work do
-        visible do
-          bindings[:object].failable?
-        end
-      end
-      field :notes
-      configure :reviewed do
-        visible do
-          bindings[:object].reviewable?
-        end
-      end
+      include_fields :reviewed, :needs_work, :notes, :current_user_id
     end
   end
 

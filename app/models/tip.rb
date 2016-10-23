@@ -9,60 +9,22 @@ class Tip < ApplicationRecord
 
   rails_admin do
     label 'Just the Tip'
-    navigation_label 'Daily Items'
+
     list do
-      sort_by 'date desc, status_order_by, creator_id, created_at'
-      include_fields :date, :tip, :creator
-      configure :date do
-        strftime_format '%Y-%m-%d'
-        column_width 85
-      end
+      include_fields :date, :tip, :creator, :status_with_color
       configure :tip do
         label 'Just the Tip'
-      end
-      field :status_with_color do
-        label 'Status'
-        sortable :status_order_by
-        searchable :status
-        column_width 95
-      end
-      configure :creator do
-        column_width 90
       end
     end
 
     edit do
-      include_fields :tip, :reviewed, :needs_work, :published do
-        read_only do
-          bindings[:object].is_read_only?
-        end
-      end
-      include_fields :notes
-      configure :tip do
+      include_fields :tip do
         label 'Put your tip in'
-        help do 
-          bindings[:object].tip_help
-        end
+        read_only { is_read_only? }
+        help { object.tip_help }
       end
-      configure :needs_work do
-        visible do
-          bindings[:object].failable?
-        end
-      end
-      configure :reviewed do
-        visible do
-          bindings[:object].reviewable?
-        end
-      end
-      configure :published do
-        visible do
-          bindings[:object].reviewed?
-        end
-      end
-      field :weekly_output do
-        read_only true
-        help 'It\'s another place to put your tip in.'
-      end
+      include_fields :reviewed, :needs_work, :published, :notes, :weekly_output
+      field :current_user_id
     end
   end
 
@@ -76,6 +38,10 @@ class Tip < ApplicationRecord
      'question leading off makes them very strong.</li><li>Follow it '\
      'with no more than two sentences to '\
      'explain how to achieve the desired outcome.</li></ul>').html_safe
+  end
+
+  def weekly_output_help
+    'It\'s another place to put your tip in.'
   end
 
   private

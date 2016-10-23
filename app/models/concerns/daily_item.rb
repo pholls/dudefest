@@ -4,6 +4,21 @@ module DailyItem
   included do
     after_initialize :set_published
     validates :date, allow_blank: :true, uniqueness: true, on: :update
+
+    rails_admin do
+      configure :date do
+        strftime_format '%Y-%m-%d'
+        column_width 85
+      end
+      configure :published do
+        visible   { bindings[:object].reviewed? }
+        read_only { is_read_only? }
+      end
+
+      list do
+        sort_by 'date desc, status_order_by, creator_id, created_at'
+      end
+    end
   end
 
   private
