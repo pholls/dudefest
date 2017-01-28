@@ -14,7 +14,7 @@ if Object.const_defined?("Rich")
     config.editor[:startupOutlineBlocks] = false
     config.editor[:forcePasteAsPlainText] = true
     config.editor[:scayt_autoStartup] = true
-    config.editor[:removePlugins] = 'image,forms,elementspath'
+    config.editor[:removePlugins] = 'language,image,forms,elementspath'
     config.allow_embeds = true
     config.image_styles = {
       :thumb => "100x100#"
