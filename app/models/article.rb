@@ -320,7 +320,7 @@ class Article < ApplicationRecord
       elsif self.edited? && self.creator == self.current_user # 4 - Responded
         self.responded_at = Time.now
         self.status = '4 - Responded'
-      elsif self.approved? && self.current_user.has_role(:approver) # 2 - Approved
+      elsif self.approved? && self.current_user.has_role?(:approver) # 2 - Approved
         if !self.edited?
           self.approver = self.current_user
           self.status = '2 - Approved'
