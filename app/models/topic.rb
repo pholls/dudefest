@@ -1,4 +1,6 @@
 class Topic < ApplicationRecord
+  include CurrentUser
+
   has_paper_trail
   has_many :articles, inverse_of: :topic
 

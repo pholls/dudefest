@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  include CurrentUser
+
   rolify
   mount_uploader :avatar, AvatarUploader
   process_in_background :avatar

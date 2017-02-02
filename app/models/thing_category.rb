@@ -1,4 +1,6 @@
 class ThingCategory < ApplicationRecord
+  include CurrentUser
+
   has_paper_trail
   has_many :things, inverse_of: :thing_category
 

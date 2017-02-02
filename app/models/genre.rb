@@ -1,4 +1,6 @@
 class Genre < ApplicationRecord
+  include CurrentUser
+
   has_paper_trail
   has_many :movie_genres, dependent: :destroy
   has_many :movies, through: :movie_genres

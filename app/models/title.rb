@@ -1,4 +1,6 @@
 class Title < ApplicationRecord
+  include CurrentUser
+
   belongs_to :user
 
   validates :title, presence: true, uniqueness: true

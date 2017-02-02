@@ -1,4 +1,6 @@
 class Dude < ApplicationRecord
+  include CurrentUser
+
   has_paper_trail
   has_many :quotes, inverse_of: :dude
 

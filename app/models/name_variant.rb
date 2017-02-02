@@ -1,4 +1,6 @@
 class NameVariant < ApplicationRecord
+  include CurrentUser
+
   has_paper_trail
   has_many :credits, inverse_of: :name_variant, dependent: :destroy
   has_many :movies, through: :credits
