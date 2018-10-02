@@ -3,7 +3,7 @@ def populate_genres
   genres = ['Rampage', 'Bromance', 'Heist', 'Gangster', 'War', 'Western',
             'Escape', 'Survival', 'Quest', 'Sports', 'Comedy', 'Space',
             'Post-Apocalypse', 'Spy', 'Superhero', 'Jason Statham',
-            'Wildcard', 'None']
+            'Wildcard', 'Two Boys Kissing', 'None']
   genres.each do |g|
     Genre.create(genre: g)
   end
@@ -15,7 +15,7 @@ def populate_thing_categories
   categories = ['Athletics', 'Exercise', 'Food', 'Drinks', 'People', 'Animals',
                 'Hair', 'Characters', 'Activities', 'Professions', 'Movies',
                 'Clothing', 'Transportation', 'Places', 'Bands', 'TV Shows',
-                'Organizations', 'Songs', 'Extreme Sports', 'Brands' ]
+                'Organizations', 'Songs', 'Extreme Sports', 'Brands', 'Dreams' ]
   categories.each do |c|
     ThingCategory.create(category: c)
   end
