@@ -2,6 +2,8 @@ source 'https://rubygems.org'
 
 ruby '2.3.1'
 
+gem 'dotenv-rails', groups: [:development, :test]
+
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '5.0.0.1'
 
@@ -59,6 +61,8 @@ gem 'turbolinks'
 gem 'jbuilder', '~> 1.2'
 
 gem "nokogiri", ">= 1.8.2"
+
+gem "recaptcha"
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
